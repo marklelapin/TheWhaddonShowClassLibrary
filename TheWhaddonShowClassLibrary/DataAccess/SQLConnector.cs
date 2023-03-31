@@ -7,9 +7,9 @@ using TheWhaddonShowClassLibrary.Models;
 
 namespace TheWhaddonShowClassLibrary.DataAccess
 {
-    internal class SQLConnector : IDataAccessServer
+    public class SQLConnector : IDataAccessServer
     {
-        private static string CnnString = "connection sttring to be sort out";
+        private static string CnnString = "connection string to be sort out";
 
         public List<Part> getPartsByPerson(int personID, bool activeOnly = true)
         {
