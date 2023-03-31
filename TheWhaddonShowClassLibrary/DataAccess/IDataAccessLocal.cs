@@ -34,18 +34,30 @@ namespace TheWhaddonShowClassLibrary.DataAccess
 
         //DELETE//
 
-        //TODO - code to delete local storage files
+        public void deletePart(Part part);
+        ///TODO once gone through Tim Corey text file data access
+
 
 
         //READ//
 
-        //TODO ADD Comments
+        /// <summary>
+        /// Gets All Script Items from Local Storage
+        /// </summary>
+        /// <returns>All Script Items in Local Storage</returns>
         public List<ScriptItem> getScriptItems();
 
-        //TODO ADD Comments
-        public List<ScriptItem> getPersons(int personID, bool latestOnly = true);
-        //TODO ADD comments
-        public List<Part> getPartsByScriptItem(int? scriptItemID = null, bool activeOnly = true);  
+        /// <summary>
+        /// Gets All Persons saved to Local Storage
+        /// </summary>
+        /// <returns>All Persons</returns>
+        public List<Person> getPersons();
+
+        /// <summary>
+        /// Gets all Parts saved to local Storage
+        /// </summary>
+        /// <returns></returns>
+        public List<Part> getParts();  
 
     }
 }
