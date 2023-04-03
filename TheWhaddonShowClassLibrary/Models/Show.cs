@@ -23,13 +23,13 @@ namespace TheWhaddonShowClassLibrary.Models
         /// <summary>
         /// The ScriptItem at the top of the script heirachy for the show.
         /// </summary>
-        ScriptItem? ScriptHead { get; set; }
+        ScriptItemUpdate? ScriptHead { get; set; }
 
 
         public Show(string title)
         {
             Title = title;
-            ScriptHead = new ScriptItem();
+            ScriptHead = new ScriptItemUpdate(null,1,"Show",null,null);
         }
 
 

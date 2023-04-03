@@ -15,7 +15,7 @@ namespace TheWhaddonShowClassLibrary.DataAccess
         /// Stores all data re ScriptItems passed to it on Local Storage for processing in background when online. Creates a new record each time.
         /// </summary>
         /// <param name="scriptItem">ScriptItem to create or update</param>
-        public void saveScriptItem(ScriptItem scriptItem);
+        public void saveScriptItem(ScriptItemUpdate scriptItem);
 
         /// <summary>
         ///  Stores all data re Parts passed to it on Local Storage for processing in background when online.##
@@ -45,13 +45,13 @@ namespace TheWhaddonShowClassLibrary.DataAccess
         /// Gets All Script Items from Local Storage
         /// </summary>
         /// <returns>All Script Items in Local Storage</returns>
-        public List<ScriptItem> getScriptItems();
+        public List<ScriptItemUpdate> getScriptItems();
 
         /// <summary>
         /// Gets All Persons saved to Local Storage
         /// </summary>
         /// <returns>All Persons</returns>
-        public List<Person> getPersons();
+        public List<PersonUpdate> getPersons();
 
         /// <summary>
         /// Gets all Parts saved to local Storage

@@ -18,7 +18,7 @@ namespace TheWhaddonShowClassLibrary.DataAccess
         /// Passing the new ID (if created) and UpdatedInHistory datetime back to ScriptItem.
         /// </summary>
         /// <param name="scriptItem">ScriptItem to create or update</param>
-        public void saveScriptItem(ScriptItem scriptItem);
+        public void saveScriptItem(ScriptItemUpdate scriptItem);
         
         /// <summary>
         /// Creates or Updates a Part on Server depending on whether Part.ID is null.
@@ -48,7 +48,7 @@ namespace TheWhaddonShowClassLibrary.DataAccess
         /// <param name="scriptItemID">If null(default) then returns all</param>
         /// <param name="latestOnly">if true(default) then returns only the latest Script Items for each ID. </param>
         /// <returns>ScriptItems below and including the given ScriptItemID</returns>
-        public List<ScriptItem> getScriptItems(int? scriptItemID = null,bool latestOnly=true);
+        public List<ScriptItemUpdate> getScriptItems(int? scriptItemID = null,bool latestOnly=true);
 
         /// <summary>
         /// Gets ScriptItems from Server
@@ -56,7 +56,7 @@ namespace TheWhaddonShowClassLibrary.DataAccess
         /// <param name="personID">That relate to a given PersonID</param>
         /// <param name="latestOnly">if true(default) then returns only the latest Script Items for each ID. </param>
         /// <returns>All ScriptItems Relating to all Scenes involving PersonID</returns>
-        public List<ScriptItem> getScriptItemsByPerson(int personID,bool latestOnly = true);
+        public List<ScriptItemUpdate> getScriptItemsByPerson(int personID,bool latestOnly = true);
 
         /// <summary>
         /// Gets Parts from Server
@@ -80,7 +80,7 @@ namespace TheWhaddonShowClassLibrary.DataAccess
         /// <param name="scriptItemID">If null(default) then returns all</param>
         /// <param name="activeOnly">Default to true. If false will return all Persons inlcuding inactive ones.</param>
         /// <returns>All persons relating to the given parameters</returns>
-        public List<Person> getPersonsByScriptItem(int? scriptItemID = null, bool activeOnly = true);
+        public List<PersonUpdate> getPersonsByScriptItem(int? scriptItemID = null, bool activeOnly = true);
 
 
     }

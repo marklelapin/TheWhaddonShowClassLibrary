@@ -1,61 +1,32 @@
-﻿using MyClassLibrary.Methods;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using MyClassLibrary.Methods;
 
 namespace TheWhaddonShowClassLibrary.Models
 {
-    /// <summary>
-    /// A part within the show.
-    /// </summary>
-    public class Part : LocalServerIdentity
+    public class Part
     {
-        /// <summary>
-        /// The name of the part.
-        /// </summary>
-        public string Name { get; set; }
+        LocalServerIdentity _localServerIdentity = new LocalServerIdentity();
         
-        /// <summary>
-        /// The person playing the part
-        /// </summary>
-        public Person? Actor { get; set; }
-
-        /// <summary>
-        /// List of additional Tags that can be associated with the Part
-        /// </summary>
-        public List<string> Tags { get; set; }
-
-
-        public Part(string name)
+        public Guid Id { get; private set; }
+        public PartUpdate LatestUpdate { get; private set; }
+        
+        public List<PartUpdate> PartHistory()
         {
-            Name = name;
-            Actor = null;
-            Tags = new List<string>();
-            try
-            {
-                //run save (without null ID) functoin save to Server data withoutID and get a return ID back. JOb Done
-                
-            }
-            catch (Exception)
-            {
-                //create localtempID if null 
-                //save to Local
-
-                throw;
-            }
-
-            //either way it comes back with an ID
+            return _localServerIdentity.GetHistory<PartUpdate>(Id);
+        }
+    
+        public Part (Guid id)
+        {
+            Id = id;
+            LatestUpdate = _localServerIdentity.GetLatestUpdate<PartUpdate>(new List<Guid>() { id })[0];
             
         }
-
-
-        //periodically see if stuff exists in save fodle if it does - try the above again. If local ID is present then keep that.
-
-
-
 
     }
 }

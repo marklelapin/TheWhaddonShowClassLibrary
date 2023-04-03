@@ -21,17 +21,17 @@ namespace TheWhaddonShowClassLibrary.DataAccess
             throw new NotImplementedException();
         }
 
-        public List<Person> getPersonsByScriptItem(int? scriptItemID = null, bool activeOnly = true)
+        public List<PersonUpdate> getPersonsByScriptItem(int? scriptItemID = null, bool activeOnly = true)
         {
             throw new NotImplementedException();
         }
 
-        public List<ScriptItem> getScriptItems(int? scriptItemID = null, bool latestOnly = true)
+        public List<ScriptItemUpdate> getScriptItems(int? scriptItemID = null, bool latestOnly = true)
         {
             throw new NotImplementedException();
         }
 
-        public List<ScriptItem> getScriptItemsByPerson(int personID, bool latestOnly = true)
+        public List<ScriptItemUpdate> getScriptItemsByPerson(int personID, bool latestOnly = true)
         {
             throw new NotImplementedException();
         }
@@ -46,7 +46,7 @@ namespace TheWhaddonShowClassLibrary.DataAccess
             throw new NotImplementedException();
         }
 
-        public void saveScriptItem(ScriptItem scriptItem)
+        public void saveScriptItem(ScriptItemUpdate scriptItem)
         {
             throw new NotImplementedException();
         }
