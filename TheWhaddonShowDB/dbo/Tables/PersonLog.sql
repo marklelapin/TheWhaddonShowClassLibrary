@@ -1,13 +1,18 @@
-﻿CREATE TABLE [dbo].[Person]
+﻿CREATE TABLE [dbo].[PersonLog]
 (
-	Id INT identity(1,1) NOT NULL PRIMARY KEY
+--LocalServerIdentityColumns
+	[Id] uniqueidentifier
+	,UpdatedLocally datetime
+	,UpdatedOnServer datetime
+	,ConflictID uniqueidentifier
+	,IsActive bit
+--Specific Column
 	,FirstName varchar(255) NOT NULL
 	,LastName varchar(255) NULL
 	,Email varchar(255) NULL
-	,PhoneNo varchar(255) NULL
 	,PictureRef varchar(255) nULL
-	,IsActive bit NOT NULL
 	,IsActor bit NULL
+	,IsSinger bit NULL
 	,IsWriter bit NULL
 	,isBand bit NULL
 	,IsTechnical bit NULL

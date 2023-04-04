@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{fce192e6-fc3c-46f1-8b7f-a6744c80e4f6}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql160DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql150DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -61,8 +61,12 @@
     <Folder Include="dbo\StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Person.sql" />
-    <Build Include="dbo\Tables\Part.sql" />
-    <Build Include="dbo\Tables\ScriptHistory.sql" />
+    <Build Include="dbo\Tables\PersonLog.sql" />
+    <Build Include="dbo\Tables\PartLog.sql" />
+    <Build Include="dbo\Tables\ScriptItemLog.sql" />
+    <Build Include="dbo\StoredProcedures\spLoadChangesFromServer.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TheWhaddonShowDB.publish.xml" />
   </ItemGroup>
 </Project>
