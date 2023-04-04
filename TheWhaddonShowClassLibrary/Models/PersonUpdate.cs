@@ -48,9 +48,13 @@ namespace TheWhaddonShowClassLibrary.Models
         /// Identifies if the person is part of the technical team.
         /// </summary>
         public bool IsTechnical { get; set; } = false;
+        /// <summary>
+        /// Identifies if the person is part of the technical team.
+        /// </summary>
+        public List<string> Tags { get; set; }
 
         public PersonUpdate(string firstName,string? lastName = null,string? email = null,string? pictureRef = null,bool? isActor = null,
-            bool? isSinger = null,bool? isWriter = null, bool? isBand = null, bool? isTechnical = null) : base ()
+            bool? isSinger = null,bool? isWriter = null, bool? isBand = null, bool? isTechnical = null,List<string>? tags = null) : base ()
         {
             FirstName = firstName;
             LastName = lastName;
@@ -61,10 +65,11 @@ namespace TheWhaddonShowClassLibrary.Models
             IsWriter = isWriter ?? false;
             IsBand = isBand ?? false;
             IsTechnical = isTechnical ?? false;
+            Tags = tags ?? new List<string> ();
         }
 
         public PersonUpdate(Guid id, string firstName, string? lastName = null, string? email = null, string? pictureRef = null, bool? isActor = null,
-           bool? isSinger = null, bool? isWriter = null, bool? isBand = null, bool? isTechnical = null) : base(id)
+           bool? isSinger = null, bool? isWriter = null, bool? isBand = null, bool? isTechnical = null,List<string>? tags = null) : base(id)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -75,6 +80,7 @@ namespace TheWhaddonShowClassLibrary.Models
             IsWriter = isWriter ?? false;
             IsBand = isBand ?? false;
             IsTechnical = isTechnical ?? false;
+            Tags = tags ?? new List<string> ();
         }
 
         public PersonUpdate(PersonUpdate personUpdate,bool isActive) : base(personUpdate.Id,isActive)
@@ -88,6 +94,7 @@ namespace TheWhaddonShowClassLibrary.Models
             IsWriter = personUpdate.IsWriter;
             IsBand = personUpdate.IsBand;
             IsTechnical = personUpdate.IsTechnical;
+            Tags = personUpdate.Tags;
         }
 
 
