@@ -1,5 +1,5 @@
 ﻿using MyClassLibrary.Interfaces;
-using MyClassLibrary.Methods;
+using MyClassLibrary.LocalServerMethods;
 using System;
 using System.Collections.Generic;
 using System.Linq;

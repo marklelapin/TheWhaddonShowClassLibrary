@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
-using MyClassLibrary.Methods;
+using MyClassLibrary.LocalServerMethods;
 
 namespace TheWhaddonShowClassLibrary.Models
 {

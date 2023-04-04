@@ -1,4 +1,4 @@
-﻿using MyClassLibrary.Methods;
+﻿using MyClassLibrary.LocalServerMethods;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
