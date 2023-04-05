@@ -28,6 +28,11 @@ namespace TheWhaddonShowClassLibrary.Models
         public string Type { get; set; } = string.Empty;
 
         /// <summary>
+        /// Title of the scene, piece of dialogue, action description etc...
+        /// </summary>
+        public string Text { get; set; } = string.Empty;
+
+        /// <summary>
         /// List of Parts associated with the script item. If null defaults to 
         /// </summary>
         public List<Part> Parts { get; }

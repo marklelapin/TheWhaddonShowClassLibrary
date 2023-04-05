@@ -1,6 +1,7 @@
 ﻿
 
 using Microsoft.Extensions.Configuration;
+using TheWhaddonShowClassLibrary.Models;
 
 Console.WriteLine(GetConnectionString());
 
@@ -18,3 +19,14 @@ static string GetConnectionString(string connectionStringName="Default")
 
     return output;
 }
+
+
+
+ScriptItemUpdate person;
+
+scriptItemUpdate.
+
+
+
+
+
