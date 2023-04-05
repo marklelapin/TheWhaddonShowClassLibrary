@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[spLoadChangesFromServer]
 	@ObjectType varchar(255),
-	@LastSyncDate DateTime
+	@LastSyncDate DateTime,
+	@Output nvarchar(max) OUTPUT 
 AS
 
 IF @ObjectType = 'PartUpdate'
