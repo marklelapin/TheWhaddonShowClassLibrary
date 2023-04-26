@@ -59,16 +59,27 @@
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
     <Folder Include="dbo\StoredProcedures" />
-    <Folder Include="PostDeploymentScript" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\PersonLog.sql" />
-    <Build Include="dbo\Tables\PartLog.sql" />
-    <Build Include="dbo\Tables\ScriptItemLog.sql" />
-    <Build Include="dbo\StoredProcedures\spLoadChangesFromServer.sql" />
-    <PostDeploy Include="PostDeploymentScript\Script.PostDeployment1.sql" />
+    <Build Include="dbo\Tables\PersonUpdate.sql" />
+    <Build Include="dbo\Tables\PartUpdate.sql" />
+    <Build Include="dbo\Tables\ScriptItemUpdate.sql" />
+    <Build Include="dbo\StoredProcedures\spDeleteFromLocal.sql" />
+    <Build Include="dbo\StoredProcedures\spDeleteFromServer.sql" />
+    <Build Include="dbo\StoredProcedures\spGetChangesFromLocal.sql" />
+    <Build Include="dbo\StoredProcedures\spGetChangesFromServer.sql" />
+    <Build Include="dbo\StoredProcedures\spGetFromLocal.sql" />
+    <Build Include="dbo\StoredProcedures\spGetFromServer.sql" />
+    <Build Include="dbo\StoredProcedures\spGetLocalLastSyncDate.sql" />
+    <Build Include="dbo\Tables\LocalSyncInfo.sql" />
+    <Build Include="dbo\StoredProcedures\spSaveConflictIdsToLocal.sql" />
+    <Build Include="dbo\StoredProcedures\spSaveConflictIdsToServer.sql" />
+    <Build Include="dbo\StoredProcedures\spSaveLocalLastSyncDate.sql" />
+    <Build Include="dbo\StoredProcedures\spSaveToLocal.sql" />
+    <Build Include="dbo\StoredProcedures\spSaveToServer.sql" />
+    <Build Include="dbo\StoredProcedures\spSaveUpdatedOnServerToLocal.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TheWhaddonShowDB.publish.xml" />
+    <RefactorLog Include="TheWhaddonShowDB.refactorlog" />
   </ItemGroup>
 </Project>

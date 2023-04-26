@@ -1,10 +1,11 @@
-﻿CREATE TABLE [dbo].[ScriptItemLog]
+﻿CREATE TABLE [dbo].[ScriptItemUpdate]
 (
 --LocalServerIdentityColumns
 	[Id] uniqueidentifier
-	,UpdatedLocally datetime
-	,UpdatedOnServer datetime
-	,ConflictID uniqueidentifier
+	,ConflictId uniqueidentifier
+	,Created datetime2
+	,CreatedBy varchar(255)
+	,UpdatedOnServer datetime2
 	,IsActive bit
 --Specific Column
 	,ParentID uniqueidentifier
@@ -13,6 +14,6 @@
 	,[Text] nvarchar(max)
 	,Parts nvarchar(max)
 	,Tags nvarchar(max)
-	,PRIMARY KEY (Id,UpdatedLocally)
+	,PRIMARY KEY (Id,Created)
 );
 
