@@ -10,7 +10,7 @@ namespace TheWhaddonShowClassLibrary.Models
     /// <summary>
     /// A person taking part in the show. (or previous participant if inActive)
     /// </summary>
-    public class PersonUpdate : LocalServerIdentity
+    public class PersonUpdate : LocalServerIdentityUpdate
     {
         /// <summary>
         /// The First Name of the person.
@@ -53,21 +53,6 @@ namespace TheWhaddonShowClassLibrary.Models
         /// </summary>
         public List<string> Tags { get; set; }
 
-        public PersonUpdate(string firstName,string? lastName = null,string? email = null,string? pictureRef = null,bool? isActor = null,
-            bool? isSinger = null,bool? isWriter = null, bool? isBand = null, bool? isTechnical = null,List<string>? tags = null) : base ()
-        {
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            PictureRef = pictureRef;
-            IsActor = isActor ?? false;
-            IsSinger = isSinger ?? false;
-            IsWriter = isWriter ?? false;
-            IsBand = isBand ?? false;
-            IsTechnical = isTechnical ?? false;
-            Tags = tags ?? new List<string> ();
-        }
-
         public PersonUpdate(Guid id, string firstName, string? lastName = null, string? email = null, string? pictureRef = null, bool? isActor = null,
            bool? isSinger = null, bool? isWriter = null, bool? isBand = null, bool? isTechnical = null,List<string>? tags = null) : base(id)
         {
@@ -83,21 +68,5 @@ namespace TheWhaddonShowClassLibrary.Models
             Tags = tags ?? new List<string> ();
         }
 
-        public PersonUpdate(PersonUpdate personUpdate,bool isActive) : base(personUpdate.Id,isActive)
-        {
-            FirstName = personUpdate.FirstName;
-            LastName = personUpdate.LastName;
-            Email = personUpdate.Email;
-            PictureRef = personUpdate.PictureRef;
-            IsActor = personUpdate.IsActor;
-            IsSinger= personUpdate.IsSinger;
-            IsWriter = personUpdate.IsWriter;
-            IsBand = personUpdate.IsBand;
-            IsTechnical = personUpdate.IsTechnical;
-            Tags = personUpdate.Tags;
-        }
-
-
- 
     }
 }

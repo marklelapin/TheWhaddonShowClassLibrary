@@ -12,7 +12,7 @@ namespace TheWhaddonShowClassLibrary.Models
     /// <summary>
     /// Base Class for all ScriptItems
     /// </summary>
-    public class ScriptItemUpdate : LocalServerIdentity, IHasParentId<Guid>
+    public class ScriptItemUpdate : LocalServerIdentityUpdate, IHasParentId<Guid>
     {
         /// <summary>
         /// The Id of the parent script Item of this script item.
@@ -35,7 +35,7 @@ namespace TheWhaddonShowClassLibrary.Models
         /// <summary>
         /// List of Parts associated with the script item. If null defaults to 
         /// </summary>
-        public List<Part> Parts { get; }
+        public List<Guid> PartIds { get; }
 
         /// <summary>
         /// List of string that can be used as tags.
@@ -43,36 +43,27 @@ namespace TheWhaddonShowClassLibrary.Models
         public List<string> Tags { get; set; }
      
 
-        public ScriptItemUpdate(Guid? parentId, int orderNo, string type, List<Part>? parts = null, List<string>? tags = null) : base()
+        public ScriptItemUpdate(Guid id, Guid? parentId, int orderNo, string type, List<Part>? parts = null, List<string>? tags = null) : base(id)
         {
             ParentId = parentId ?? Guid.Empty;
             OrderNo = orderNo;
             Type = type;
-            Parts = parts ?? new List<Part>();
+            if (parts == null)
+            {
+                PartIds = new List<Guid>();
+            }
+            else
+            {
+                foreach (Guid id in parts.Select(x => x.Id).ToList()
+                {
+                    validateParts();
+                } PartIds = ;
+            }
             if (validateType(type)) Type = type;
             Tags = tags ?? new List<string>();
             
         }
-
-        public ScriptItemUpdate(ScriptItemUpdate scriptItemUpdate,Guid? parentId, int orderNo, string type, List<Part>? parts = null, List<string>? tags = null) : base(scriptItemUpdate.Id)
-        {
-            ParentId = parentId ?? Guid.Empty;
-            OrderNo = orderNo;
-            Parts = parts ?? new List<Part>();
-            if (validateType(type)) Type = type;
-            Tags = tags ?? new List<string>();
-        }
-
-
-        public ScriptItemUpdate(ScriptItemUpdate scriptItemUpdate, bool isActive) : base(scriptItemUpdate.Id,isActive)
-        {
-            ParentId = scriptItemUpdate.ParentId;
-            OrderNo = scriptItemUpdate.OrderNo;
-            Parts = scriptItemUpdate.Parts;
-            Type = scriptItemUpdate.Type;
-            Tags = scriptItemUpdate.Tags;
-        }
-
+        
 
         private bool validateType(string type)
         {
@@ -84,6 +75,15 @@ namespace TheWhaddonShowClassLibrary.Models
             return true;
         }
 
+        private bool validateParts(List<Guid> parts)
+        {
+            throw new NotImplementedException("inavlid part id passed in");
+        }
+
+
+        public List<Part> Parts() {
+            throw new NotImplementedException();
+                }
 
     }
 }
