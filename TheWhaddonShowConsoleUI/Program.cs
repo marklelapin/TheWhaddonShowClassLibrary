@@ -22,11 +22,6 @@ static string GetConnectionString(string connectionStringName="Default")
 
 
 
-ScriptItemUpdate person;
-
-scriptItemUpdate.
-
-
 
 
 

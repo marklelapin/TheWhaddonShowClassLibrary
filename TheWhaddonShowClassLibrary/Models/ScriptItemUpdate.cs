@@ -54,10 +54,10 @@ namespace TheWhaddonShowClassLibrary.Models
             }
             else
             {
-                foreach (Guid id in parts.Select(x => x.Id).ToList()
+                foreach (Guid guid in parts.Select(x => x.Id).ToList())
                 {
-                    validateParts();
-                } PartIds = ;
+                    throw new NotImplementedException(); //validateParts(guid);
+                } 
             }
             if (validateType(type)) Type = type;
             Tags = tags ?? new List<string>();

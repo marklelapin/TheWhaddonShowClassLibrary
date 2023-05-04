@@ -82,4 +82,8 @@
   <ItemGroup>
     <RefactorLog Include="TheWhaddonShowDB.refactorlog" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="TheWhaddonShow.LocalTestDB.publish.xml" />
+    <None Include="TheWhaddonShow.ServerTestDB.publish.xml" />
+  </ItemGroup>
 </Project>

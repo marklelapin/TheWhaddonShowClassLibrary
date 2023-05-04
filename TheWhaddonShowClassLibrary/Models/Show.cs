@@ -29,7 +29,7 @@ namespace TheWhaddonShowClassLibrary.Models
         public Show(string title)
         {
             Title = title;
-            ScriptHead = new ScriptItemUpdate(null,1,"Show",null,null);
+         //   ScriptHead = new ScriptItemUpdate(null,1,"Show",null,null);
         }
 
 

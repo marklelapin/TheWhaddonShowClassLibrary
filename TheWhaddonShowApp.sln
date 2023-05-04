@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClassLibrary", "..\MyClas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowConsoleUI", "TheWhaddonShowConsoleUI\TheWhaddonShowConsoleUI.csproj", "{929ADE07-6AAD-4DF7-894E-2154CDC902CD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheWhaddonShowTesting", "TheWhaddonShowAppTesting\TheWhaddonShowTesting.csproj", "{4211511D-0E8A-49A5-8055-3FA12BA226EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClassLibrary.Tests", "..\MyClassLibrarySolution\MyClassLibrary.Tests\MyClassLibrary.Tests.csproj", "{69C69202-1F87-475C-A685-B26F3FF5692D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,14 @@ Global
 		{929ADE07-6AAD-4DF7-894E-2154CDC902CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{929ADE07-6AAD-4DF7-894E-2154CDC902CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{929ADE07-6AAD-4DF7-894E-2154CDC902CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4211511D-0E8A-49A5-8055-3FA12BA226EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4211511D-0E8A-49A5-8055-3FA12BA226EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4211511D-0E8A-49A5-8055-3FA12BA226EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4211511D-0E8A-49A5-8055-3FA12BA226EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69C69202-1F87-475C-A685-B26F3FF5692D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69C69202-1F87-475C-A685-B26F3FF5692D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69C69202-1F87-475C-A685-B26F3FF5692D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69C69202-1F87-475C-A685-B26F3FF5692D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

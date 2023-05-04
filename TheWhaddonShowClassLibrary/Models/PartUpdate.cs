@@ -1,4 +1,5 @@
 ﻿using MyClassLibrary.LocalServerMethods;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -38,7 +39,19 @@ namespace TheWhaddonShowClassLibrary.Models
             Tags = tags;
         }
 
-        
+        [JsonConstructor]
+        public PartUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, string name, List<string>? tags, Guid personID) : base(id)
+        {
+            Id = id;
+            Created = created;
+            CreatedBy = createdBy;
+            UpdatedOnServer = updatedOnServer;
+            IsActive = isActive;
+            Name = name;
+            Tags = tags;
+            PersonId = personID;
+        }
+
         public List<Person> Person()
         {
             throw new NotImplementedException();

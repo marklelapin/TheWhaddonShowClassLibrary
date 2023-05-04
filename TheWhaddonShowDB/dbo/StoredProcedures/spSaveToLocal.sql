@@ -16,7 +16,7 @@ BEGIN
     ,UpdatedOnServer datetime2
     ,IsActive bit
     ,[Name] varchar(255)
-    ,PersonID uniqueidentifier
+    ,PersonId uniqueidentifier
     ,Tags nvarchar(max) AS JSON
     );
 END
