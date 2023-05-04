@@ -48,7 +48,7 @@ END
 
 IF @UpdateType = 'ScriptItemUpdate'
 BEGIN
-    INSERT dbo.ScriptItemUpdate (Id,ConflictId,Created,CreatedBy,UpdatedOnServer,IsActive,ParentID,OrderNo,[Type],[Text],Parts,Tags)
+    INSERT dbo.ScriptItemUpdate (Id,ConflictId,Created,CreatedBy,UpdatedOnServer,IsActive,ParentId,OrderNo,[Type],[Text],Parts,Tags)
 
     SELECT * FROM OPENJSON(@Updates)
     WITH (

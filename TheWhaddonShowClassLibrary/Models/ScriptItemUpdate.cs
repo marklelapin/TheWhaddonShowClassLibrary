@@ -1,5 +1,6 @@
 ﻿using MyClassLibrary.Interfaces;
 using MyClassLibrary.LocalServerMethods;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace TheWhaddonShowClassLibrary.Models
         /// <summary>
         /// List of Parts associated with the script item. If null defaults to 
         /// </summary>
-        public List<Guid> PartIds { get; }
+        public List<Guid>? PartIds { get; }
 
         /// <summary>
         /// List of string that can be used as tags.
@@ -63,7 +64,24 @@ namespace TheWhaddonShowClassLibrary.Models
             Tags = tags ?? new List<string>();
             
         }
-        
+
+        [JsonConstructor]
+        public ScriptItemUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, Guid? parentId, int orderNo, string type, List<Guid>? parts = null, List<string>? tags = null) : base(id)
+        {
+            Id= id;
+            Created = created;
+            CreatedBy = createdBy;
+            UpdatedOnServer = updatedOnServer;
+            IsActive = isActive;
+            ParentId = parentId ?? Guid.Empty;
+            OrderNo = orderNo;
+            if (validateType(type)) Type = type;
+            PartIds = parts ;
+            Tags = tags ?? new List<string>();  
+
+        }
+
+
 
         private bool validateType(string type)
         {

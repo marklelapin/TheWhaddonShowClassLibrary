@@ -9,7 +9,7 @@
 	,IsActive bit
 --Specific Column
 	,[Name] varchar(255) NOT NULL
-	,PersonID uniqueidentifier
+	,[PersonId] uniqueidentifier
 	,Tags nvarchar(max) NULL
 )
 

@@ -35,7 +35,7 @@ BEGIN
     ,UpdatedOnServer datetime2
     ,IsActive bit
     ,[Name] varchar(255)
-    ,PersonID uniqueidentifier
+    ,PersonId uniqueidentifier
     ,Tags nvarchar(max) AS JSON
     );
 
@@ -82,7 +82,7 @@ END
 
 IF @UpdateType = 'ScriptItemUpdate'
 BEGIN
-    INSERT dbo.ScriptItemUpdate (Id,ConflictId,Created,CreatedBy,UpdatedOnServer,IsActive,ParentID,OrderNo,[Type],[Text],Parts,Tags)
+    INSERT dbo.ScriptItemUpdate (Id,ConflictId,Created,CreatedBy,UpdatedOnServer,IsActive,ParentId,OrderNo,[Type],[Text],Parts,Tags)
 
     SELECT * FROM OPENJSON(@Updates)
     WITH (

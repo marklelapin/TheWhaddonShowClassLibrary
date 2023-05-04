@@ -55,7 +55,11 @@ namespace TheWhaddonShowTesting
 
                 case "PartUpdate": return ConvertToListT(GeneratePartUpdateLists(testType, draftIds, created));
 
-                default: throw new NotImplementedException();
+                case "PersonUpdate": return ConvertToListT(GeneratePersonUpdateLists(testType, draftIds, created));
+
+                case "ScriptItemUpdate": return ConvertToListT(GenerateScriptItemUpdateLists(testType, draftIds, created));
+
+                default: throw new NotImplementedException("The update type doesn't appear in the GeneratList function of WhaddowShow_TestContentService");
             };
         }
 
@@ -202,10 +206,62 @@ namespace TheWhaddonShowTesting
         }
 
 
+        private List<ScriptItemUpdate> GenerateScriptItemUpdateLists(string testType, List<Guid> draftIds, DateTime createdDate)
+        {
+            List<ScriptItemUpdate> output;
+
+            switch (testType)
+            {
+                case "Default":
+
+                    output = new List<ScriptItemUpdate>()
+                    {
+                            new ScriptItemUpdate(draftIds[1], createdDate              , "mcarter", DateTime.Parse("2023-03-01 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis" ,new List<Guid> { Guid.NewGuid() },null),
+                            new ScriptItemUpdate(draftIds[1], createdDate.AddSeconds(1), "mcarter", DateTime.Parse("2023-03-02 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis" ,new List<Guid> { Guid.NewGuid() },null),
+                            new ScriptItemUpdate(draftIds[1], createdDate.AddSeconds(2), "mcarter", DateTime.Parse("2023-04-01 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis" ,null,null),
+                            new ScriptItemUpdate(draftIds[2], createdDate.AddSeconds(3), "mcarter", DateTime.Parse("2023-03-01 09:02:00.000"), true , null          , 2, "Dialogue" ,new List<Guid> { Guid.NewGuid() },null),
+                            new ScriptItemUpdate(draftIds[2], createdDate.AddSeconds(4), "mcarter", null                                     , false, null          , 1, "Action"   ,new List<Guid> { Guid.NewGuid() },null),
+                            new ScriptItemUpdate(draftIds[3], createdDate.AddSeconds(5), "mcarter", null                                     , true , Guid.NewGuid(), 3, "Action"   ,null,null),
+                            new ScriptItemUpdate(draftIds[4], createdDate.AddSeconds(6), "mcarter", null                                     , true , draftIds[2]   , 1, "Dialogue" ,null,new List<string> {"hello","goodbye"}),
+                            new ScriptItemUpdate(draftIds[4], createdDate.AddSeconds(7), "mcarter", null                                     , true , draftIds[2]   , 4, "Dialogue" ,null, new List<string> {"hello","goodbye"})
+                        };
+                    break;
+
+                default: throw new NotImplementedException();
+            }
+
+            return output;
+
+        }
 
 
+        private List<PersonUpdate> GeneratePersonUpdateLists(string testType, List<Guid> draftIds, DateTime createdDate)
+        {
+            List<PersonUpdate> output;
 
+            switch (testType)
+            {
+                case "Default":
 
+                    output = new List<PersonUpdate>()
+                    {
+                            new PersonUpdate(draftIds[1], createdDate              , "mcarter", DateTime.Parse("2023-03-01 09:02:00.000"), true , "Mark","Carter"    ,"marklelapin@hotmail.co.uk","sdfj", true,true,true,true,true, new List<string> { "Blah", "Male" }),
+                            new PersonUpdate(draftIds[1], createdDate.AddSeconds(1), "mcarter", DateTime.Parse("2023-03-02 09:02:00.000"), true , "Mark","Carter"    ,"marklelapin@hotmail.co.uk",null  , true,true,null,true,true, new List<string> { "Blah", "Male" }),
+                            new PersonUpdate(draftIds[1], createdDate.AddSeconds(2), "mcarter", DateTime.Parse("2023-04-01 09:02:00.000"), true , "Mark","Carter"    ,"marklelapin@hotmail.co.uk",null  , true,true,null,true,true, new List<string> { "Blah", "Male" }),
+                            new PersonUpdate(draftIds[2], createdDate.AddSeconds(3), "mcarter", DateTime.Parse("2023-03-01 09:02:00.000"), true , "Shirley","Vincent",null                       ,null  , true,true,null,true,false,new List<string> { "Female", "Main" }),
+                            new PersonUpdate(draftIds[2], createdDate.AddSeconds(4), "mcarter", null                                     , false, "Shirley","Vincent",null                       ,null  , true,true,true,true,true, new List<string> { "Female", "Side" }),
+                            new PersonUpdate(draftIds[3], createdDate.AddSeconds(5), "mcarter", null                                     , true , "Richard","Boateng",null                       ,null  , null,null,null,null,null, null),
+                            new PersonUpdate(draftIds[4], createdDate.AddSeconds(6), "mcarter", null                                     , true , "George",null      ,"danger@nuclearplant.co.uk",null  , true,true,true,true,true, new List<string> { "Vegetarian" }),
+                            new PersonUpdate(draftIds[4], createdDate.AddSeconds(7), "mcarter", null                                     , true , "George",null      ,"danger@nuclearplant.co.uk",null  , null,true,true,true,true, new List<string> { "Vegetarian" })
+                        }; 
+                    break;
+
+                default: throw new NotImplementedException();
+            }
+
+            return output;
+
+        }
 
 
 

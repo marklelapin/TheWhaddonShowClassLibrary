@@ -1,4 +1,5 @@
 ﻿using MyClassLibrary.LocalServerMethods;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,6 +54,7 @@ namespace TheWhaddonShowClassLibrary.Models
         /// </summary>
         public List<string> Tags { get; set; }
 
+       
         public PersonUpdate(Guid id, string firstName, string? lastName = null, string? email = null, string? pictureRef = null, bool? isActor = null,
            bool? isSinger = null, bool? isWriter = null, bool? isBand = null, bool? isTechnical = null,List<string>? tags = null) : base(id)
         {
@@ -68,5 +70,25 @@ namespace TheWhaddonShowClassLibrary.Models
             Tags = tags ?? new List<string> ();
         }
 
+        [JsonConstructor]
+        public PersonUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, string firstName, string? lastName = null, string? email = null, string? pictureRef = null, bool? isActor = null,
+           bool? isSinger = null, bool? isWriter = null, bool? isBand = null, bool? isTechnical = null, List<string>? tags = null) : base(id)
+        {
+            Id = id;
+            Created = created;
+            CreatedBy = createdBy;
+            UpdatedOnServer = updatedOnServer;
+            IsActive = isActive;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            PictureRef = pictureRef;
+            IsActor = isActor ?? false;
+            IsSinger = isSinger ?? false;
+            IsWriter = isWriter ?? false;
+            IsBand = isBand ?? false;
+            IsTechnical = isTechnical ?? false;
+            Tags = tags ?? new List<string>();
+        }
     }
 }
