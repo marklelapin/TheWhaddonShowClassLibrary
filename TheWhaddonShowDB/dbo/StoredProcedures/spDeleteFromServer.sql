@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[spDeleteFromServer]
-	@ObjectType varchar(255),
-	@Objects nvarchar(max)
+	@UpdateType varchar(255),
+	@Updates nvarchar(max)
 AS
 	DECLARE @TempTable Table (
 	Id uniqueidentifier
@@ -9,13 +9,13 @@ AS
 
 	INSERT @TempTable
 
-	SELECT * FROM OPENJSON(@Objects)
+	SELECT * FROM OPENJSON(@Updates)
 	WITH (
 	Id uniqueidentifier
 	,Created datetime2
 	)
 
-	IF @ObjectType = 'PartUpdate'
+	IF @UpdateType = 'PartUpdate'
 	BEGIN
 		DELETE t
 		FROM dbo.PartUpdate t
@@ -23,7 +23,7 @@ AS
 		ON f.Id = T.Id
 		and F.Created = T.Created
 	END
-	IF @ObjectType = 'PersonUpdate'
+	IF @UpdateType = 'PersonUpdate'
 	BEGIN
 		DELETE t
 		FROM dbo.PersonUpdate t
@@ -31,7 +31,7 @@ AS
 		ON f.Id = T.Id
 		and F.Created = T.Created
 	END
-	IF @ObjectType = 'ScriptItemUpdate'
+	IF @UpdateType = 'ScriptItemUpdate'
 	BEGIN
 		DELETE t
 		FROM dbo.ScriptItemUpdate t

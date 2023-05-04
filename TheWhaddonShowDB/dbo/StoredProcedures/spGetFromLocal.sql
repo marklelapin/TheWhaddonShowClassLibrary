@@ -1,6 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[spGetFromLocal]
-	@ObjectIds nvarchar(max)
-	,@ObjectType varchar(255)
+	@UpdateIds nvarchar(max)
+	,@UpdateType varchar(255)
 	,@Output nvarchar(max) OUTPUT
 AS
 	
@@ -11,15 +11,15 @@ AS
 	Id uniqueidentifier
 	)
 	
-	IF ISNULL(@ObjectIds,'') != ''
+	IF ISNULL(@UpdateIds,'') != ''
 	BEGIN
 		INSERT #Ids
 		SELECT DISTINCT CAST(value AS uniqueidentifier)
-				FROM STRING_SPLIT(@ObjectIds,',')
+				FROM STRING_SPLIT(@UpdateIds,',')
 	END
 	
 
-	IF @ObjectType = 'PartUpdate'
+	IF @UpdateType = 'PartUpdate'
 	BEGIN
 		Set @Output = (SELECT [t].[Id]
 						, [ConflictId]
@@ -32,12 +32,12 @@ AS
 							, JSON_QUERY([Tags]) as Tags
 						FROM dbo.PartUpdate t
 						WHERE t.Id IN (SELECT Id FROM #Ids)
-						OR ISNULL(@ObjectIds,'') = ''
+						OR ISNULL(@UpdateIds,'') = ''
 						FOR JSON AUTO);
 	END;
 
 	
-	IF @ObjectType = 'PersonUpdate'
+	IF @UpdateType = 'PersonUpdate'
 	BEGIN
 		Set @Output = (SELECT [t].[Id]
 							, [ConflictId]
@@ -57,12 +57,12 @@ AS
 							, JSON_QUERY([Tags]) as Tags
 						FROM dbo.PersonUpdate t
 						WHERE t.Id IN (SELECT Id FROM #Ids)
-						OR ISNULL(@ObjectIds,'') = ''
+						OR ISNULL(@UpdateIds,'') = ''
 						FOR JSON AUTO);
 	END;
 
 	
-	IF @ObjectType = 'ScriptItemUpdate'
+	IF @UpdateType = 'ScriptItemUpdate'
 	BEGIN
 		Set @Output = (SELECT [t].[Id]
 						, [ConflictId]
@@ -78,7 +78,7 @@ AS
 							, JSON_QUERY([Tags]) as Tags
 						FROM dbo.ScriptItemUpdate t
 						WHERE t.Id IN (SELECT Id FROM #Ids)
-						OR ISNULL(@ObjectIds,'') = ''
+						OR ISNULL(@UpdateIds,'') = ''
 						FOR JSON AUTO);
 	END;
 

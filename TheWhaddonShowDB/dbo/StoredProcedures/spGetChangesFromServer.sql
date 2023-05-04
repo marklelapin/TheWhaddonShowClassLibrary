@@ -1,12 +1,12 @@
 ﻿CREATE PROCEDURE [dbo].[spGetChangesFromServer]
 	@LastSyncDate datetime2
-	,@ObjectType varchar(255)
+	,@UpdateType varchar(255)
 	,@Output nvarchar(max) OUTPUT
 AS
 
 /* DECLARE @LastSyncDate datetime = '2023-04-01'
 --*/
-	IF @ObjectType = 'PartUpdate'
+	IF @UpdateType = 'PartUpdate'
 	BEGIN
 		Set @Output = (SELECT [Id]
 							, [ConflictId]
@@ -21,7 +21,7 @@ AS
 						WHERE UpdatedOnServer > @LastSyncDate
 						FOR JSON AUTO)
 	END;
-	IF @ObjectType = 'PersonUpdate'
+	IF @UpdateType = 'PersonUpdate'
 	BEGIN
 		Set @Output = (SELECT [Id]
 							, [ConflictId]
@@ -43,7 +43,7 @@ AS
 						WHERE UpdatedOnServer > @LastSyncDate
 						FOR JSON AUTO)
 	END;
-	IF @ObjectType = 'ScriptItemUpdate'
+	IF @UpdateType = 'ScriptItemUpdate'
 	BEGIN
 		Set @Output = (SELECT [Id]
 							, [ConflictId]

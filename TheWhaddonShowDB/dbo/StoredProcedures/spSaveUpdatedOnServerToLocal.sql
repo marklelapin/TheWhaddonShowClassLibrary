@@ -1,52 +1,52 @@
 ﻿CREATE PROCEDURE [dbo].[spSaveUpdatedOnServerToLocal]
 	@UpdatedOnServer datetime2,
-	@Objects nvarchar(max),
-    @ObjectType varchar(255)
+	@Updates nvarchar(max),
+    @UpdateType varchar(255)
 AS
-	 CREATE TABLE #Objects (
+	 CREATE TABLE #Updates (
                 Id uniqueidentifier
                 ,Created datetime2
                )
 
-    INSERT #Objects (Id,Created)
-    SELECT * FROM OPENJSON(@Objects)
+    INSERT #Updates (Id,Created)
+    SELECT * FROM OPENJSON(@Updates)
         WITH (
         Id uniqueidentifier
         ,Created datetime2
         );
 
     
-    IF @ObjectType = 'PartUpdate'
+    IF @UpdateType = 'PartUpdate'
     BEGIN
         Update t
 
         Set t.UpdatedOnServer = @UpdatedOnServer
 
         FROM dbo.PartUpdate t
-        INNER JOIN #Objects o
+        INNER JOIN #Updates o
         ON o.Id = t.Id
         AND o.Created = t.Created;
     END
 
-    IF @ObjectType = 'PersonUpdate'
+    IF @UpdateType = 'PersonUpdate'
     BEGIN
         Update t
 
         Set t.UpdatedOnServer = @UpdatedOnServer
 
         FROM dbo.PersonUpdate t
-        INNER JOIN #Objects o
+        INNER JOIN #Updates o
         ON o.Id = t.Id
         AND o.Created = t.Created;
     END
-    IF @ObjectType = 'ScriptItemUpdate'
+    IF @UpdateType = 'ScriptItemUpdate'
     BEGIN
         Update t
 
         Set t.UpdatedOnServer = @UpdatedOnServer
 
         FROM dbo.ScriptItemUpdate t
-        INNER JOIN #Objects o
+        INNER JOIN #Updates o
         ON o.Id = t.Id
         AND o.Created = t.Created;
     END

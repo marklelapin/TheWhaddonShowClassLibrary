@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[spGetChangesFromLocal]
-	@ObjectType varchar(255)
+	@UpdateType varchar(255)
 	,@Output nvarchar(max) OUTPUT
 AS
 	
-	IF @ObjectType = 'PartUpdate'
+	IF @UpdateType = 'PartUpdate'
 	BEGIN
 		SEt @Output = (SELECT [Id]
 							, [ConflictId]
@@ -18,7 +18,7 @@ AS
 						WHERE t.UpdatedOnServer IS NULL
 						FOR JSON AUTO)
 	END
-	IF @ObjectType = 'PersonUpdate'
+	IF @UpdateType = 'PersonUpdate'
 	BEGIN
 		SEt @Output = (SELECT [Id]
 							, [ConflictId]
@@ -40,7 +40,7 @@ AS
 						WHERE t.UpdatedOnServer IS NULL
 						FOR JSON AUTO)
 	END
-	IF @ObjectType = 'ScriptItemUpdate'
+	IF @UpdateType = 'ScriptItemUpdate'
 	BEGIN
 		SEt @Output = (SELECT [Id]
 							, [ConflictId]

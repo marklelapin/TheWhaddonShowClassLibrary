@@ -1,11 +1,11 @@
 ﻿CREATE PROCEDURE [dbo].[spSaveConflictIdsToServer]
 	@Conflicts nvarchar(max),
-	@ObjectType varchar(255)
+	@UpdateType varchar(255)
 AS
 	DECLARE @ConflictsTable Table(
 	ConflictId uniqueidentifier
-	,ObjectId uniqueidentifier
-	,ObjectCreated datetime2
+	,UpdateId uniqueidentifier
+	,UpdateCreated datetime2
 	)
 
 	INSERT @ConflictsTable
@@ -13,36 +13,36 @@ AS
 	SELECT * FROM OPENJSON(@Conflicts)
 	WITH (
 	ConflictId uniqueidentifier
-	,ObjectId uniqueidentifier
-	,ObjectCreated datetime2
+	,UpdateId uniqueidentifier
+	,UpdateCreated datetime2
 	)
 
-	If @ObjectType = 'PartUpdate'
+	If @UpdateType = 'PartUpdate'
 	BEGIN
 		Update t
 		set t.ConflictId = c.ConflictId
 		FROM dbo.PartUpdate t
 		INNER JOIN @ConflictsTable c
-		ON t.Id = c.ObjectId
-		AND t.Created = c.ObjectCreated
+		ON t.Id = c.UpdateId
+		AND t.Created = c.UpdateCreated
 	END;
 
-	If @ObjectType = 'PersonUpdate'
+	If @UpdateType = 'PersonUpdate'
 	BEGIN
 		Update t
 		set t.ConflictId = c.ConflictId
 		FROM dbo.PersonUpdate t
 		INNER JOIN @ConflictsTable c
-		ON t.Id = c.ObjectId
-		AND t.Created = c.ObjectCreated
+		ON t.Id = c.UpdateId
+		AND t.Created = c.UpdateCreated
 	END;
 
-	If @ObjectType = 'ScriptItemUpdate'
+	If @UpdateType = 'ScriptItemUpdate'
 	BEGIN
 		Update t
 		set t.ConflictId = c.ConflictId
 		FROM dbo.ScriptItemUpdate t
 		INNER JOIN @ConflictsTable c
-		ON t.Id = c.ObjectId
-		AND t.Created = c.ObjectCreated
+		ON t.Id = c.UpdateId
+		AND t.Created = c.UpdateCreated
 	END;

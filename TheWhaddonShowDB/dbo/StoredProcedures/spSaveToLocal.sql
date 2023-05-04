@@ -1,13 +1,13 @@
 ﻿CREATE PROCEDURE [dbo].[spSaveToLocal]
-	@Objects nvarchar(max)
-    ,@ObjectType varchar(255)
+	@Updates nvarchar(max)
+    ,@UpdateType varchar(255)
 AS
 
-IF @ObjectType = 'PartUpdate'
+IF @UpdateType = 'PartUpdate'
 BEGIN
     INSERT dbo.PartUpdate (Id,ConflictId,Created,CreatedBy,UpdatedOnServer,IsActive,[Name],PersonId,Tags)
 
-    SELECT * FROM OPENJSON(@Objects)
+    SELECT * FROM OPENJSON(@Updates)
     WITH (
     Id uniqueidentifier
     ,ConflictId uniqueidentifier
@@ -21,11 +21,11 @@ BEGIN
     );
 END
 
-IF @ObjectType = 'PersonUpdate'
+IF @UpdateType = 'PersonUpdate'
 BEGIN
     INSERT dbo.PersonUpdate (Id,ConflictId,Created,CreatedBy,UpdatedOnServer,IsActive,FirstName,LastName,Email,PictureRef,IsActor,IsSinger,IsWriter,isBand,IsTechnical,Tags)
 
-    SELECT * FROM OPENJSON(@Objects)
+    SELECT * FROM OPENJSON(@Updates)
     WITH (
     Id uniqueidentifier
     ,ConflictId uniqueidentifier
@@ -46,11 +46,11 @@ BEGIN
     );
 END
 
-IF @ObjectType = 'ScriptItemUpdate'
+IF @UpdateType = 'ScriptItemUpdate'
 BEGIN
     INSERT dbo.ScriptItemUpdate (Id,ConflictId,Created,CreatedBy,UpdatedOnServer,IsActive,ParentID,OrderNo,[Type],[Text],Parts,Tags)
 
-    SELECT * FROM OPENJSON(@Objects)
+    SELECT * FROM OPENJSON(@Updates)
     WITH (
     Id uniqueidentifier
     ,ConflictId uniqueidentifier
