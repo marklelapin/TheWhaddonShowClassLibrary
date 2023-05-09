@@ -11,6 +11,8 @@ namespace TheWhaddonShowClassLibrary.Models
 {
     public class Part : LocalServerIdentity<PartUpdate>
     {
-       
+        public Part(LocalServerEngine<PartUpdate> localServerEngine, Guid? id = null) : base(localServerEngine, id)
+        {
+        }
     }
 }
