@@ -8,45 +8,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
+using TheWhaddonShowTesting.Configuration;
 
-namespace TheWhaddonShowTesting
+namespace TheWhaddonShowTesting.Tests
 {
-    public class PersonServerDataAccessTests
+    public class PartServerDataAccessTests
     {
         private static IServiceConfiguration _serviceConfiguration = new WhaddonShow_TestServiceConfiguration();
 
-        private static IServerDataAccessTests<PersonUpdate> _serverDataAccessTests = new ServerDataAccessTestsService<PersonUpdate>(_serviceConfiguration);
+        private static IServerDataAccessTests<PartUpdate> _serverDataAccessTests = new ServerDataAccessTestsService<PartUpdate>(_serviceConfiguration);
 
 
         public static readonly object[][] SaveTestData = _serverDataAccessTests.SaveTestData();
         [Theory, MemberData(nameof(SaveTestData))]
-        public void SaveTest(List<PersonUpdate> personUpdates)
+        public void SaveTest(List<PartUpdate> partUpdates)
         {
-            _serverDataAccessTests.SaveTest(personUpdates);
+            _serverDataAccessTests.SaveTest(partUpdates);
         }
 
 
         public static readonly object[][] SaveAndGetTestData = _serverDataAccessTests.SaveAndGetTestData();
         [Theory, MemberData(nameof(SaveAndGetTestData))]
-        public void SaveAndGetTest(List<PersonUpdate> personUpdates, List<Guid> getIds, List<PersonUpdate> expected)
+        public void SaveAndGetTest(List<PartUpdate> partUpdates, List<Guid> getIds, List<PartUpdate> expected)
         {
-            _serverDataAccessTests.SaveAndGetTest(personUpdates, getIds, expected);
+            _serverDataAccessTests.SaveAndGetTest(partUpdates, getIds, expected);
         }
 
 
         public static readonly object[][] GetChangesTestData = _serverDataAccessTests.GetChangesTestData();
         [Theory, MemberData(nameof(GetChangesTestData))]
-        public void GetChangesTest(List<PersonUpdate> personUpdates, int lastSyncDateAdjustment, List<PersonUpdate> expected)
+        public void GetChangesTest(List<PartUpdate> partUpdates, int lastSyncDateAdjustment, List<PartUpdate> expected)
         {
-            _serverDataAccessTests.GetChangesTest(personUpdates, lastSyncDateAdjustment, expected);
+            _serverDataAccessTests.GetChangesTest(partUpdates, lastSyncDateAdjustment, expected);
         }
 
 
         public static readonly object[][] SaveConflictIdTestData = _serverDataAccessTests.SaveConflictIdTestData();
         [Theory, MemberData(nameof(SaveConflictIdTestData))]
-        public void SaveConflictIdTest(List<PersonUpdate> personUpdate, List<Conflict> conflicts, List<Conflict> expected)
+        public void SaveConflictIdTest(List<PartUpdate> partUpdate, List<Conflict> conflicts, List<Conflict> expected)
         {
-            _serverDataAccessTests.SaveConflictIdTest(personUpdate, conflicts, expected);
+            _serverDataAccessTests.SaveConflictIdTest(partUpdate, conflicts, expected);
         }
 
 
@@ -54,9 +55,9 @@ namespace TheWhaddonShowTesting
         //TODO add in Delete Test when funcionality is setup
         //public static readonly object[][] DeleteTestData = _serverDataAccessTests.DeleteTestData();
         //[Theory,MemberData(nameof(DeleteTestData))]
-        //public void DeleteTest(List<PersonUpdate> personUpdatesToDelete)
+        //public void DeleteTest(List<PartUpdate> partUpdatesToDelete)
         //{
-        //   _serverDataAccessTests.DeleteTest(personUpdatesToDelete);
+        //   _serverDataAccessTests.DeleteTest(partUpdatesToDelete);
         //}
     }
 }

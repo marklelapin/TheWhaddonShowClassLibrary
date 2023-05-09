@@ -8,45 +8,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
+using TheWhaddonShowTesting.Configuration;
 
-namespace TheWhaddonShowTesting
+namespace TheWhaddonShowTesting.Tests
 {
-    public class PartServerDataAccessTests
+    public class ScriptItemServerDataAccessTests
     {
         private static IServiceConfiguration _serviceConfiguration = new WhaddonShow_TestServiceConfiguration();
 
-        private static IServerDataAccessTests<PartUpdate> _serverDataAccessTests = new ServerDataAccessTestsService<PartUpdate>(_serviceConfiguration);
+        private static IServerDataAccessTests<ScriptItemUpdate> _serverDataAccessTests = new ServerDataAccessTestsService<ScriptItemUpdate>(_serviceConfiguration);
 
 
         public static readonly object[][] SaveTestData = _serverDataAccessTests.SaveTestData();
         [Theory, MemberData(nameof(SaveTestData))]
-        public void SaveTest(List<PartUpdate> partUpdates)
+        public void SaveTest(List<ScriptItemUpdate> scriptItemUpdates)
         {
-            _serverDataAccessTests.SaveTest(partUpdates);
+            _serverDataAccessTests.SaveTest(scriptItemUpdates);
         }
 
 
         public static readonly object[][] SaveAndGetTestData = _serverDataAccessTests.SaveAndGetTestData();
         [Theory, MemberData(nameof(SaveAndGetTestData))]
-        public void SaveAndGetTest(List<PartUpdate> partUpdates, List<Guid> getIds, List<PartUpdate> expected)
+        public void SaveAndGetTest(List<ScriptItemUpdate> scriptItemUpdates, List<Guid> getIds, List<ScriptItemUpdate> expected)
         {
-            _serverDataAccessTests.SaveAndGetTest(partUpdates, getIds, expected);
+            _serverDataAccessTests.SaveAndGetTest(scriptItemUpdates, getIds, expected);
         }
 
 
         public static readonly object[][] GetChangesTestData = _serverDataAccessTests.GetChangesTestData();
         [Theory, MemberData(nameof(GetChangesTestData))]
-        public void GetChangesTest(List<PartUpdate> partUpdates, int lastSyncDateAdjustment, List<PartUpdate> expected)
+        public void GetChangesTest(List<ScriptItemUpdate> scriptItemUpdates, int lastSyncDateAdjustment, List<ScriptItemUpdate> expected)
         {
-            _serverDataAccessTests.GetChangesTest(partUpdates, lastSyncDateAdjustment, expected);
+            _serverDataAccessTests.GetChangesTest(scriptItemUpdates, lastSyncDateAdjustment, expected);
         }
 
 
         public static readonly object[][] SaveConflictIdTestData = _serverDataAccessTests.SaveConflictIdTestData();
         [Theory, MemberData(nameof(SaveConflictIdTestData))]
-        public void SaveConflictIdTest(List<PartUpdate> partUpdate, List<Conflict> conflicts, List<Conflict> expected)
+        public void SaveConflictIdTest(List<ScriptItemUpdate> scriptItemUpdate, List<Conflict> conflicts, List<Conflict> expected)
         {
-            _serverDataAccessTests.SaveConflictIdTest(partUpdate, conflicts, expected);
+            _serverDataAccessTests.SaveConflictIdTest(scriptItemUpdate, conflicts, expected);
         }
 
 
@@ -54,9 +55,9 @@ namespace TheWhaddonShowTesting
         //TODO add in Delete Test when funcionality is setup
         //public static readonly object[][] DeleteTestData = _serverDataAccessTests.DeleteTestData();
         //[Theory,MemberData(nameof(DeleteTestData))]
-        //public void DeleteTest(List<PartUpdate> partUpdatesToDelete)
+        //public void DeleteTest(List<ScriptItemUpdate> scriptItemUpdatesToDelete)
         //{
-        //   _serverDataAccessTests.DeleteTest(partUpdatesToDelete);
+        //   _serverDataAccessTests.DeleteTest(scriptItemUpdatesToDelete);
         //}
     }
 }

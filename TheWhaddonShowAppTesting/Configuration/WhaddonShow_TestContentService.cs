@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
 
-namespace TheWhaddonShowTesting
+namespace TheWhaddonShowTesting.Configuration
 {
     public class WhaddonShow_TestContentService<T> : ITestContent<T> where T : LocalServerIdentityUpdate
     {
@@ -253,7 +253,7 @@ namespace TheWhaddonShowTesting
                             new PersonUpdate(draftIds[3], createdDate.AddSeconds(5), "mcarter", null                                     , true , "Richard","Boateng",null                       ,null  , null,null,null,null,null, null),
                             new PersonUpdate(draftIds[4], createdDate.AddSeconds(6), "mcarter", null                                     , true , "George",null      ,"danger@nuclearplant.co.uk",null  , true,true,true,true,true, new List<string> { "Vegetarian" }),
                             new PersonUpdate(draftIds[4], createdDate.AddSeconds(7), "mcarter", null                                     , true , "George",null      ,"danger@nuclearplant.co.uk",null  , null,true,true,true,true, new List<string> { "Vegetarian" })
-                        }; 
+                        };
                     break;
 
                 default: throw new NotImplementedException();

@@ -10,19 +10,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowTesting;
+using MyClassLibrary.DataAccessMethods;
+using MyClassLibrary.Tests.LocalServerMethods.Services;
 
-namespace MyClassLibrary.Tests.LocalServerMethods.Services
+namespace TheWhaddonShowTesting.Configuration
 {
 
 
-    public class WhaddonShow_TestServiceConfiguration : Interfaces.IServiceConfiguration
+    public class WhaddonShow_APITestServiceConfiguration : IServiceConfiguration
     {
 
-        private ConnectionStringDictionary connectionStringDictionary = new ConnectionStringDictionary();
+        public IConfiguration Config { get; private set; }
 
-        public ILocalDataAccess LocalDataAccess() { return new LocalSQLConnector(connectionStringDictionary.LocalSQL); }
+        public WhaddonShow_APITestServiceConfiguration()
+        {
+            var builder = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json");
+            Config = builder.Build();
+        }
+        //TODO = Think the below can be combined with above through builder.addservices     
+        public ILocalDataAccess LocalDataAccess() { return new LocalSQLConnector(new SqlDataAccess(Config)); }
 
-        public IServerDataAccess ServerDataAccess() { return new ServerSQLConnector(connectionStringDictionary.ServerSQL); }
+        public IServerDataAccess ServerDataAccess() { return new ServerSQLConnector(new SqlDataAccess(Config)); }
 
         public ILocalDataAccessTests<T> LocalDataAccessTests<T>() where T : LocalServerIdentityUpdate { return new LocalDataAccessTestsService<T>(this); }
 
