@@ -74,7 +74,7 @@ AS
 							, [OrderNo]
 							, [Type]
 							, [Text]
-							, JSON_QUERY([Parts]) as Parts
+							, JSON_QUERY([PartIds]) as PartIds
 							, JSON_QUERY([Tags]) as Tags
 						FROM dbo.ScriptItemUpdate t
 						WHERE t.Id IN (SELECT Id FROM #Ids)

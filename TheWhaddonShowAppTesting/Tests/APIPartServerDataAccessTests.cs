@@ -9,17 +9,21 @@ using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
 using TheWhaddonShowTesting.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TheWhaddonShowTesting.Tests
 {
-    public class PartServerDataAccessTests
+    public class APIPartServerDataAccessTests
     {
-        private static IServiceConfiguration _serviceConfiguration = new Configuration.SQLTestServiceConfiguration();
+        
+        
+        private static IServiceConfiguration _serviceConfiguration = new APITestServiceConfiguration();
+        
+        private static IServerDataAccessTests<PartUpdate> _serverDataAccessTests = _serviceConfiguration.ServerDataAccessTests<PartUpdate>();
+        
 
-        private static IServerDataAccessTests<PartUpdate> _serverDataAccessTests = new ServerDataAccessTestsService<PartUpdate>(_serviceConfiguration);
-
-
-        public static readonly object[][] SaveTestData = _serverDataAccessTests.SaveTestData();
+        public static object[][] SaveTestData = _serverDataAccessTests.SaveTestData();
         [Theory, MemberData(nameof(SaveTestData))]
         public void SaveTest(List<PartUpdate> partUpdates)
         {
@@ -59,5 +63,12 @@ namespace TheWhaddonShowTesting.Tests
         //{
         //   _serverDataAccessTests.DeleteTest(partUpdatesToDelete);
         //}
+
+
+
     }
+
+
+
 }
+

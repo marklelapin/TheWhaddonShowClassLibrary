@@ -14,7 +14,7 @@ namespace TheWhaddonShowTesting.Tests
 {
     public class PersonServerDataAccessTests
     {
-        private static IServiceConfiguration _serviceConfiguration = new WhaddonShow_TestServiceConfiguration();
+        private static IServiceConfiguration _serviceConfiguration = new Configuration.SQLTestServiceConfiguration();
 
         private static IServerDataAccessTests<PersonUpdate> _serverDataAccessTests = new ServerDataAccessTestsService<PersonUpdate>(_serviceConfiguration);
 

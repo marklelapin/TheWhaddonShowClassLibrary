@@ -14,10 +14,11 @@ namespace TheWhaddonShowTesting.Tests
 {
     public class PartLocalDataAccessTests
     {
-        private static IServiceConfiguration _serviceConfiguration = new WhaddonShow_TestServiceConfiguration();
+        private static IServiceConfiguration _serviceConfiguration = new Configuration.SQLTestServiceConfiguration();
 
         private static ILocalDataAccessTests<PartUpdate> _localDataAccessTests = new LocalDataAccessTestsService<PartUpdate>(_serviceConfiguration);
 
+      
         //private static ITestContent<PartUpdate> _testContent = new TestContentService<TestUpdate>();
 
         public static object[][] SaveTestData = _localDataAccessTests.SaveTestData();

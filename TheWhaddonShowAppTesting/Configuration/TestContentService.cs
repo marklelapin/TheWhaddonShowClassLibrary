@@ -3,7 +3,7 @@ using MyClassLibrary.Extensions;
 using MyClassLibrary.LocalServerMethods;
 using MyClassLibrary.Tests.LocalServerMethods;
 using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
-using Newtonsoft.Json;
+using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using TheWhaddonShowClassLibrary.Models;
 
 namespace TheWhaddonShowTesting.Configuration
 {
-    public class WhaddonShow_TestContentService<T> : ITestContent<T> where T : LocalServerIdentityUpdate
+    public class TestContentService<T> : ITestContent<T> where T : LocalServerIdentityUpdate
     {
 
         public List<List<T>> Generate(int quantity, string testType = "Default", List<Guid>? overrideIds = null, DateTime? overrideCreated = null)
@@ -65,9 +65,9 @@ namespace TheWhaddonShowTesting.Configuration
 
         private List<T> ConvertToListT<S>(List<S> listToConvert)
         {
-            string json = JsonConvert.SerializeObject(listToConvert);
+            string json = JsonSerializer.Serialize(listToConvert);
 
-            List<T> output = JsonConvert.DeserializeObject<List<T>>(json) ?? new List<T>();
+            List<T> output = JsonSerializer.Deserialize<List<T>>(json) ?? new List<T>();
 
             return output;
         }
@@ -216,14 +216,14 @@ namespace TheWhaddonShowTesting.Configuration
 
                     output = new List<ScriptItemUpdate>()
                     {
-                            new ScriptItemUpdate(draftIds[1], createdDate              , "mcarter", DateTime.Parse("2023-03-01 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis" ,new List<Guid> { Guid.NewGuid() },null),
-                            new ScriptItemUpdate(draftIds[1], createdDate.AddSeconds(1), "mcarter", DateTime.Parse("2023-03-02 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis" ,new List<Guid> { Guid.NewGuid() },null),
-                            new ScriptItemUpdate(draftIds[1], createdDate.AddSeconds(2), "mcarter", DateTime.Parse("2023-04-01 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis" ,null,null),
-                            new ScriptItemUpdate(draftIds[2], createdDate.AddSeconds(3), "mcarter", DateTime.Parse("2023-03-01 09:02:00.000"), true , null          , 2, "Dialogue" ,new List<Guid> { Guid.NewGuid() },null),
-                            new ScriptItemUpdate(draftIds[2], createdDate.AddSeconds(4), "mcarter", null                                     , false, null          , 1, "Action"   ,new List<Guid> { Guid.NewGuid() },null),
-                            new ScriptItemUpdate(draftIds[3], createdDate.AddSeconds(5), "mcarter", null                                     , true , Guid.NewGuid(), 3, "Action"   ,null,null),
-                            new ScriptItemUpdate(draftIds[4], createdDate.AddSeconds(6), "mcarter", null                                     , true , draftIds[2]   , 1, "Dialogue" ,null,new List<string> {"hello","goodbye"}),
-                            new ScriptItemUpdate(draftIds[4], createdDate.AddSeconds(7), "mcarter", null                                     , true , draftIds[2]   , 4, "Dialogue" ,null, new List<string> {"hello","goodbye"})
+                            new ScriptItemUpdate(draftIds[1], createdDate              , "mcarter", DateTime.Parse("2023-03-01 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis" ,"He said something",new List<Guid> { Guid.NewGuid() },null),
+                            new ScriptItemUpdate(draftIds[1], createdDate.AddSeconds(1), "mcarter", DateTime.Parse("2023-03-02 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis","He said something" ,new List<Guid> { Guid.NewGuid() },null),
+                            new ScriptItemUpdate(draftIds[1], createdDate.AddSeconds(2), "mcarter", DateTime.Parse("2023-04-01 09:02:00.000"), true , Guid.NewGuid(), 1, "Synopsis","He said something" ,null,null),
+                            new ScriptItemUpdate(draftIds[2], createdDate.AddSeconds(3), "mcarter", DateTime.Parse("2023-03-01 09:02:00.000"), true , Guid.Empty          , 2, "Dialogue" ,"No he didnt",new List<Guid> { Guid.NewGuid() },null),
+                            new ScriptItemUpdate(draftIds[2], createdDate.AddSeconds(4), "mcarter", null                                     , false, Guid.Empty          , 1, "Action","yes he did"   ,new List<Guid> { Guid.NewGuid() },null),
+                            new ScriptItemUpdate(draftIds[3], createdDate.AddSeconds(5), "mcarter", null                                     , true , Guid.NewGuid(), 3, "Action"   ,"He said something", null,null),
+                            new ScriptItemUpdate(draftIds[4], createdDate.AddSeconds(6), "mcarter", null                                     , true , draftIds[2]   , 1, "Dialogue","He said something" ,null,new List<string> {"hello","goodbye"}),
+                            new ScriptItemUpdate(draftIds[4], createdDate.AddSeconds(7), "mcarter", null                                     , true , draftIds[2]   , 4, "Dialogue","He said something" ,null, new List<string> {"hello","goodbye"})
                         };
                     break;
 

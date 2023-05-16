@@ -14,7 +14,7 @@ namespace TheWhaddonShowTesting.Tests
 {
     public class ScriptItemServerDataAccessTests
     {
-        private static IServiceConfiguration _serviceConfiguration = new WhaddonShow_TestServiceConfiguration();
+        private static IServiceConfiguration _serviceConfiguration = new Configuration.SQLTestServiceConfiguration();
 
         private static IServerDataAccessTests<ScriptItemUpdate> _serverDataAccessTests = new ServerDataAccessTestsService<ScriptItemUpdate>(_serviceConfiguration);
 

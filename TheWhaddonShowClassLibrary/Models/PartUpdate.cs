@@ -1,5 +1,5 @@
 ﻿using MyClassLibrary.LocalServerMethods;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,6 +40,7 @@ namespace TheWhaddonShowClassLibrary.Models
         }
 
         [JsonConstructor]
+        
         public PartUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, string name, List<string>? tags, Guid personID) : base(id)
         {
             Id = id;

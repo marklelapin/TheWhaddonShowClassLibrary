@@ -6,8 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>29e02fe1-ca5c-48f4-919d-4fef64d6bef8</UserSecretsId>
   </PropertyGroup>
-
+    
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
@@ -15,4 +16,12 @@
     <ProjectReference Include="..\TheWhaddonShowClassLibrary\TheWhaddonShowClassLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+    
+    <PropertyGroup>
+	    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+    </PropertyGroup>
+	
 </Project>

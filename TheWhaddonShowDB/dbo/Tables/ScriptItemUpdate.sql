@@ -12,7 +12,7 @@
 	,OrderNo int
 	,[Type] varchar(255)
 	,[Text] nvarchar(max)
-	,Parts nvarchar(max)
+	,[PartIds] nvarchar(max)
 	,Tags nvarchar(max)
 	,PRIMARY KEY (Id,Created)
 );

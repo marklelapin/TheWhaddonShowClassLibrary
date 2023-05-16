@@ -1,44 +1,52 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using MyClassLibrary.LocalServerMethods;
-using MyClassLibrary.Tests.LocalServerMethods.Tests;
 using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheWhaddonShowTesting;
 using MyClassLibrary.DataAccessMethods;
 using MyClassLibrary.Tests.LocalServerMethods.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Xunit.Sdk;
+using TheWhaddonShowClassLibrary.DataAccess;
+using Microsoft.Extensions.Hosting;
+using TheWhaddonShowClassLibrary.Models;
 
 namespace TheWhaddonShowTesting.Configuration
 {
 
 
-    public class WhaddonShow_APITestServiceConfiguration : IServiceConfiguration
+    public class APITestServiceConfiguration : IServiceConfiguration
     {
+        public IConfiguration Config { get; set; }
+        private ServiceProvider _serviceProvider { get; set; }
 
-        public IConfiguration Config { get; private set; }
-
-        public WhaddonShow_APITestServiceConfiguration()
+        public APITestServiceConfiguration()
         {
             var builder = new ConfigurationBuilder()
                     .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json");
+                    .AddJsonFile("appsettings.json")
+                    .AddUserSecrets<APITestServiceConfiguration>();
+
             Config = builder.Build();
+
+            var services = new ServiceCollection();
+
+            services.AddHttpClient("api", options =>
+            {
+                options.BaseAddress = new Uri(Config.GetValue<string>("ApiUrl") ?? "Error");
+            });
+
+            _serviceProvider = services.BuildServiceProvider();
+
         }
         //TODO = Think the below can be combined with above through builder.addservices     
         public ILocalDataAccess LocalDataAccess() { return new LocalSQLConnector(new SqlDataAccess(Config)); }
 
-        public IServerDataAccess ServerDataAccess() { return new ServerSQLConnector(new SqlDataAccess(Config)); }
+        public IServerDataAccess ServerDataAccess() { return new APIServerDataAccess(_serviceProvider.GetService<IHttpClientFactory>()!); }
 
         public ILocalDataAccessTests<T> LocalDataAccessTests<T>() where T : LocalServerIdentityUpdate { return new LocalDataAccessTestsService<T>(this); }
 
         public IServerDataAccessTests<T> ServerDataAccessTests<T>() where T : LocalServerIdentityUpdate { return new ServerDataAccessTestsService<T>(this); }
 
-        public ITestContent<T> TestContent<T>() where T : LocalServerIdentityUpdate { return new WhaddonShow_TestContentService<T>(); }
+        public ITestContent<T> TestContent<T>() where T : LocalServerIdentityUpdate { return new TestContentService<T>(); }
 
         public ILocalServerEngine<T> LocalServerEngine<T>(ILocalDataAccess localDataAccess, IServerDataAccess serverDataAccess) where T : LocalServerIdentityUpdate
         {

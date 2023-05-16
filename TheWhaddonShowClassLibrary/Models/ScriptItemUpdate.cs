@@ -1,11 +1,7 @@
 ﻿using MyClassLibrary.Interfaces;
 using MyClassLibrary.LocalServerMethods;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Text.Json.Serialization;
 using TheWhaddonShowClassLibrary.StaticData;
 
 namespace TheWhaddonShowClassLibrary.Models
@@ -13,12 +9,12 @@ namespace TheWhaddonShowClassLibrary.Models
     /// <summary>
     /// Base Class for all ScriptItems
     /// </summary>
-    public class ScriptItemUpdate : LocalServerIdentityUpdate, IHasParentId<Guid>
+    public class ScriptItemUpdate : LocalServerIdentityUpdate//, IHasParentId<Guid>
     {
         /// <summary>
         /// The Id of the parent script Item of this script item.
         /// </summary>
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
         /// <summary>
         /// The order no in which this appears amongst other items with the same Parent
         /// </summary>
@@ -41,21 +37,21 @@ namespace TheWhaddonShowClassLibrary.Models
         /// <summary>
         /// List of string that can be used as tags.
         /// </summary>
-        public List<string> Tags { get; set; }
+        public List<string>? Tags { get; set; }
      
 
-        public ScriptItemUpdate(Guid id, Guid? parentId, int orderNo, string type, List<Part>? parts = null, List<string>? tags = null) : base(id)
+        public ScriptItemUpdate(Guid id, Guid? parentId, int orderNo, string type, List<Part>? partIds = null, List<string>? tags = null) : base(id)
         {
             ParentId = parentId ?? Guid.Empty;
             OrderNo = orderNo;
             Type = type;
-            if (parts == null)
+            if (partIds == null)
             {
                 PartIds = new List<Guid>();
             }
             else
             {
-                foreach (Guid guid in parts.Select(x => x.Id).ToList())
+                foreach (Guid guid in partIds.Select(x => x.Id).ToList())
                 {
                     throw new NotImplementedException(); //validateParts(guid);
                 } 
@@ -65,21 +61,24 @@ namespace TheWhaddonShowClassLibrary.Models
             
         }
 
-        [JsonConstructor]
-        public ScriptItemUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, Guid? parentId, int orderNo, string type, List<Guid>? parts = null, List<string>? tags = null) : base(id)
+        [JsonConstructor]   
+        public ScriptItemUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, Guid? parentId, int orderNo, string type,string text, List<Guid>? partIds, List<string>? tags = null) : base(id)
         {
             Id= id;
             Created = created;
             CreatedBy = createdBy;
             UpdatedOnServer = updatedOnServer;
             IsActive = isActive;
-            ParentId = parentId ?? Guid.Empty;
+            ParentId = parentId ;
             OrderNo = orderNo;
             if (validateType(type)) Type = type;
-            PartIds = parts ;
-            Tags = tags ?? new List<string>();  
+            Text = text;
+            PartIds = partIds ;
+            Tags = tags;  
 
         }
+
+     
 
 
 

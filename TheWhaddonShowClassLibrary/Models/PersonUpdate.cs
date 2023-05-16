@@ -1,10 +1,5 @@
 ﻿using MyClassLibrary.LocalServerMethods;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace TheWhaddonShowClassLibrary.Models
 {
@@ -32,23 +27,23 @@ namespace TheWhaddonShowClassLibrary.Models
         /// <summary>
         /// Identifies if the person is an actor. (available to be allocated to Parts)
         /// </summary>
-        public  bool IsActor { get; set; } = false;
+        public  bool? IsActor { get; set; } = false;
         /// <summary>
         /// Identifies if the person is a singer. (available to be allocated to Singing Parts)
         /// </summary>
-        public bool IsSinger { get; set; } = false;
+        public bool? IsSinger { get; set; } = false;
         /// <summary>
         /// Identifies if the person is a writer. (able to edit the Script)
         /// </summary>
-        public bool IsWriter { get; set; } = false;
+        public bool? IsWriter { get; set; } = false;
         /// <summary>
         /// Identifies if the person is in the Band.
         /// </summary>
-        public bool IsBand { get; set; } = false;
+        public bool? IsBand { get; set; } = false;
         /// <summary>
         /// Identifies if the person is part of the technical team.
         /// </summary>
-        public bool IsTechnical { get; set; } = false;
+        public bool? IsTechnical { get; set; } = false;
         /// <summary>
         /// Identifies if the person is part of the technical team.
         /// </summary>
