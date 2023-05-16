@@ -1,72 +1,77 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyClassLibrary.LocalServerMethods;
-using MyClassLibrary.Methods;
 using System.Text.Json;
-using System.Diagnostics.Eventing.Reader;
-using System.Net;
 using TheWhaddonShowClassLibrary.Models;
 using MyExtensions;
+using System.Web.Http.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace TheWhaddonShowAPI.Controllers
+namespace TheWhaddonShowAPI.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("1.0",Deprecated = true)]
     public class PartController : ControllerBase
     {
         private readonly IServerDataAccess _serverDataAccess;
+        private readonly IServerAPIControllerService<PartUpdate> _serverAPIControllerService;
 
         public PartController(IServerDataAccess serverDataAccess)
         {
             _serverDataAccess = serverDataAccess;
+            _serverAPIControllerService = new ServerAPIControllerService<PartUpdate>(serverDataAccess);//TODO Think this should be done through dependency injection
         }
 
         // GET: api/Part/
-        [HttpGet( "{ids}")]
+        [HttpGet("{ids}")]
         public IActionResult Get([FromRoute] string ids)
         {
-            List<Guid> guids = ids.ToListGuid();
-
-            List<PartUpdate> partUpdates = _serverDataAccess.GetFromServer<PartUpdate>(guids);
-            
-            string output = JsonSerializer.Serialize(partUpdates);
+            string output = _serverAPIControllerService.Get(ids);
 
             if (output == "[]") { return NotFound(); }
-            
+
             return Ok(output);
         }
 
         // GET api/Part/changes/2023-05-09T10:23:56.024Z
         [HttpGet("changes/{lastSyncDate}")]
-        public string GetChanges([FromRoute] DateTime lastSyncDate)
+        public IActionResult GetChanges([FromRoute] DateTime lastSyncDate)
         {
-            (List<PartUpdate> partUpdates, DateTime lastUpdatedOnServer) = _serverDataAccess.GetChangesFromServer<PartUpdate>(lastSyncDate);
+            string output = _serverAPIControllerService.GetChanges(lastSyncDate);
 
-            string output =  JsonSerializer.Serialize(partUpdates);
+            if (output == "[]") { return NotFound(); }
 
-            return output;
+            return Ok(output);
         }
 
         // POST api/Part/
         [HttpPost("updates")]
-        public DateTime Post([FromBody] List<PartUpdate> partUpdates)
+        [Authorize]
+        public IActionResult Post([FromBody] List<PartUpdate> partUpdates)
         {
-            DateTime result;
+            DateTime output = _serverAPIControllerService.PostUpdates(partUpdates);
 
-            result =  _serverDataAccess.SaveToServer(partUpdates);
+            if (output != DateTime.MinValue)
+            {
+                return Ok(output);
+            }
+            else
+            {
+                return NotFound();
+            }
 
-            return result;
-            
         }
 
         // POST api/Part/conflicts
         [HttpPost("conflicts")]
-        public void PostConflicts([FromBody] List<Conflict> conflicts)
+        [Authorize]
+        public IActionResult PostConflicts([FromBody] List<Conflict> conflicts)
         {
-         //   List<Conflict> partConflicts = JsonSerializer.Deserialize<List<Conflict>>(conflicts) ?? new List<Conflict>();
+            _serverAPIControllerService.PostConflicts(conflicts);
 
-            _serverDataAccess.SaveConflictIdsToServer<PartUpdate>(conflicts);
+            return Ok();
         }
 
         ////// DELETE api/Part/
