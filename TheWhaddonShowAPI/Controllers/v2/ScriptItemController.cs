@@ -12,33 +12,33 @@ namespace TheWhaddonShowAPI.Controllers.v2
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("2.0")]
-    public class PersonController : ControllerBase
+    public class ScriptItemController : ControllerBase
     {
         private readonly IServerDataAccess _serverDataAccess;
-        private readonly IServerAPIControllerService<PersonUpdate> _serverAPIControllerService;
+        private readonly IServerAPIControllerService<ScriptItemUpdate> _serverAPIControllerService;
 
-        public PersonController(IServerDataAccess serverDataAccess)
+        public ScriptItemController(IServerDataAccess serverDataAccess)
         {
             _serverDataAccess = serverDataAccess;
-            _serverAPIControllerService = new ServerAPIControllerService<PersonUpdate>(serverDataAccess);//TODO Think this should be done through dependency injection
+            _serverAPIControllerService = new ServerAPIControllerService<ScriptItemUpdate>(serverDataAccess);//TODO Think this should be done through dependency injection
         }
 
-        // GET: api/Person/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
+        // GET: api/ScriptItem/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
         /// <summary>
-        /// Gets all of the updates made to a Person(s) passed in.
+        /// Gets all of the updates made to a ScriptItem(s) passed in.
         /// </summary>
         /// <remarks>
-        /// This gives a history of all updates made to the Person(s).
+        /// This gives a history of all updates made to the ScriptItem(s).
         /// 
         /// The update with the latest created date is the most current.
         /// 
         /// To get data a guid or a comma separated list of guids needs to be passed in as a path parameter as shown below:
         /// 
-        /// 'apt/v2/Person/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0'
+        /// 'apt/v2/ScriptItem/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0'
         /// 
-        /// The API will respond with a 404 Not Found error if no persons relate to the Ids given.
+        /// The API will respond with a 404 Not Found error if no scriptItems relate to the Ids given.
         /// 
-        /// Otherwise it will return a json string of PersonUpdates.
+        /// Otherwise it will return a json string of ScriptItemUpdates.
         /// 
         /// </remarks>
         [HttpGet("{ids}")]
@@ -51,18 +51,18 @@ namespace TheWhaddonShowAPI.Controllers.v2
             return Ok(output);
         }
 
-        // GET api/Person/changes/2023-05-09T10:23:56.024Z
+        // GET api/ScriptItem/changes/2023-05-09T10:23:56.024Z
         /// <summary>
-        /// Gets all the updates made to any Person since the lastSyncDate passed in.
+        /// Gets all the updates made to any ScriptItem since the lastSyncDate passed in.
         /// </summary>
         /// <remarks>
         /// To get data a date in the format 'yyyy-MM-ddThh:mm:ss.ffffff' needs to be passed as indicated below
         /// 
-        /// 'api/v2/Person/2023-05-09T10:23:56.024
+        /// 'api/v2/ScriptItem/2023-05-09T10:23:56.024
         /// 
         /// The API will respond with a 404 Not Found error if no changes have been made since this Date and Time.
         /// 
-        /// Otherwise it will return a json string of PersonUpdates.
+        /// Otherwise it will return a json string of ScriptItemUpdates.
         /// </remarks>
         
         [HttpGet("changes/{lastSyncDate}")]
@@ -75,66 +75,58 @@ namespace TheWhaddonShowAPI.Controllers.v2
             return Ok(output);
         }
 
-        // POST api/Person/
+        // POST api/ScriptItem/
         /// <summary>
-        /// Creates or Updates a Person(s) by posting a PersonUpdate.
+        /// Creates or Updates a ScriptItem(s) by posting a ScriptItemUpdate.
         /// </summary>
         /// <remarks>   
-        /// This method is how you create or update a Person since in both cases this is done by adding an adddtional PersonUpdate that supercedes the current update in the system.
-        /// If a new Person is being created a new Guid needs to be created for Id.
+        /// This method is how you create or update a ScriptItem since in both cases this is done by adding an adddtional ScriptItemUpdate that supercedes the current update in the system.
+        /// If a new Script Item is being created a new GUID for Id needs to be created.
         /// 
         /// Json Text containing all properties of the update to be made must be passed in the body of the text as shown below:
-        ///
+        /// 
         /// [
-        ///     
+        /// 
         ///     {
         ///     
-        ///     ,"Id":"05aca248-39d5-4ce7-b789-0d899bd4c0fc"
+        ///     "ParentId":"4b617887-849d-406b-bdbb-43e1ddca5d39"
         ///     
-        ///     ,"Created":"2023-05-17T12:20:09"
+        ///     ,"OrderNo":1
         ///     
-        ///     ,"CreatedBy":"mcarter"
+        ///     ,"Type":"Synopsis"
         ///     
-        ///     ,"UpdatedOnServer":null
+        ///     ,"Text":"He said something"
         ///     
-        ///     ,"FirstName":"Mark"
+        ///     ,"PartIds":["c0e28400-8bcd-4761-a7c1-5e241b44ff9a"]
         ///     
-        ///     ,"LastName":"Carter"
+        ///     ,"Tags":null
         ///     
-        ///     ,"Email":"thissintarealemail@hotmail.co.uk"
-        ///     
-        ///     ,"PictureRef":"sdfj"
-        ///     
-        ///     ,"IsActor":true
-        ///     
-        ///     ,"IsSinger":true
-        ///     
-        ///     ,"IsWriter":true
-        ///     
-        ///     ,"IsBand":true
-        ///     
-        ///     ,"IsTechnical":true
-        ///     
-        ///     ,"Tags":["Blah","Male"]
+        ///     ,"Id":"0d214c35-dba2-46bd-a71f-4549352136d3"
         ///     
         ///     ,"ConflictId":null
         ///     
+        ///     ,"Created":"2023-05-17T12:17:12"
+        ///     
+        ///     ,"UpdatedOnServer":null
+        ///     
+        ///     ,"CreatedBy":"mcarter"
+        ///     
         ///     ,"IsActive":true
         ///     
-        ///     }
+        ///     }  
         ///     
         /// ]
         /// 
-        /// The API will return the date and time the Server was Updated if successful.  In the format 'yyyy-MM-ddThh:mm:ss.fffffff'
-        ///  
+        /// The API will return the date and time the Server was Updated if successful.  In the format 'yyyy-MM-ddThh:mm:ss.fffffff' 
+        /// 
         /// </remarks>
-        /// <param name="personUpdates"></param>
+        /// <param name="scriptItemUpdates"></param>
         /// <returns></returns>
         [HttpPost("updates")]
        // [Authorize]
-        public IActionResult Post([FromBody] List<PersonUpdate> personUpdates)
+        public IActionResult Post([FromBody] List<ScriptItemUpdate> scriptItemUpdates)
         {
-            DateTime output = _serverAPIControllerService.PostUpdates(personUpdates);
+            DateTime output = _serverAPIControllerService.PostUpdates(scriptItemUpdates);
 
             if (output != DateTime.MinValue)
             {
@@ -147,14 +139,14 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
         }
 
-        // POST api/Person/conflicts
+        // POST api/ScriptItem/conflicts
         /// <summary>
-        /// Posts a ConflictId to a specific Id and Created date of a Person.
+        /// Posts a ConflictId to a specific Id and Created date of a ScriptItem.
         /// </summary>
         /// <remarks>   
-        /// Conflicts identify Persons where updates exist from different sources and need to be resolved.
+        /// Conflicts identify ScriptItems where updates exist from different sources and need to be resolved.
         /// 
-        /// This adds a ConflictId to a specific PersonUpdate where UpdateID and UpdateCreated match an existing Id and Created date on the central database
+        /// This adds a ConflictId to a specific ScriptItemUpdate where UpdateID and UpdateCreated match an existing Id and Created date on the central database
         /// 
         /// Json Text containing all properties of the update to be made must be passed in the body of the text as shown below:
         /// 
@@ -182,14 +174,14 @@ namespace TheWhaddonShowAPI.Controllers.v2
             return Ok();
         }
 
-        ////// DELETE api/Person/
+        ////// DELETE api/ScriptItem/
         ////[HttpDelete("{updates}")]
         ////public void Delete([FromBody] string updates)
         ////{
 
-        ////    List<PersonUpdate> personUpdates = JsonSerializer.Deserialize<List<PersonUpdate>>(updates) ?? new List<PersonUpdate>();
+        ////    List<ScriptItemUpdate> scriptItemUpdates = JsonSerializer.Deserialize<List<ScriptItemUpdate>>(updates) ?? new List<ScriptItemUpdate>();
 
-        ////    _serverDataAccess.DeleteFromServer(personUpdates);
+        ////    _serverDataAccess.DeleteFromServer(scriptItemUpdates);
         ////}
     }
 }
