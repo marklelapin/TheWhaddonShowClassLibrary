@@ -7,6 +7,7 @@ using MyClassLibrary.Tests.LocalServerMethods;
 using System.Reflection;
 using System.Text;
 using TheWhaddonShowClassLibrary.Models;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,20 +22,33 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 
+//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//    .AddJwtBearer(options =>
+//    {
+//        options.TokenValidationParameters = new TokenValidationParameters
+//        {
+//            ValidateIssuer = true,
+//            ValidateAudience = true,
+//            ValidateLifetime = true,
+//            ValidateIssuerSigningKey = true,
+//            ValidIssuer = builder.Configuration.GetValue<string>("Authentication:Issuer"),
+//            ValidAudience = builder.Configuration.GetValue<string>("Authentication:Audience"),
+//            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Authentication:SecretKey")))
+//        }
+//  }
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration.GetValue<string>("Authentication:Issuer"),
-            ValidAudience = builder.Configuration.GetValue<string>("Authentication:Audience"),
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Authentication:SecretKey")))
-        };
-    });
+    .AddMicrosoftIdentityWebApi(options =>
+                                    {
+                                        builder.Configuration.Bind("AzureAdB2C", options);
+
+                                        options.TokenValidationParameters.NameClaimType = "name";
+                                    },
+                                   options =>
+                                   {
+                                       builder.Configuration.Bind("AzureAdB2C", options);
+                                   });
 
 
 
@@ -125,7 +139,8 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

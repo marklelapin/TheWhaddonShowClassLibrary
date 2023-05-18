@@ -17,7 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClassLibrary.Tests", "..\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowAPI", "TheWhaddonShowAPI\TheWhaddonShowAPI.csproj", "{077F46B0-2878-440A-A99A-83520EEF6B84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheWhaddonShowBlazorApp", "TheWhaddonShowBlazorApp\TheWhaddonShowBlazorApp.csproj", "{582AA851-F7B8-4F76-9938-C58D83243120}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowBlazorApp", "TheWhaddonShowBlazorApp\TheWhaddonShowBlazorApp.csproj", "{582AA851-F7B8-4F76-9938-C58D83243120}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AEA9F453-6C6C-4ED1-AF4D-081E7335039E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
