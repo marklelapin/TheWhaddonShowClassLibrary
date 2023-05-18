@@ -4,6 +4,7 @@ using System.Text.Json;
 using TheWhaddonShowClassLibrary.Models;
 using MyExtensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web.Resource;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -136,7 +137,8 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// <param name="partUpdates"></param>
         /// <returns></returns>
         [HttpPost("updates")]
-       // [Authorize]
+        // [Authorize]
+        [RequiredScope("show.write")]
         public IActionResult Post([FromBody] List<PartUpdate> partUpdates)
         {
             DateTime output = _serverAPIControllerService.PostUpdates(partUpdates);
@@ -179,6 +181,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// <param name="conflicts"></param>
         /// <returns></returns>
         [HttpPost("conflicts")]
+        [RequiredScope("show.write")]
         //[Authorize]
         public IActionResult PostConflicts([FromBody] List<Conflict> conflicts)
         {
