@@ -1,4 +1,5 @@
 ﻿using MyClassLibrary.LocalServerMethods;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace TheWhaddonShowClassLibrary.Models
@@ -8,14 +9,18 @@ namespace TheWhaddonShowClassLibrary.Models
     /// </summary>
     public class PersonUpdate : LocalServerIdentityUpdate
     {
+        [Required]
         /// <summary>
         /// The First Name of the person.
         /// </summary>
         public string FirstName { get; set; } = string.Empty;
+
         /// <summary>
         /// The Last Name of the Person
         /// </summary>
         public string? LastName { get; set; }
+
+        [EmailAddress]
         /// <summary>
         /// The email of the Person
         /// </summary>

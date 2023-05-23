@@ -7,42 +7,35 @@ using MyClassLibrary.Tests.LocalServerMethods;
 using System.Reflection;
 using System.Text;
 using TheWhaddonShowClassLibrary.Models;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authorization;
+using MyClassLibrary.Configuration;
+using MyClassLibrary.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-//IConfiguration config;
-//var configBuilder = new ConfigurationBuilder()
-//                   .SetBasePath(Directory.GetCurrentDirectory())
-//                   .AddJsonFile("appsettings.json");
-//config = configBuilder.Build();
 
-
-// Add services to the container.
-
+//TODO Tidy Up Program.cs and check Appsettings etc.
+//TODO Add in HealthChecks and Logging
+//TODO Get Version 1 working
+//TODO ROCP Access to API for Integration Testing
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration.GetValue<string>("Authentication:Issuer"),
-            ValidAudience = builder.Configuration.GetValue<string>("Authentication:Audience"),
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Authentication:SecretKey")))
-        };
-    });
+    .AddMicrosoftIdentityWebApi(options =>
+                                    {
+                                        builder.Configuration.Bind("AzureAdB2C", options);
+
+                                        options.TokenValidationParameters.NameClaimType = "name";
+                                    },
+                                   options =>
+                                   {
+                                       builder.Configuration.Bind("AzureAdB2C", options);
+                                   });
 
 
 
-
-
-
-
-
+builder.ByPassAuthenticationIfInDevelopment();
 
 
 
@@ -60,7 +53,7 @@ builder.Services.AddSwaggerGen(opts =>
     {
         Name = "Mark Carter",
         Email = "magcarter@hotmail.co.uk"
-        //TODO - add in home page
+        //TODO - add in home page to OpenApiContact
     };
 
     opts.SwaggerDoc("v1 (deprecated)", new OpenApiInfo()
@@ -95,8 +88,12 @@ builder.Services.AddVersionedApiExplorer(opts =>
 });
 
 
+builder.Services.AddHealthChecks();
+
+
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
-builder.Services.AddSingleton<IServerDataAccess, ServerSQLConnector>();
+builder.Services.AddSingleton<IServerDataAccess>(provider => new ServerSQLConnector(provider.GetService<ISqlDataAccess>()!));
+builder.Services.
 
 
 
@@ -125,9 +122,10 @@ var app = builder.Build();
 
 app.UseHttpsRedirection();
 
-//app.UseAuthentication();
+app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
-
+app.MapControllers(); ;
+app.MapHealthChecks("/health"); 
 app.Run();

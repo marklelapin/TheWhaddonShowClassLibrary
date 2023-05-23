@@ -4,14 +4,12 @@ using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
 using MyClassLibrary.DataAccessMethods;
 using MyClassLibrary.Tests.LocalServerMethods.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit.Sdk;
 using TheWhaddonShowClassLibrary.DataAccess;
-using Microsoft.Extensions.Hosting;
-using TheWhaddonShowClassLibrary.Models;
+using Microsoft.Identity.Client;
+using System.Net.Http.Headers;
 
 namespace TheWhaddonShowTesting.Configuration
 {
-
 
     public class APITestServiceConfiguration : IServiceConfiguration
     {
@@ -27,15 +25,41 @@ namespace TheWhaddonShowTesting.Configuration
 
             Config = builder.Build();
 
-            var services = new ServiceCollection();
 
+            var PublicClientApplicationOptions = new PublicClientApplicationOptions();
+            Config.Bind("Authentication", PublicClientApplicationOptions);
+            var app = PublicClientApplicationBuilder.CreateWithApplicationOptions(PublicClientApplicationOptions)
+                .Build();
+
+            string[] scopes = Config.GetSection("WebAPI:Scopes").Get<string[]>()!;
+            string username = Config.GetValue<string>("TestUser:Username")!;
+            string password = Config.GetValue<string>("TestUser:Password")!;
+            
+
+           
+            string accessToken;
+            try
+            {
+                Task<AuthenticationResult> getToken =  app.AcquireTokenByUsernamePassword(scopes, username, password).ExecuteAsync();
+                getToken.Wait();
+                accessToken = getToken.Result.AccessToken;
+            }
+            catch (MsalException ex) {
+
+                throw new Exception("Failed to get Access Token through ROPC", ex);
+            }
+
+
+            var services = new ServiceCollection();
             services.AddHttpClient("api", options =>
             {
-                options.BaseAddress = new Uri(Config.GetValue<string>("ApiUrl") ?? "Error");
-            });
+                options.BaseAddress = new Uri(Config.GetValue<string>("ApiUrl")!);
+                options.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", accessToken);
+            }
+            );
 
             _serviceProvider = services.BuildServiceProvider();
-
+            
         }
         //TODO = Think the below can be combined with above through builder.addservices     
         public ILocalDataAccess LocalDataAccess() { return new LocalSQLConnector(new SqlDataAccess(Config)); }
