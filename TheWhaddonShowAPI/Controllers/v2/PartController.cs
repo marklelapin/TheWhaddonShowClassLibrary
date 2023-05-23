@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyClassLibrary.LocalServerMethods;
-using System.Text.Json;
 using TheWhaddonShowClassLibrary.Models;
-using MyExtensions;
+using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,10 +18,10 @@ namespace TheWhaddonShowAPI.Controllers.v2
         private readonly IServerDataAccess _serverDataAccess;
         private readonly IServerAPIControllerService<PartUpdate> _serverAPIControllerService;
 
-        public PartController(IServerDataAccess serverDataAccess)
+        public PartController(IServerDataAccess serverDataAccess,ILogger<PartUpdate> logger)
         {
             _serverDataAccess = serverDataAccess;
-            _serverAPIControllerService = new ServerAPIControllerService<PartUpdate>(serverDataAccess);//TODO Think this should be done through dependency injection
+            _serverAPIControllerService = new ServerAPIControllerService<PartUpdate>(serverDataAccess,logger);//TODO Think this should be done through dependency injection
         }
 
         // GET: api/Part/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
@@ -33,23 +33,21 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// The update with the latest created date is the most current.
         /// 
-        /// To get data a guid or a comma separated list of guids needs to be passed in as a path parameter as shown below:
+        /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'apt/v2/Part/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0'
+        /// 'apt/v2/Part/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
         /// 
         /// The API will respond with a 404 Not Found error if no parts relate to the Ids given.
         /// 
         /// Otherwise it will return a json string of PartUpdates.
         /// 
         /// </remarks>
-        [HttpGet("{ids}")]
-        public IActionResult Get([FromRoute] string ids)
+        [HttpGet()]
+        public IActionResult Get([FromQuery] string ids)
         {
-            string output = _serverAPIControllerService.Get(ids);
+            (HttpStatusCode statusCode,string result) = _serverAPIControllerService.Get(ids);
 
-            if (output == "[]") { return NotFound(); }
-
-            return Ok(output);
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         // GET api/Part/changes/2023-05-09T10:23:56.024Z
@@ -59,7 +57,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// <remarks>
         /// To get data a date in the format 'yyyy-MM-ddThh:mm:ss.ffffff' needs to be passed as indicated below
         /// 
-        /// 'api/v2/Part/2023-05-09T10:23:56.024
+        /// 'api/v2/Part/2023-03-09T10:23:56.024
         /// 
         /// The API will respond with a 404 Not Found error if no changes have been made since this Date and Time.
         /// 
@@ -69,18 +67,19 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [HttpGet("changes/{lastSyncDate}")]
         public IActionResult GetChanges([FromRoute] DateTime lastSyncDate)
         {
-            string output = _serverAPIControllerService.GetChanges(lastSyncDate);
+            (HttpStatusCode statusCode,string result) = _serverAPIControllerService.GetChanges(lastSyncDate);
 
-            if (output == "[]") { return NotFound(); }
-
-            return Ok(output);
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         // POST api/Part/
         /// <summary>
-        /// Creates or Updates a Part(s) by posting a PartUpdate.
+        /// Creates or Updates a Part(s) by posting a PartUpdate. (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
-        /// <remarks>   
+        /// <remarks>
+        /// 
+        /// Authorisation is required to write to the central database. Use Contact above to recieve relevant ClientIds etc.
+        /// 
         /// This method is how you create or update a Part since in both cases this is done by adding an adddtional PartUpdate that supercedes the current update in the system.
         /// If a new Part is being created a new Guid needs to be created for Id.
         /// Json Text containing all properties of the update to be made must be passed in the body of the text as shown below:
@@ -134,31 +133,25 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// 
         /// </remarks>
-        /// <param name="partUpdates"></param>
-        /// <returns></returns>
         [HttpPost("updates")]
-        // [Authorize]
+        [Authorize]
         [RequiredScope("show.write")]
-        public IActionResult Post([FromBody] List<PartUpdate> partUpdates)
+        public IActionResult Post([FromBody] List<PartUpdate> updates)
         {
-            DateTime output = _serverAPIControllerService.PostUpdates(partUpdates);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.PostUpdates(updates);
 
-            if (output != DateTime.MinValue)
-            {
-                return Ok(output);
-            }
-            else
-            {
-                return NotFound();
-            }
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
 
         }
 
         // POST api/Part/conflicts
         /// <summary>
-        /// Posts a ConflictId to a specific Id and Created date of a Part.
+        /// Posts a ConflictId to a specific Id and Created date of a Part.  (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
-        /// <remarks>   
+        /// <remarks> 
+        /// 
+        /// Authorisation is required to write to the central database. Use Contact above to obtain relevant ClientIds etc.
+        /// 
         /// Conflicts identify Parts where updates exist from different sources and need to be resolved.
         /// 
         /// This adds a ConflictId to a specific PartUpdate where UpdateID and UpdateCreated match an existing Id and Created date on the central database
@@ -181,13 +174,13 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// <param name="conflicts"></param>
         /// <returns></returns>
         [HttpPost("conflicts")]
+        [Authorize]
         [RequiredScope("show.write")]
-        //[Authorize]
         public IActionResult PostConflicts([FromBody] List<Conflict> conflicts)
         {
-            _serverAPIControllerService.PostConflicts(conflicts);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.PostConflicts(conflicts);
 
-            return Ok();
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         ////// DELETE api/Part/

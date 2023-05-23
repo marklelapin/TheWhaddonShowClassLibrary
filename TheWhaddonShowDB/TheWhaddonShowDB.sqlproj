@@ -87,4 +87,7 @@
     <None Include="TheWhaddonShow.ServerTestDB.publish.xml" />
     <None Include="TheWhaddonShow.ServerAzureDB.publish.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment1.sql" />
+  </ItemGroup>
 </Project>

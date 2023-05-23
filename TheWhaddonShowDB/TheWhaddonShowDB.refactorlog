@@ -28,4 +28,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="PartIds" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="dc4780f2-9c19-4ec6-80b8-223fba7a20ff" ChangeDateTime="05/22/2023 13:57:12">
+    <Property Name="ElementName" Value="[dbo].[HealthCheck].[Title]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HealthCheck]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CheckType" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e699950b-4d84-4d04-aa0a-907f0c1737a7" ChangeDateTime="05/22/2023 13:57:22">
+    <Property Name="ElementName" Value="[dbo].[HealthCheck].[CheckType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HealthCheck]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Type" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f0575f23-4e98-4319-b1c9-e4ecbc4b7b30" ChangeDateTime="05/22/2023 13:57:27">
+    <Property Name="ElementName" Value="[dbo].[HealthCheck].[CheckDateTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HealthCheck]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="da5a54aa-00d0-49c6-833b-f145b00aa438" ChangeDateTime="05/22/2023 13:57:38">
+    <Property Name="ElementName" Value="[dbo].[HealthCheck].[DateTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HealthCheck]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="CheckDateTime" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="08b547aa-5742-4717-a078-a93ad3c81725" ChangeDateTime="05/22/2023 13:57:50">
+    <Property Name="ElementName" Value="[dbo].[HealthCheck].[CheckDateTime]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[HealthCheck]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DateTime" />
+  </Operation>
 </Operations>

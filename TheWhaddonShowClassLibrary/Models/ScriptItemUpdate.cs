@@ -1,5 +1,6 @@
 ﻿using MyClassLibrary.Interfaces;
 using MyClassLibrary.LocalServerMethods;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using TheWhaddonShowClassLibrary.StaticData;
@@ -19,10 +20,16 @@ namespace TheWhaddonShowClassLibrary.Models
         /// The order no in which this appears amongst other items with the same Parent
         /// </summary>
         public int OrderNo { get; set; }
+
         /// <summary>
         /// The type of script item this is i.e Show, Act, Scene, Line, Paragraph or Span 
         /// </summary>
+        /// [Required]
+        [RegularExpression("Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging"
+                           , ErrorMessage = "An invalid scriptItemType was given.\n" +
+                            "Valid Types:  - Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging")]
         public string Type { get; set; } = string.Empty;
+
 
         /// <summary>
         /// Title of the scene, piece of dialogue, action description etc...
@@ -40,24 +47,13 @@ namespace TheWhaddonShowClassLibrary.Models
         public List<string>? Tags { get; set; }
      
 
-        public ScriptItemUpdate(Guid id, Guid? parentId, int orderNo, string type, List<Part>? partIds = null, List<string>? tags = null) : base(id)
+        public ScriptItemUpdate(Guid id, Guid? parentId, int orderNo, string type, List<Part>? parts = null, List<string>? tags = null) : base(id)
         {
             ParentId = parentId ?? Guid.Empty;
             OrderNo = orderNo;
+            PartIds = parts?.Select(x=>x.Id).ToList();
             Type = type;
-            if (partIds == null)
-            {
-                PartIds = new List<Guid>();
-            }
-            else
-            {
-                foreach (Guid guid in partIds.Select(x => x.Id).ToList())
-                {
-                    throw new NotImplementedException(); //validateParts(guid);
-                } 
-            }
-            if (validateType(type)) Type = type;
-            Tags = tags ?? new List<string>();
+            Tags = tags;
             
         }
 
@@ -71,7 +67,7 @@ namespace TheWhaddonShowClassLibrary.Models
             IsActive = isActive;
             ParentId = parentId ;
             OrderNo = orderNo;
-            if (validateType(type)) Type = type;
+            Type = type;
             Text = text;
             PartIds = partIds ;
             Tags = tags;  
@@ -80,27 +76,9 @@ namespace TheWhaddonShowClassLibrary.Models
 
      
 
-
-
-        private bool validateType(string type)
-        {
-            if (!CategoryLists.ScriptItemTypes.Contains(type))
-            {
-                throw new ArgumentException(@$"Invalid scriptItemType of '{type}' passed into ScriptItem constructor.");
-            }
-
-            return true;
-        }
-
-        private bool validateParts(List<Guid> parts)
-        {
-            throw new NotImplementedException("inavlid part id passed in");
-        }
-
-
         public List<Part> Parts() {
             throw new NotImplementedException();
-                }
+         }
 
     }
 }

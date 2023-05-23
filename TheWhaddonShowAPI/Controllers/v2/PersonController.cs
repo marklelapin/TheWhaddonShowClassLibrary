@@ -4,6 +4,8 @@ using System.Text.Json;
 using TheWhaddonShowClassLibrary.Models;
 using MyExtensions;
 using Microsoft.AspNetCore.Authorization;
+using System.Net;
+using Microsoft.Identity.Web.Resource;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,13 +19,13 @@ namespace TheWhaddonShowAPI.Controllers.v2
         private readonly IServerDataAccess _serverDataAccess;
         private readonly IServerAPIControllerService<PersonUpdate> _serverAPIControllerService;
 
-        public PersonController(IServerDataAccess serverDataAccess)
+        public PersonController(IServerDataAccess serverDataAccess,ILogger<PersonUpdate> logger)
         {
             _serverDataAccess = serverDataAccess;
-            _serverAPIControllerService = new ServerAPIControllerService<PersonUpdate>(serverDataAccess);//TODO Think this should be done through dependency injection
+            _serverAPIControllerService = new ServerAPIControllerService<PersonUpdate>(serverDataAccess,logger);//TODO Think this should be done through dependency injection
         }
 
-        // GET: api/Person/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
+        // GET: api/Person/
         /// <summary>
         /// Gets all of the updates made to a Person(s) passed in.
         /// </summary>
@@ -32,23 +34,22 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// The update with the latest created date is the most current.
         /// 
-        /// To get data a guid or a comma separated list of guids needs to be passed in as a path parameter as shown below:
+        /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'apt/v2/Person/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0'
+        /// 'apt/v2/Person/?ids=545A9495-DB58-44EC-BA47-FD0B7E478D4A,2B3FA075-D0B5-49AB-B897-DAB1428CA500'
         /// 
         /// The API will respond with a 404 Not Found error if no persons relate to the Ids given.
         /// 
         /// Otherwise it will return a json string of PersonUpdates.
         /// 
         /// </remarks>
-        [HttpGet("{ids}")]
-        public IActionResult Get([FromRoute] string ids)
+        [HttpGet(
+            )]
+        public IActionResult Get([FromQuery] string ids)
         {
-            string output = _serverAPIControllerService.Get(ids);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.Get(ids);
 
-            if (output == "[]") { return NotFound(); }
-
-            return Ok(output);
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         // GET api/Person/changes/2023-05-09T10:23:56.024Z
@@ -58,28 +59,29 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// <remarks>
         /// To get data a date in the format 'yyyy-MM-ddThh:mm:ss.ffffff' needs to be passed as indicated below
         /// 
-        /// 'api/v2/Person/2023-05-09T10:23:56.024
+        /// 'api/v2/Person/2023-03-09T10:23:56.024
         /// 
         /// The API will respond with a 404 Not Found error if no changes have been made since this Date and Time.
         /// 
         /// Otherwise it will return a json string of PersonUpdates.
         /// </remarks>
-        
+
         [HttpGet("changes/{lastSyncDate}")]
         public IActionResult GetChanges([FromRoute] DateTime lastSyncDate)
         {
-            string output = _serverAPIControllerService.GetChanges(lastSyncDate);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.GetChanges(lastSyncDate);
 
-            if (output == "[]") { return NotFound(); }
-
-            return Ok(output);
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         // POST api/Person/
         /// <summary>
-        /// Creates or Updates a Person(s) by posting a PersonUpdate.
+        /// Creates or Updates a Person(s) by posting a PersonUpdate.  (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
-        /// <remarks>   
+        /// <remarks>
+        /// 
+        /// Authorisation is required to write to the central database. Use Contact above to obtain relevant ClientIds etc.
+        /// 
         /// This method is how you create or update a Person since in both cases this is done by adding an adddtional PersonUpdate that supercedes the current update in the system.
         /// If a new Person is being created a new Guid needs to be created for Id.
         /// 
@@ -128,30 +130,25 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// The API will return the date and time the Server was Updated if successful.  In the format 'yyyy-MM-ddThh:mm:ss.fffffff'
         ///  
         /// </remarks>
-        /// <param name="personUpdates"></param>
-        /// <returns></returns>
         [HttpPost("updates")]
-       // [Authorize]
-        public IActionResult Post([FromBody] List<PersonUpdate> personUpdates)
+        [Authorize]
+        [RequiredScope("show.write")]
+        public IActionResult Post([FromBody] List<PersonUpdate> updates)
         {
-            DateTime output = _serverAPIControllerService.PostUpdates(personUpdates);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.PostUpdates(updates);
 
-            if (output != DateTime.MinValue)
-            {
-                return Ok(output);
-            }
-            else
-            {
-                return NotFound();
-            }
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
 
         }
 
         // POST api/Person/conflicts
         /// <summary>
-        /// Posts a ConflictId to a specific Id and Created date of a Person.
+        /// Posts a ConflictId to a specific Id and Created date of a Person. (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
-        /// <remarks>   
+        /// <remarks>
+        /// 
+        /// Authorisation is required to write to the central database. Use Contact above to obtain relevant ClientIds etc.
+        ///
         /// Conflicts identify Persons where updates exist from different sources and need to be resolved.
         /// 
         /// This adds a ConflictId to a specific PersonUpdate where UpdateID and UpdateCreated match an existing Id and Created date on the central database
@@ -174,12 +171,13 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// <param name="conflicts"></param>
         /// <returns></returns>
         [HttpPost("conflicts")]
-        //[Authorize]
+        [Authorize]
+        [RequiredScope("show.write")]
         public IActionResult PostConflicts([FromBody] List<Conflict> conflicts)
         {
-            _serverAPIControllerService.PostConflicts(conflicts);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.PostConflicts(conflicts);
 
-            return Ok();
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         ////// DELETE api/Person/

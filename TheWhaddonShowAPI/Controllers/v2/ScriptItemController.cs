@@ -4,6 +4,9 @@ using System.Text.Json;
 using TheWhaddonShowClassLibrary.Models;
 using MyExtensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Identity.Web;
+using Microsoft.Identity.Web.Resource;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,10 +20,10 @@ namespace TheWhaddonShowAPI.Controllers.v2
         private readonly IServerDataAccess _serverDataAccess;
         private readonly IServerAPIControllerService<ScriptItemUpdate> _serverAPIControllerService;
 
-        public ScriptItemController(IServerDataAccess serverDataAccess)
+        public ScriptItemController(IServerDataAccess serverDataAccess,ILogger<ScriptItemUpdate> logger)
         {
             _serverDataAccess = serverDataAccess;
-            _serverAPIControllerService = new ServerAPIControllerService<ScriptItemUpdate>(serverDataAccess);//TODO Think this should be done through dependency injection
+            _serverAPIControllerService = new ServerAPIControllerService<ScriptItemUpdate>(serverDataAccess,logger);//TODO Think this should be done through dependency injection
         }
 
         // GET: api/ScriptItem/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
@@ -32,23 +35,21 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// The update with the latest created date is the most current.
         /// 
-        /// To get data a guid or a comma separated list of guids needs to be passed in as a path parameter as shown below:
+        /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'apt/v2/ScriptItem/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0'
+        /// 'apt/v2/ScriptItem/?ids=0DE2C9A4-41F7-4170-9BDF-04B7B8F64197,744BD79A-1A2B-425F-874F-315A3B3BA9F2,FC97305D-8A92-42D5-94DB-6FC9F5FF1432,ED789FA3-4B2B-41A0-A322-773ED7CE89FE,ED789FA3-4B2B-41A0-A322-773ED7CE89FE,CD42AD02-CC02-4AA4-8AB6-8C4ACB2E9858,79E604CF-7CC2-41F6-B37F-F30C76AB5F34,10DD3D80-5853-424B-999D-FB758565B03E'
         /// 
         /// The API will respond with a 404 Not Found error if no scriptItems relate to the Ids given.
         /// 
         /// Otherwise it will return a json string of ScriptItemUpdates.
         /// 
         /// </remarks>
-        [HttpGet("{ids}")]
-        public IActionResult Get([FromRoute] string ids)
+        [HttpGet]
+        public IActionResult Get([FromQuery] string ids)
         {
-            string output = _serverAPIControllerService.Get(ids);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.Get(ids);
 
-            if (output == "[]") { return NotFound(); }
-
-            return Ok(output);
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         // GET api/ScriptItem/changes/2023-05-09T10:23:56.024Z
@@ -64,22 +65,23 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// Otherwise it will return a json string of ScriptItemUpdates.
         /// </remarks>
-        
+
         [HttpGet("changes/{lastSyncDate}")]
         public IActionResult GetChanges([FromRoute] DateTime lastSyncDate)
         {
-            string output = _serverAPIControllerService.GetChanges(lastSyncDate);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.GetChanges(lastSyncDate);
 
-            if (output == "[]") { return NotFound(); }
-
-            return Ok(output);
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         // POST api/ScriptItem/
         /// <summary>
-        /// Creates or Updates a ScriptItem(s) by posting a ScriptItemUpdate.
+        /// Creates or Updates a ScriptItem(s) by posting a ScriptItemUpdate. (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
         /// <remarks>   
+        /// 
+        /// Authorisation is required to write to the central database. Use Contact above to obtain relevant ClientIds etc.
+        /// 
         /// This method is how you create or update a ScriptItem since in both cases this is done by adding an adddtional ScriptItemUpdate that supercedes the current update in the system.
         /// If a new Script Item is being created a new GUID for Id needs to be created.
         /// 
@@ -93,7 +95,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         ///     
         ///     ,"OrderNo":1
         ///     
-        ///     ,"Type":"Synopsis"
+        ///     ,"Type":"Dialogue"
         ///     
         ///     ,"Text":"He said something"
         ///     
@@ -120,30 +122,25 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// The API will return the date and time the Server was Updated if successful.  In the format 'yyyy-MM-ddThh:mm:ss.fffffff' 
         /// 
         /// </remarks>
-        /// <param name="scriptItemUpdates"></param>
-        /// <returns></returns>
         [HttpPost("updates")]
-       // [Authorize]
-        public IActionResult Post([FromBody] List<ScriptItemUpdate> scriptItemUpdates)
+        [Authorize]
+        [RequiredScope("show.write")]
+        public IActionResult Post([FromBody] List<ScriptItemUpdate> updates)
         {
-            DateTime output = _serverAPIControllerService.PostUpdates(scriptItemUpdates);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.PostUpdates(updates);
 
-            if (output != DateTime.MinValue)
-            {
-                return Ok(output);
-            }
-            else
-            {
-                return NotFound();
-            }
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
 
         }
 
         // POST api/ScriptItem/conflicts
         /// <summary>
-        /// Posts a ConflictId to a specific Id and Created date of a ScriptItem.
+        /// Posts a ConflictId to a specific Id and Created date of a ScriptItem.  (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
         /// <remarks>   
+        /// 
+        /// Authorisation is required to write to the central database. Use Contact above to obtain relevant ClientIds etc.
+        /// 
         /// Conflicts identify ScriptItems where updates exist from different sources and need to be resolved.
         /// 
         /// This adds a ConflictId to a specific ScriptItemUpdate where UpdateID and UpdateCreated match an existing Id and Created date on the central database
@@ -166,12 +163,13 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// <param name="conflicts"></param>
         /// <returns></returns>
         [HttpPost("conflicts")]
-        //[Authorize]
+        [Authorize]
+        [RequiredScope("show.write")]
         public IActionResult PostConflicts([FromBody] List<Conflict> conflicts)
         {
-            _serverAPIControllerService.PostConflicts(conflicts);
+            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.PostConflicts(conflicts);
 
-            return Ok();
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
         ////// DELETE api/ScriptItem/
