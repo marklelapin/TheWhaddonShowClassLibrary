@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowTesting", "Th
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClassLibrary.Tests", "..\MyClassLibrarySolution\MyClassLibrary.Tests\MyClassLibrary.Tests.csproj", "{69C69202-1F87-475C-A685-B26F3FF5692D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheWhaddonShowAPI", "TheWhaddonShowAPI\TheWhaddonShowAPI.csproj", "{077F46B0-2878-440A-A99A-83520EEF6B84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowAPI", "TheWhaddonShowAPI\TheWhaddonShowAPI.csproj", "{077F46B0-2878-440A-A99A-83520EEF6B84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
