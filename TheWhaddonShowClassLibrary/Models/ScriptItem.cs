@@ -10,7 +10,7 @@ namespace TheWhaddonShowClassLibrary.Models
 {
     public class ScriptItem : LocalServerIdentity<ScriptItemUpdate>
     {
-        public ScriptItem(LocalServerEngine<ScriptItemUpdate> localServerEngine, Guid? id = null) : base(localServerEngine, id)
+        public ScriptItem(ILocalServerEngine<ScriptItemUpdate> localServerEngine, Guid? id = null) : base(localServerEngine, id)
         {
         }
     }

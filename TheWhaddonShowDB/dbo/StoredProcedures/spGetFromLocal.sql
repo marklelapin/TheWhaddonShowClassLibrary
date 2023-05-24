@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[spGetFromLocal]
 	@UpdateIds nvarchar(max)
 	,@UpdateType varchar(255)
+	,@LatestOnly bit = 0
 	,@Output nvarchar(max) OUTPUT
 AS
 	
@@ -17,7 +18,7 @@ AS
 		SELECT DISTINCT CAST(value AS uniqueidentifier)
 				FROM STRING_SPLIT(@UpdateIds,',')
 	END
-	
+
 
 	IF @UpdateType = 'PartUpdate'
 	BEGIN

@@ -6,6 +6,7 @@ using System.Text;
 
 using System.Net;
 using MyClassLibrary.Extensions;
+using System.Runtime.CompilerServices;
 
 namespace TheWhaddonShowClassLibrary.DataAccess;
 
@@ -36,19 +37,19 @@ public class APIServerDataAccess : IServerDataAccess
 
 
 
-    public void DeleteFromServer<T>(List<T> updates) where T : LocalServerIdentityUpdate
+    public async Task  DeleteFromServer<T>(List<T> updates) where T : LocalServerIdentityUpdate
     {
-        throw new NotImplementedException();
+        await Task.Run(() => throw new NotImplementedException());
     }
 
-    public (List<T> changesFromServer, DateTime lastUpdatedOnServer) GetChangesFromServer<T>(DateTime LastSyncDate) where T : LocalServerIdentityUpdate
+    public async Task<(List<T> changesFromServer, DateTime lastUpdatedOnServer)> GetChangesFromServer<T>(DateTime LastSyncDate) where T : LocalServerIdentityUpdate
     {
         
         DateTime outputLastUpdated;
 
         string requestUri = ControllerPrefix<T>() + $"/changes/{LastSyncDate.ToString("yyyy-MM-ddTHH:mm:ss.fffffff")}";
         
-        (List<T>? outputChanges, HttpStatusCode statusCode) = GetResult(requestUri).ConvertTo<List<T>>();
+        (List<T>? outputChanges, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
 
         outputLastUpdated = (outputChanges ?? new List<T>()).Max(x => x.UpdatedOnServer) ?? DateTime.MinValue;
         
@@ -58,35 +59,38 @@ public class APIServerDataAccess : IServerDataAccess
 
 
 
-    public List<T> GetFromServer<T>(List<Guid>? ids) where T : LocalServerIdentityUpdate
+    public async Task<List<T>> GetFromServer<T>(List<Guid>? ids) where T : LocalServerIdentityUpdate
     {
         string requestUri = ControllerPrefix<T>() + $"/{string.Join(",",ids)}";
 
-        (List<T>? output, HttpStatusCode statusCode) = GetResult(requestUri).ConvertTo<List<T>>();
+        (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
 
         return output ?? new List<T>();
     }
 
-    public void SaveConflictIdsToServer<T>(List<Conflict> conflicts) where T: LocalServerIdentityUpdate
+    public async Task SaveConflictIdsToServer<T>(List<Conflict> conflicts) where T: LocalServerIdentityUpdate
     {
         string requestUri = ControllerPrefix<T>() +"/conflicts";
         string jsonObjects = JsonSerializer.Serialize(conflicts);
 
-        PostResult(requestUri, jsonObjects);
+        await PostResult(requestUri, jsonObjects);
     }
 
 
 
 
 
-    public DateTime SaveToServer<T>(List<T> updates) where T : LocalServerIdentityUpdate
+    public async Task<DateTime> SaveToServer<T>(List<T> updates) where T : LocalServerIdentityUpdate
     {
         string requestUri = ControllerPrefix<T>()+"/updates";
         string jsonContent = JsonSerializer.Serialize(updates);
 
-       (DateTime updatedOnServer,HttpStatusCode statusCode) = PostResult(requestUri, jsonContent).ConvertTo<DateTime>();
+       var postTask = PostResult(requestUri, jsonContent);
+
+        (DateTime updatedOnServer, HttpStatusCode statusCode) = await PostResult(requestUri,jsonContent).ConvertToAsync<DateTime>();
 
         AddUpdatedOnServer(updates, updatedOnServer);
+
         return updatedOnServer;
 
 
@@ -109,17 +113,17 @@ public class APIServerDataAccess : IServerDataAccess
 
     }
 
-    private Task<HttpResponseMessage> GetResult(string requestUri)
+    private async Task<HttpResponseMessage> GetResult(string requestUri)
     {
         var client = CreateHttpClient();
-        Task<HttpResponseMessage> getTask = Task.Run(() => client.GetAsync(requestUri).Result);
+        var getTask =  await  client.GetAsync(requestUri);
         return getTask;
     }
 
-    private Task<HttpResponseMessage> PostResult(string requestUri,string jsonContent)
+    private async Task<HttpResponseMessage> PostResult(string requestUri,string jsonContent)
     {
         var client = CreateHttpClient();   
-        Task<HttpResponseMessage> postTask = Task.Run(() => client.PostAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json")));
+        var postTask = await client.PostAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
         return postTask;
     }
 

@@ -43,9 +43,9 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// </remarks>
         [HttpGet()]
-        public IActionResult Get([FromQuery] string ids)
+        public async Task<IActionResult> Get([FromQuery] string ids)
         {
-            (HttpStatusCode statusCode,string result) = _serverAPIControllerService.Get(ids);
+            (HttpStatusCode statusCode,string result) = await _serverAPIControllerService.Get(ids);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
@@ -65,9 +65,9 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// </remarks>
         
         [HttpGet("changes/{lastSyncDate}")]
-        public IActionResult GetChanges([FromRoute] DateTime lastSyncDate)
+        public async Task<IActionResult> GetChanges([FromRoute] DateTime lastSyncDate)
         {
-            (HttpStatusCode statusCode,string result) = _serverAPIControllerService.GetChanges(lastSyncDate);
+            (HttpStatusCode statusCode,string result) = await _serverAPIControllerService.GetChanges(lastSyncDate);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
@@ -136,9 +136,9 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [HttpPost("updates")]
         [Authorize]
         [RequiredScope("show.write")]
-        public IActionResult Post([FromBody] List<PartUpdate> updates)
+        public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates)
         {
-            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.PostUpdates(updates);
+            (HttpStatusCode statusCode, string result) = await _serverAPIControllerService.PostUpdates(updates);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
 
@@ -176,9 +176,9 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [HttpPost("conflicts")]
         [Authorize]
         [RequiredScope("show.write")]
-        public IActionResult PostConflicts([FromBody] List<Conflict> conflicts)
+        public async Task<IActionResult> PostConflicts([FromBody] List<Conflict> conflicts)
         {
-            (HttpStatusCode statusCode, string result) = _serverAPIControllerService.PostConflicts(conflicts);
+            (HttpStatusCode statusCode, string result) = await _serverAPIControllerService.PostConflicts(conflicts);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }

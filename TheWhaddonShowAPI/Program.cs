@@ -93,7 +93,7 @@ builder.Services.AddHealthChecks();
 
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton<IServerDataAccess>(provider => new ServerSQLConnector(provider.GetService<ISqlDataAccess>()!));
-builder.Services.
+
 
 
 
