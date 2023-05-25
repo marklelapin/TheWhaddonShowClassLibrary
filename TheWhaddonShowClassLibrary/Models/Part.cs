@@ -6,14 +6,16 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using MyClassLibrary.LocalServerMethods;
+using MyClassLibrary.LocalServerMethods.Interfaces;
+using MyClassLibrary.LocalServerMethods.Models;
 
 namespace TheWhaddonShowClassLibrary.Models
 {
-    public class Part : LocalServerIdentity<PartUpdate>
+    public class Part : LocalServerModel<PartUpdate>, ILocalServerModel<PartUpdate>
     {
-
-        public Part(ILocalServerEngine<PartUpdate> localServerEngine, Guid? id = null) : base(localServerEngine, id)
+        public Part() : base()
         {
+
         }
     }
 }

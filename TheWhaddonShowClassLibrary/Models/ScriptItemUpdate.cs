@@ -1,16 +1,14 @@
-﻿using MyClassLibrary.Interfaces;
-using MyClassLibrary.LocalServerMethods;
+﻿
+using MyClassLibrary.LocalServerMethods.Models;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
 using System.Text.Json.Serialization;
-using TheWhaddonShowClassLibrary.StaticData;
 
 namespace TheWhaddonShowClassLibrary.Models
 {
     /// <summary>
     /// Base Class for all ScriptItems
     /// </summary>
-    public class ScriptItemUpdate : LocalServerIdentityUpdate//, IHasParentId<Guid>
+    public class ScriptItemUpdate : LocalServerModelUpdate//, IHasParentId<Guid>
     {
         /// <summary>
         /// The Id of the parent script Item of this script item.
@@ -46,6 +44,11 @@ namespace TheWhaddonShowClassLibrary.Models
         /// </summary>
         public List<string>? Tags { get; set; }
      
+        public ScriptItemUpdate()
+        {
+
+        }
+
 
         public ScriptItemUpdate(Guid id, Guid? parentId, int orderNo, string type, List<Part>? parts = null, List<string>? tags = null) : base(id)
         {

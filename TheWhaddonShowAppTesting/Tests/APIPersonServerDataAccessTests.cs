@@ -1,5 +1,4 @@
-﻿using MyClassLibrary.LocalServerMethods;
-using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
+﻿using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
 using MyClassLibrary.Tests.LocalServerMethods.Services;
 using MyClassLibrary.Tests.LocalServerMethods;
 using System;
@@ -11,6 +10,7 @@ using TheWhaddonShowClassLibrary.Models;
 using TheWhaddonShowTesting.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using MyClassLibrary.LocalServerMethods.Models;
 
 namespace TheWhaddonShowTesting.Tests
 {
@@ -18,9 +18,9 @@ namespace TheWhaddonShowTesting.Tests
     {
         
         
-        private static IServiceConfiguration _serviceConfiguration = new APITestServiceConfiguration();
+        private static IServiceConfiguration<PersonUpdate> _serviceConfiguration = new APITestServiceConfiguration<PersonUpdate>();
         
-        private static IServerDataAccessTests<PersonUpdate> _serverDataAccessTests = _serviceConfiguration.ServerDataAccessTests<PersonUpdate>();
+        private static IServerDataAccessTests<PersonUpdate> _serverDataAccessTests = _serviceConfiguration.ServerDataAccessTests();
         
 
         public static object[][] SaveTestData = _serverDataAccessTests.SaveTestData();

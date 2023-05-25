@@ -1,17 +1,14 @@
 ﻿using MyClassLibrary.LocalServerMethods;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Text;
-using System.Threading.Tasks;
+using MyClassLibrary.LocalServerMethods.Interfaces;
+using MyClassLibrary.LocalServerMethods.Models;
 
 namespace TheWhaddonShowClassLibrary.Models
 {
-    public class ScriptItem : LocalServerIdentity<ScriptItemUpdate>
+    public class ScriptItem : LocalServerModel<ScriptItemUpdate>, ILocalServerModel<ScriptItemUpdate>
     {
-        public ScriptItem(ILocalServerEngine<ScriptItemUpdate> localServerEngine, Guid? id = null) : base(localServerEngine, id)
+        public ScriptItem() : base()
         {
+
         }
     }
 }

@@ -9,13 +9,13 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "TheWhaddonShowDB", "TheWhad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClassLibrary", "..\MyClassLibrarySolution\MyClassLibrary\MyClassLibrary.csproj", "{625FD903-5BB9-493E-BC85-A61465B8F66B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowConsoleUI", "TheWhaddonShowConsoleUI\TheWhaddonShowConsoleUI.csproj", "{929ADE07-6AAD-4DF7-894E-2154CDC902CD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowTesting", "TheWhaddonShowAppTesting\TheWhaddonShowTesting.csproj", "{4211511D-0E8A-49A5-8055-3FA12BA226EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyClassLibrary.Tests", "..\MyClassLibrarySolution\MyClassLibrary.Tests\MyClassLibrary.Tests.csproj", "{69C69202-1F87-475C-A685-B26F3FF5692D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowAPI", "TheWhaddonShowAPI\TheWhaddonShowAPI.csproj", "{077F46B0-2878-440A-A99A-83520EEF6B84}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheWhaddonShowRazorApp", "TheWhaddonShowRazorApp\TheWhaddonShowRazorApp.csproj", "{E19859CF-F7BC-413C-A101-AE802C22F562}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,6 @@ Global
 		{625FD903-5BB9-493E-BC85-A61465B8F66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{625FD903-5BB9-493E-BC85-A61465B8F66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{625FD903-5BB9-493E-BC85-A61465B8F66B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{929ADE07-6AAD-4DF7-894E-2154CDC902CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{929ADE07-6AAD-4DF7-894E-2154CDC902CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{929ADE07-6AAD-4DF7-894E-2154CDC902CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{929ADE07-6AAD-4DF7-894E-2154CDC902CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4211511D-0E8A-49A5-8055-3FA12BA226EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4211511D-0E8A-49A5-8055-3FA12BA226EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4211511D-0E8A-49A5-8055-3FA12BA226EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,6 +49,10 @@ Global
 		{077F46B0-2878-440A-A99A-83520EEF6B84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{077F46B0-2878-440A-A99A-83520EEF6B84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{077F46B0-2878-440A-A99A-83520EEF6B84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E19859CF-F7BC-413C-A101-AE802C22F562}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E19859CF-F7BC-413C-A101-AE802C22F562}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E19859CF-F7BC-413C-A101-AE802C22F562}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E19859CF-F7BC-413C-A101-AE802C22F562}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,6 @@
 ﻿using MyClassLibrary.LocalServerMethods;
+using MyClassLibrary.LocalServerMethods.Interfaces;
+using MyClassLibrary.LocalServerMethods.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +9,13 @@ using System.Threading.Tasks;
 
 namespace TheWhaddonShowClassLibrary.Models
 {
-    public class Person : LocalServerIdentity<PersonUpdate>
+    public class Person : LocalServerModel<PersonUpdate>, ILocalServerModel<PersonUpdate>
     {
-        public Person(ILocalServerEngine<PersonUpdate> localServerEngine, Guid? id = null) : base(localServerEngine, id)
+        
+        public Person() : base()
         {
+
         }
+     
     }
 }

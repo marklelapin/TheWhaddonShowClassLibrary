@@ -1,16 +1,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MyClassLibrary.DataAccessMethods;
-using MyClassLibrary.LocalServerMethods;
-using MyClassLibrary.Tests.LocalServerMethods;
 using System.Reflection;
-using System.Text;
-using TheWhaddonShowClassLibrary.Models;
 using Microsoft.Identity.Web;
-using Microsoft.AspNetCore.Authorization;
-using MyClassLibrary.Configuration;
 using MyClassLibrary.Extensions;
+using MyClassLibrary.LocalServerMethods.Interfaces;
+using MyClassLibrary.LocalServerMethods.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,8 +87,8 @@ builder.Services.AddHealthChecks();
 
 
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
-builder.Services.AddSingleton<IServerDataAccess>(provider => new ServerSQLConnector(provider.GetService<ISqlDataAccess>()!));
-
+builder.Services.AddSingleton(typeof(IServerDataAccess<>),typeof(ServerSQLConnector<>));
+builder.Services.AddSingleton(typeof(IServerAPIControllerService<>),typeof(ServerAPIControllerService<>));
 
 
 

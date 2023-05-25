@@ -7,12 +7,14 @@ using System.Text;
 using System.Net;
 using MyClassLibrary.Extensions;
 using System.Runtime.CompilerServices;
+using MyClassLibrary.LocalServerMethods.Interfaces;
+using MyClassLibrary.LocalServerMethods.Models;
 
 namespace TheWhaddonShowClassLibrary.DataAccess;
 
-public class APIServerDataAccess : IServerDataAccess
+public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServerModelUpdate
 {
-    
+    //TODO Test APIServerDataAccess with Authentication
     
     private IHttpClientFactory _httpClientFactory;
 
@@ -21,7 +23,7 @@ public class APIServerDataAccess : IServerDataAccess
         _httpClientFactory = httpClientFactory;
     }
 
-    private string ControllerPrefix<T>()
+    private string ControllerPrefix()
     {
         string output;
 
@@ -37,17 +39,17 @@ public class APIServerDataAccess : IServerDataAccess
 
 
 
-    public async Task  DeleteFromServer<T>(List<T> updates) where T : LocalServerIdentityUpdate
+    public async Task  DeleteFromServer(List<T> updates)
     {
         await Task.Run(() => throw new NotImplementedException());
     }
 
-    public async Task<(List<T> changesFromServer, DateTime lastUpdatedOnServer)> GetChangesFromServer<T>(DateTime LastSyncDate) where T : LocalServerIdentityUpdate
+    public async Task<(List<T> changesFromServer, DateTime lastUpdatedOnServer)> GetChangesFromServer(DateTime LastSyncDate)
     {
         
         DateTime outputLastUpdated;
 
-        string requestUri = ControllerPrefix<T>() + $"/changes/{LastSyncDate.ToString("yyyy-MM-ddTHH:mm:ss.fffffff")}";
+        string requestUri = ControllerPrefix() + $"/changes/{LastSyncDate.ToString("yyyy-MM-ddTHH:mm:ss.fffffff")}";
         
         (List<T>? outputChanges, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
 
@@ -59,18 +61,18 @@ public class APIServerDataAccess : IServerDataAccess
 
 
 
-    public async Task<List<T>> GetFromServer<T>(List<Guid>? ids) where T : LocalServerIdentityUpdate
+    public async Task<List<T>> GetFromServer(List<Guid>? ids)
     {
-        string requestUri = ControllerPrefix<T>() + $"/{string.Join(",",ids)}";
+        string requestUri = ControllerPrefix() + $"/{string.Join(",",ids)}";
 
         (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
 
         return output ?? new List<T>();
     }
 
-    public async Task SaveConflictIdsToServer<T>(List<Conflict> conflicts) where T: LocalServerIdentityUpdate
+    public async Task SaveConflictIdsToServer(List<Conflict> conflicts) 
     {
-        string requestUri = ControllerPrefix<T>() +"/conflicts";
+        string requestUri = ControllerPrefix() +"/conflicts";
         string jsonObjects = JsonSerializer.Serialize(conflicts);
 
         await PostResult(requestUri, jsonObjects);
@@ -80,9 +82,9 @@ public class APIServerDataAccess : IServerDataAccess
 
 
 
-    public async Task<DateTime> SaveToServer<T>(List<T> updates) where T : LocalServerIdentityUpdate
+    public async Task<DateTime> SaveToServer(List<T> updates)
     {
-        string requestUri = ControllerPrefix<T>()+"/updates";
+        string requestUri = ControllerPrefix()+"/updates";
         string jsonContent = JsonSerializer.Serialize(updates);
 
        var postTask = PostResult(requestUri, jsonContent);
@@ -132,7 +134,7 @@ public class APIServerDataAccess : IServerDataAccess
       return _httpClientFactory.CreateClient("api");
     }
 
-    private void AddUpdatedOnServer<T>(List<T> updates,DateTime updatedOnServer) where T : LocalServerIdentityUpdate
+    private void AddUpdatedOnServer<T>(List<T> updates,DateTime updatedOnServer) where T : LocalServerModelUpdate
     {
         foreach (var update in updates) {
             update.UpdatedOnServer = updatedOnServer;

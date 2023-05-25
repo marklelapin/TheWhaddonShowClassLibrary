@@ -1,20 +1,15 @@
-﻿using MyClassLibrary.LocalServerMethods;
-using MyClassLibrary.Tests.LocalServerMethods;
+﻿
+using MyClassLibrary.LocalServerMethods.Models;
 using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
 using MyClassLibrary.Tests.LocalServerMethods.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using TheWhaddonShowClassLibrary.Models;
-using TheWhaddonShowTesting.Configuration;
 
 namespace TheWhaddonShowTesting.Tests
 {
     public class ScriptItemLocalDataAccessTests
     {
-        private static IServiceConfiguration _serviceConfiguration = new Configuration.SQLTestServiceConfiguration();
+        private static IServiceConfiguration<ScriptItemUpdate> _serviceConfiguration = new Configuration.SQLTestServiceConfiguration<ScriptItemUpdate>();
 
         private static ILocalDataAccessTests<ScriptItemUpdate> _localDataAccessTests = new LocalDataAccessTestsService<ScriptItemUpdate>(_serviceConfiguration);
 

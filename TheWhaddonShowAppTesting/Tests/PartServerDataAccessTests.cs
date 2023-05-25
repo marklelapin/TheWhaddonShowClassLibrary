@@ -1,5 +1,4 @@
-﻿using MyClassLibrary.LocalServerMethods;
-using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
+﻿using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
 using MyClassLibrary.Tests.LocalServerMethods.Services;
 using MyClassLibrary.Tests.LocalServerMethods;
 using System;
@@ -9,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
 using TheWhaddonShowTesting.Configuration;
+using MyClassLibrary.LocalServerMethods.Models;
 
 namespace TheWhaddonShowTesting.Tests
 {
     public class PartServerDataAccessTests
     {
-        private static IServiceConfiguration _serviceConfiguration = new Configuration.SQLTestServiceConfiguration();
+        private static IServiceConfiguration<PartUpdate> _serviceConfiguration = new Configuration.SQLTestServiceConfiguration<PartUpdate>();
 
         private static IServerDataAccessTests<PartUpdate> _serverDataAccessTests = new ServerDataAccessTestsService<PartUpdate>(_serviceConfiguration);
 

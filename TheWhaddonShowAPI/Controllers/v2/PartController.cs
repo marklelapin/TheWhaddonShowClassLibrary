@@ -4,6 +4,8 @@ using TheWhaddonShowClassLibrary.Models;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
+using MyClassLibrary.LocalServerMethods.Interfaces;
+using MyClassLibrary.LocalServerMethods.Models;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -15,13 +17,12 @@ namespace TheWhaddonShowAPI.Controllers.v2
     [ApiVersion("2.0")]
     public class PartController : ControllerBase
     {
-        private readonly IServerDataAccess _serverDataAccess;
-        private readonly IServerAPIControllerService<PartUpdate> _serverAPIControllerService;
+    
+        private readonly IServerAPIControllerService<PartUpdate> _controllerService;
 
-        public PartController(IServerDataAccess serverDataAccess,ILogger<PartUpdate> logger)
+        public PartController(IServerAPIControllerService<PartUpdate> controllerService)
         {
-            _serverDataAccess = serverDataAccess;
-            _serverAPIControllerService = new ServerAPIControllerService<PartUpdate>(serverDataAccess,logger);//TODO Think this should be done through dependency injection
+           _controllerService = controllerService;
         }
 
         // GET: api/Part/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
@@ -45,7 +46,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [HttpGet()]
         public async Task<IActionResult> Get([FromQuery] string ids)
         {
-            (HttpStatusCode statusCode,string result) = await _serverAPIControllerService.Get(ids);
+            (HttpStatusCode statusCode,string result) = await _controllerService.Get(ids);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
@@ -67,7 +68,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [HttpGet("changes/{lastSyncDate}")]
         public async Task<IActionResult> GetChanges([FromRoute] DateTime lastSyncDate)
         {
-            (HttpStatusCode statusCode,string result) = await _serverAPIControllerService.GetChanges(lastSyncDate);
+            (HttpStatusCode statusCode,string result) = await _controllerService.GetChanges(lastSyncDate);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
@@ -138,7 +139,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [RequiredScope("show.write")]
         public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates)
         {
-            (HttpStatusCode statusCode, string result) = await _serverAPIControllerService.PostUpdates(updates);
+            (HttpStatusCode statusCode, string result) = await _controllerService.PostUpdates(updates);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
 
@@ -178,7 +179,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [RequiredScope("show.write")]
         public async Task<IActionResult> PostConflicts([FromBody] List<Conflict> conflicts)
         {
-            (HttpStatusCode statusCode, string result) = await _serverAPIControllerService.PostConflicts(conflicts);
+            (HttpStatusCode statusCode, string result) = await _controllerService.PostConflicts(conflicts);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }

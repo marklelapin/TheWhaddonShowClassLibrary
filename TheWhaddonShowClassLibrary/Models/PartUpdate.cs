@@ -1,4 +1,5 @@
-﻿using MyClassLibrary.LocalServerMethods;
+﻿
+using MyClassLibrary.LocalServerMethods.Models;
 using System.Text.Json.Serialization;
 
 namespace TheWhaddonShowClassLibrary.Models
@@ -6,22 +7,29 @@ namespace TheWhaddonShowClassLibrary.Models
     /// <summary>
     /// An update made to a part.
     /// </summary>
-    public class PartUpdate : LocalServerIdentityUpdate
+    public class PartUpdate : LocalServerModelUpdate
     {
         /// <summary>
         /// The name of the part.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         
         /// <summary>
         /// The person playing the part
         /// </summary>
-        public Guid PersonId { get;}
+        public Guid? PersonId { get;}
 
         /// <summary>
         /// List of additional Tags that can be associated with the Part
         /// </summary>
         public List<string>? Tags { get;}
+
+
+
+        public PartUpdate ()
+        {
+
+        }
 
         /// <summary>
         /// 
@@ -35,7 +43,7 @@ namespace TheWhaddonShowClassLibrary.Models
 
         [JsonConstructor]
         
-        public PartUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, string name, List<string>? tags, Guid personID) : base(id)
+        public PartUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, string name, List<string>? tags, Guid? personID) : base(id)
         {
             Id = id;
             Created = created;

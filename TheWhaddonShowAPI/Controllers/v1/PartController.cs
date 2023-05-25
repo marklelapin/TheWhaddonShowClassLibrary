@@ -2,6 +2,9 @@
 using MyClassLibrary.LocalServerMethods;
 using TheWhaddonShowClassLibrary.Models;
 using System.Net;
+using MyClassLibrary.LocalServerMethods.Interfaces;
+using MyClassLibrary.LocalServerMethods.Models;
+
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -13,10 +16,10 @@ namespace TheWhaddonShowAPI.Controllers.v1
     [ApiVersion("1.0")]
     public class PartController : ControllerBase
     {
-        private readonly IServerDataAccess _serverDataAccess;
+        private readonly IServerDataAccess<PartUpdate> _serverDataAccess;
         private readonly IServerAPIControllerService<PartUpdate> _serverAPIControllerService;
 
-        public PartController(IServerDataAccess serverDataAccess, ILogger<PartUpdate> logger)
+        public PartController(IServerDataAccess<PartUpdate> serverDataAccess, ILogger<PartUpdate> logger)
         {
             _serverDataAccess = serverDataAccess;
             _serverAPIControllerService = new ServerAPIControllerService<PartUpdate>(serverDataAccess,logger);//TODO Think this should be done through dependency injection
