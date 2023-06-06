@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyClassLibrary.LocalServerMethods;
 using TheWhaddonShowClassLibrary.Models;
 using System.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
+
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,55 +25,136 @@ namespace TheWhaddonShowAPI.Controllers.v2
            _controllerService = controllerService;
         }
 
-        // GET: api/Part/0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
+
+
+
+
+
+
+        // GET: api/Part/latest/?ids=0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
         /// <summary>
-        /// Gets all of the updates made to a Part(s) passed in.
+        /// Gets the latest updates of the Part Id(s) passed in.
         /// </summary>
         /// <remarks>
-        /// This gives a history of all updates made to the Part(s).
-        /// 
-        /// The update with the latest created date is the most current.
-        /// 
+        ///
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'apt/v2/Part/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/Part/latest/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 
+        /// 'api/v2/Part/latest/?ids=all   will return the latest update for each and every Part.
+        /// 
+        ///  
         /// 
         /// The API will respond with a 404 Not Found error if no parts relate to the Ids given.
         /// 
         /// Otherwise it will return a json string of PartUpdates.
         /// 
         /// </remarks>
-        [HttpGet()]
-        public async Task<IActionResult> Get([FromQuery] string ids)
+        [HttpGet("latest")]
+        public async Task<IActionResult> GetLatest([FromQuery] string ids)
         {
-            (HttpStatusCode statusCode,string result) = await _controllerService.Get(ids);
+            (HttpStatusCode statusCode, string result) = await _controllerService.GetUpdates(ids,true);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
-        // GET api/Part/changes/2023-05-09T10:23:56.024Z
+
+
+
+
+        // GET: api/Part/history/?ids=0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
         /// <summary>
-        /// Gets all the updates made to any Part since the lastSyncDate passed in.
+        /// Gets all of the updates made to a Part(s) passed in.
         /// </summary>
         /// <remarks>
-        /// To get data a date in the format 'yyyy-MM-ddThh:mm:ss.ffffff' needs to be passed as indicated below
+        /// This gives a history of all updates made to the Part(s).
         /// 
-        /// 'api/v2/Part/2023-03-09T10:23:56.024
+        /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// The API will respond with a 404 Not Found error if no changes have been made since this Date and Time.
+        /// 'api/v2/Part/history/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 
+        /// 'api/v2/Part/history/?ids=all    will return all updatess for all Parts.
+        /// 
+        /// 
+        /// 
+        /// The API will respond with a 404 Not Found error if no parts relate to the Ids given.
+        /// 
+        /// Otherwise it will return a json string of PartUpdates.
+        /// 
+        /// </remarks>
+        [HttpGet("history")]
+        public async Task<IActionResult> GetHistory([FromQuery] string ids)
+        {
+            (HttpStatusCode statusCode,string result) = await _controllerService.GetUpdates(ids,false);
+
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
+        }
+
+
+
+
+
+
+        // GET: api/Part/conflicts/?ids=0F93A0CF-F96E-4045-8CEB-12EDCAA3A15F,4384C339-F749-47A0-B684-C48C67F3C5D0
+        /// <summary>
+        /// Gets all of the updates conflicting with the latest update for the PartId(s) passed in.
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
+        /// 
+        /// 'api/v2/Part/conflicted/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 
+        /// 'api/v2/Part/conflicts/?ids=all    will return all currently conflicted updates for all Parts.
+        /// 
+        /// 
+        /// 
+        /// The API will respond with a 404 Not Found error if none of the Parts have conflicting updaes.
+        /// 
+        /// Otherwise it will return a json string of PartUpdates.
+        /// 
+        /// </remarks>
+        [HttpGet("conflicts")]
+        public async Task<IActionResult> GetConflicts([FromQuery] string? ids)
+        {
+            (HttpStatusCode statusCode, string result) = await _controllerService.GetConflictedUpdates(ids);
+
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
+        }
+
+
+
+
+
+
+        // GET api/Part/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        /// <summary>
+        /// Gets all Part updates from the server that haven't been saved to the local copy.
+        /// </summary>
+        /// <remarks>
+        /// A Guid (CopyId) identifying the unique local copy of the data needs to be passed in.
+        /// 
+        /// 'api/v2/Part/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        /// 
+        /// 
+        /// The API will respond with a 404 Not Found error if no updates have been made since the local copy was last fully synced.
         /// 
         /// Otherwise it will return a json string of PartUpdates.
         /// </remarks>
-        
-        [HttpGet("changes/{lastSyncDate}")]
-        public async Task<IActionResult> GetChanges([FromRoute] DateTime lastSyncDate)
+
+        [HttpGet("unsynced/{copyId}")]
+        public async Task<IActionResult> GetUnsynced([FromRoute] Guid copyId)
         {
-            (HttpStatusCode statusCode,string result) = await _controllerService.GetChanges(lastSyncDate);
+            (HttpStatusCode statusCode,string result) = await _controllerService.GetUnsyncedUpdates(copyId);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
-        // POST api/Part/
+
+
+
+
+        // POST api/Part/updates
         /// <summary>
         /// Creates or Updates a Part(s) by posting a PartUpdate. (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -83,7 +164,11 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// This method is how you create or update a Part since in both cases this is done by adding an adddtional PartUpdate that supercedes the current update in the system.
         /// If a new Part is being created a new Guid needs to be created for Id.
-        /// Json Text containing all properties of the update to be made must be passed in the body of the text as shown below:
+        /// 
+        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// 
+        /// 
+        /// Json Text containing all properties of the update to be made must be passed in the BODY of the text as shown below:
         /// 
         /// 
         /// [
@@ -129,60 +214,76 @@ namespace TheWhaddonShowAPI.Controllers.v2
         ///             } 
         ///             
         /// ]
-        /// 
-        /// The API will return the date and time the Server was Updated if successful.  In the format 'yyyy-MM-ddThh:mm:ss.fffffff'
-        /// 
-        /// 
+        /// The API will return ServerToLocalPostBack info in json that should be used to update local storage and confirm the save to server was successful.
+        ///  
         /// </remarks>
         [HttpPost("updates")]
         [Authorize]
         [RequiredScope("show.write")]
-        public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates)
+        public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates, [FromQuery] Guid copyId)
         {
-            (HttpStatusCode statusCode, string result) = await _controllerService.PostUpdates(updates);
+            (HttpStatusCode statusCode, string result) = await _controllerService.PostUpdates(updates,copyId) ;
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
 
         }
 
-        // POST api/Part/conflicts
+        // PUT api/Part/conflicts/clear
         /// <summary>
-        /// Posts a ConflictId to a specific Id and Created date of a Part.  (AUTHORISATON Through Azure AdB2C required)
+        /// Changes all updates relating to the Id(s) passed in to IsConflicted = false.   (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
         /// <remarks> 
         /// 
         /// Authorisation is required to write to the central database. Use Contact above to obtain relevant ClientIds etc.
         /// 
-        /// Conflicts identify Parts where updates exist from different sources and need to be resolved.
+        /// A list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// This adds a ConflictId to a specific PartUpdate where UpdateID and UpdateCreated match an existing Id and Created date on the central database
-        /// 
-        /// Json Text containing all properties of the update to be made must be passed in the body of the text as shown below:
-        /// 
-        /// [
-        ///     {
-        ///     
-        ///         "conflictId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        ///         
-        ///         "updateId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        ///         
-        ///         "updateCreated": "2023-05-17T06:54:23.465Z"
-        ///         
-        ///     }
-        /// ]
-        /// 
+        /// 'api/v2/Part/conflicts/clear/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        ///
         /// </remarks>
-        /// <param name="conflicts"></param>
-        /// <returns></returns>
-        [HttpPost("conflicts")]
+        [HttpPut("conflicts/clear")]
         [Authorize]
         [RequiredScope("show.write")]
-        public async Task<IActionResult> PostConflicts([FromBody] List<Conflict> conflicts)
+        public async Task<IActionResult> PutConflicts([FromQuery] string ids)
         {
-            (HttpStatusCode statusCode, string result) = await _controllerService.PostConflicts(conflicts);
+            (HttpStatusCode statusCode, string result) = await _controllerService.PutClearConflicts(ids);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
+
+
+
+
+
+        // PUT api/Part/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        /// <summary>
+        /// Updates server to confirm the ids and created data have been successfully copied to local.       (AUTHORISATON Through Azure AdB2C required)
+        /// </summary>
+        ///<remarks>
+        ///
+        /// Authorisation is required to write to the central database. Use Contact above to obtain relevant ClientIds etc.
+        /// 
+        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// 
+        /// Json Text containing LocalToServerPostBacks must be passed in the BODY of the text as shown below:
+        /// 
+        /// 
+        /// </remarks>
+        [HttpPut("updates/postbackfromlocal")]
+        [Authorize]
+        [RequiredScope("show.write")]
+        public async Task<IActionResult> PutPostBackFromLocal([FromBody] List<LocalToServerPostBack> postBacks, [FromRoute] Guid copyId)
+        {
+            (HttpStatusCode statusCode, string result) = await _controllerService.PutPostBackToServer(postBacks,copyId);
+
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
+        }
+
+        //TODO - Add in LocalToServerPostBacks to comments above.
+
+
+
+
 
         ////// DELETE api/Part/
         ////[HttpDelete("{updates}")]
