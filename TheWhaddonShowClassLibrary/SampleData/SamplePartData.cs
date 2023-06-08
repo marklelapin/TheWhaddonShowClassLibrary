@@ -1,24 +1,61 @@
-﻿using MyClassLibrary.LocalServerMethods.Interfaces;
+﻿
 using MyClassLibrary.LocalServerMethods.Models;
 using MyClassLibrary.Tests.LocalServerMethods.Tests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using TheWhaddonShowClassLibrary.Models;
 
-namespace TheWhaddonShowTesting.Tests.Content
+namespace TheWhaddonShowClassLibrary.SampleData
 {
-    internal static class SamplePartData
+   public static class SamplePartData
     {
-        internal static List<PartUpdate> LocalStartingData { get { return StartingData(); } }
+        public static List<PartUpdate> LocalStartingData { get { return StartingData(); } }
 
-        internal static List<PartUpdate> ServerStartingData { get { return StartingData(); } }
+        public static List<PartUpdate> ServerStartingData { get { return StartingData(); } }
 
-        internal static List<ServerSyncLog> ServerSyncLogStartingData = new List<ServerSyncLog> { };
+        public static List<ServerSyncLog> ServerSyncLogStartingData = new List<ServerSyncLog>
+        {
+         // Only these synced to CopyID
+            new ServerSyncLog(
+                    Guid.Parse("F380FD46-6E6E-450D-AD3E-23EEC0B6A75E"),
+                    DateTime.Parse("2023-04-19 09:08:58.3745924"),
+                   TestContent.CopyId
+                ),
+                new ServerSyncLog(
+                     Guid.Parse("F380FD46-6E6E-450D-AD3E-23EEC0B6A75E"),
+                     DateTime.Parse("2023-04-21 09:08:58.3745924"),
+                    TestContent.CopyId
+                 ),
+        //  All Local Starting Data synced to CopyId2
+            new ServerSyncLog(
+                    Guid.Parse("68417C12-80C3-48BC-8EBE-3F3F2A91B8E5"),
+                    DateTime.Parse("2023-04-19 08:03:58.8431658"),
+                    TestContent.CopyId2
 
-        private static List<PartUpdate> StartingData()
+                ),
+                new ServerSyncLog(
+                    Guid.Parse("17822466-DD66-4F2D-B4A9-F7EAAD6EB08B"),
+                    DateTime.Parse("2023-04-19 09:05:58.8453258"),
+                    TestContent.CopyId2
+                ),
+                new ServerSyncLog(
+                    Guid.Parse("17822466-DD66-4F2D-B4A9-F7EAAD6EB08B"),
+                    DateTime.Parse("2023-04-21 12:58:23.5628451"),
+                    TestContent.CopyId2
+                ),
+                new ServerSyncLog(
+                    Guid.Parse("F380FD46-6E6E-450D-AD3E-23EEC0B6A75E"),
+                    DateTime.Parse("2023-04-19 09:08:58.3745924"),
+                   TestContent.CopyId2
+                ),
+                new ServerSyncLog(
+                     Guid.Parse("F380FD46-6E6E-450D-AD3E-23EEC0B6A75E"),
+                     DateTime.Parse("2023-04-21 09:08:58.3745924"),
+                    TestContent.CopyId2
+                 )
+
+        };
+
+        public static List<PartUpdate> StartingData()
         {
             List<PartUpdate> partUpdates = new List<PartUpdate>
             {
@@ -63,7 +100,7 @@ namespace TheWhaddonShowTesting.Tests.Content
                     DateTime.Parse("2023-04-19 09:08:58.3745924"),
                     "Mark Carter",
                     DateTime.Parse("2023-04-19 10:04:49.4562984"),
-                    false,
+                    true,
                     true,
                     true,
                     "Uncle Test",
@@ -75,7 +112,7 @@ namespace TheWhaddonShowTesting.Tests.Content
                      DateTime.Parse("2023-04-21 09:08:58.3745924"),
                      "Guy Birch",
                      DateTime.Parse("2023-04-21 10:04:49.4562984"),
-                     false,
+                     true,
                      false,
                      true,
                      "Uncle Test",

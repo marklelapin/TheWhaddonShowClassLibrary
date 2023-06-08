@@ -6,18 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
 
-namespace TheWhaddonShowTesting.Tests.Content
+namespace TheWhaddonShowClassLibrary.SampleData
 {
-    internal class SamplePersonData
+    public class SamplePersonData
     {
 
-        internal static List<PersonUpdate> LocalStartingData { get { return StartingData(); } }
+        public static List<PersonUpdate> LocalStartingData { get { return StartingData(); } }
 
-        internal static List<PersonUpdate> ServerStartingData { get { return StartingData(); } }
+        public static List<PersonUpdate> ServerStartingData { get { return StartingData(); } }
 
-        internal static List<ServerSyncLog> ServerSyncLogStartingData = new List<ServerSyncLog> { };
+        public static List<ServerSyncLog> ServerSyncLogStartingData = new List<ServerSyncLog> { };
 
-        private static List<PersonUpdate> StartingData()
+        public static List<PersonUpdate> StartingData()
         {
 
             List<PersonUpdate> personUpdates = new List<PersonUpdate>()

@@ -6,17 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
 
-namespace TheWhaddonShowTesting.Tests.Content
+namespace TheWhaddonShowClassLibrary.SampleData
 {
-    internal class SampleScriptItemData
+    public class SampleScriptItemData
     {
-        internal static List<ScriptItemUpdate> LocalStartingData { get { return StartingData(); } }
+        public static List<ScriptItemUpdate> LocalStartingData { get { return StartingData(); } }
 
-        internal static List<ScriptItemUpdate> ServerStartingData { get { return StartingData(); } }
+        public static List<ScriptItemUpdate> ServerStartingData { get { return StartingData(); } }
 
-        internal static List<ServerSyncLog> ServerSyncLogStartingData = new List<ServerSyncLog> { };
+        public static List<ServerSyncLog> ServerSyncLogStartingData = new List<ServerSyncLog> { };
 
-        private static List<ScriptItemUpdate> StartingData()
+        public static List<ScriptItemUpdate> StartingData()
         {
             List<ScriptItemUpdate> scriptItemUpdates = new List<ScriptItemUpdate>()
            {
