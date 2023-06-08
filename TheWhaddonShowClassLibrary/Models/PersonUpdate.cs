@@ -75,13 +75,17 @@ namespace TheWhaddonShowClassLibrary.Models
         }
 
         [JsonConstructor]
-        public PersonUpdate(Guid id, DateTime created, string createdBy, bool isActive,  bool isActor,bool isSinger, bool isWriter, bool isBand, bool isTechnical,
-                            string firstName,string? lastName = null,string? email = null, string? pictureRef = null, DateTime? updatedOnServer = null, List<string>? tags = null) : base(id)
+        public PersonUpdate(Guid id, DateTime created, string createdBy,DateTime? updatedOnServer,bool isConflicted,bool isSample, bool isActive
+                            ,string firstName,string? lastName,string? email, string? pictureRef
+                            ,bool isActor, bool isSinger, bool isWriter, bool isBand, bool isTechnical
+                            ,List<string>? tags) : base(id)
         {
             Id = id;
             Created = created;
             CreatedBy = createdBy;
             UpdatedOnServer = updatedOnServer;
+            IsConflicted = isConflicted;
+            IsSample = isSample;
             IsActive = isActive;
             FirstName = firstName;
             LastName = lastName;

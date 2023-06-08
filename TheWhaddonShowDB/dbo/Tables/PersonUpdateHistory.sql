@@ -1,9 +1,9 @@
-﻿CREATE TABLE [dbo].[PersonUpdate]
+﻿CREATE TABLE [dbo].[PersonUpdateHistory]
 (
 --LocalServerIdentityColumns
-	[Id] uniqueidentifier NOT NULL
+	[Id] uniqueidentifier
 	,ConflictId uniqueidentifier
-	,Created datetime2 NOT NULL
+	,Created datetime2
 	,CreatedBy varchar(255)
 	,UpdatedOnServer datetime2
 	,IsActive bit

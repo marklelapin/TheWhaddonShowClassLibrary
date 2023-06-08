@@ -13,22 +13,26 @@ Post-Deployment Script Template
 
 if not exists(select * from dbo.PartUpdate)
 BEGIN
-    INSERT dbo.PartUpdate ([Id], [ConflictId], [Created], [CreatedBy], [UpdatedOnServer], [IsActive], [Name], [PersonId], [Tags])
+    INSERT dbo.PartUpdate ([Id], [Created], [CreatedBy], [UpdatedOnServer],IsConflicted, [IsActive], IsSample, [Name], [PersonId], [Tags])
    values ('68417C12-80C3-48BC-8EBE-3F3F2A91B8E5'
-            ,null
+            
             ,'2023-04-19 08:03:58.8431658'
             ,'Mark Carter'
             ,'2023-04-19 08:05:48.5671658'
+            ,0
+            ,1
             ,1
             ,'Mr Test'
             ,'545A9495-DB58-44EC-BA47-FD0B7E478D4A'
             ,'["Test","Male"]'
             )
         , ('17822466-DD66-4F2D-B4A9-F7EAAD6EB08B'
-            ,null
+            
             ,'2023-04-19 09:05:58.8453258'
             ,'Mark Carter'
             ,'2023-04-19 10:04:48.6789658'
+            ,0
+            ,1
             ,1
             ,'Ms Test'
             ,null
@@ -36,31 +40,37 @@ BEGIN
             )
         , (
             '17822466-DD66-4F2D-B4A9-F7EAAD6EB08B'
-            ,null
+            
             ,'2023-04-21 12:58:23.5628451'
             ,'Guy Birch'
             ,'2023-04-21 13:01:48.9805643'
+            ,0
+            ,1
             ,1
             ,'Ms Test'
             ,'2B3FA075-D0B5-49AB-B897-DAB1428CA500'
             ,'["Test","Female","Singing"]'
             )
         , ('F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
-            ,null
+            
             ,'2023-04-19 09:08:58.3745924'
             ,'Mark Carter'
             ,'2023-04-19 10:04:49.4562984'
+            ,0
+            ,1
             ,1
             ,'Uncle Test'
             ,null
             ,'["Test","Male","Singing"]'
             )
         , ('F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
-            ,null
+            
             ,'2023-04-21 09:08:58.3745924'
             ,'Guy Birch'
             ,'2023-04-21 10:04:49.4562984'
             ,0
+            ,0
+            ,1
             ,'Uncle Test'
             ,null
             ,'["Test","Male","Singing"]'
@@ -70,13 +80,15 @@ END;
 if not exists(select * from dbo.PersonUpdate)
 BEGIN
 
-    INSERT dbo.PersonUpdate ([Id], [ConflictId], [Created], [CreatedBy], [UpdatedOnServer], [IsActive], [FirstName], [LastName], [Email], [PictureRef], [IsActor], [IsSinger], [IsWriter], [isBand], [IsTechnical], [Tags])
+    INSERT dbo.PersonUpdate ([Id], [Created], [CreatedBy], [UpdatedOnServer],IsConflicted,IsSample, [IsActive], [FirstName], [LastName], [Email], [PictureRef], [IsActor], [IsSinger], [IsWriter], [isBand], [IsTechnical], [Tags])
 
    values ('545A9495-DB58-44EC-BA47-FD0B7E478D4A'
-            ,null
+            
             ,'2023-05-22 10:03:58.1345654'
             ,'Mark Carter'
             ,'2023-05-22 10:05:48.9436483'
+            ,0
+            ,1
             ,1
             ,'Bob'
             ,'Blair'
@@ -90,10 +102,11 @@ BEGIN
             ,'["Test","Male"]'
             )
         , ('2B3FA075-D0B5-49AB-B897-DAB1428CA500'
-            ,null
             ,'2023-05-19 09:05:58.8453258'
             ,'Mark Carter'
             ,'2023-05-19 10:04:48.6789658'
+            ,0
+            ,1
             ,1
             ,'Sue'
             ,'Smith'

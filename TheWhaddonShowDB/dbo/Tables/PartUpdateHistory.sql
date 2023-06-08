@@ -1,9 +1,9 @@
-﻿CREATE TABLE [dbo].[PartUpdate]
+﻿CREATE TABLE [dbo].[PartUpdateHistory]
 (
 --LocalServerIdentityColumns
-	[Id] uniqueidentifier NOT NULL
+	[Id] uniqueidentifier
 	,ConflictId uniqueidentifier
-	,[Created] datetime2 NOT NULL
+	,[Created] datetime2
 	,CreatedBy varchar(255)
 	,UpdatedOnServer datetime2
 	,IsActive bit
@@ -11,6 +11,6 @@
 	,[Name] varchar(255) NOT NULL
 	,[PersonId] uniqueidentifier
 	,Tags nvarchar(max) NULL
-	,PRIMARY KEY (ID,Created)
+,Primary Key (Id,Created)
 )
 

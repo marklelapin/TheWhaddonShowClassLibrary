@@ -62,12 +62,14 @@ namespace TheWhaddonShowClassLibrary.Models
 
 
         [JsonConstructor]   
-        public ScriptItemUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, Guid? parentId, int orderNo, string type,string text, List<Guid>? partIds, List<string>? tags = null) : base(id)
+        public ScriptItemUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer,bool isConflicted,bool isSample, bool isActive, Guid? parentId, int orderNo, string type,string text, List<Guid>? partIds, List<string>? tags = null) : base(id)
         {
             Id= id;
             Created = created;
             CreatedBy = createdBy;
             UpdatedOnServer = updatedOnServer;
+            IsConflicted = isConflicted;
+            IsSample = isSample;
             IsActive = isActive;
             ParentId = parentId ;
             OrderNo = orderNo;

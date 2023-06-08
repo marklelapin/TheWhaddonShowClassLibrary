@@ -43,16 +43,19 @@ namespace TheWhaddonShowClassLibrary.Models
 
         [JsonConstructor]
         
-        public PartUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isActive, string name, List<string>? tags, Guid? personID) : base(id)
+        public PartUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isConflicted, bool isActive, bool isSample, string name, Guid? personID,List<string>? tags) : base(id)
         {
             Id = id;
             Created = created;
             CreatedBy = createdBy;
             UpdatedOnServer = updatedOnServer;
+            IsConflicted = isConflicted;
             IsActive = isActive;
+            IsSample = isSample;
             Name = name;
-            Tags = tags;
             PersonId = personID;
+            Tags = tags;
+            
         }
 
         public List<Person> Person()

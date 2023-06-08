@@ -15,10 +15,10 @@ namespace TheWhaddonShowClassLibrary.DataAccess;
 public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServerModelUpdate
 {
     //TODO Test APIServerDataAccess with Authentication
-    
+
     private IHttpClientFactory _httpClientFactory;
 
-    public APIServerDataAccess(IHttpClientFactory httpClientFactory )
+    public APIServerDataAccess(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
     }
@@ -37,107 +37,128 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
     }
 
 
-
-
-    public async Task  DeleteFromServer(List<T> updates)
+    public async Task<List<T>> GetUpdatesFromServer(List<Guid>? ids, bool latestOnly)
     {
-        await Task.Run(() => throw new NotImplementedException());
-    }
-
-    public async Task<(List<T> changesFromServer, DateTime lastUpdatedOnServer)> GetChangesFromServer(DateTime LastSyncDate)
-    {
-        
-        DateTime outputLastUpdated;
-
-        string requestUri = ControllerPrefix() + $"/changes/{LastSyncDate.ToString("yyyy-MM-ddTHH:mm:ss.fffffff")}";
-        
-        (List<T>? outputChanges, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
-
-        outputLastUpdated = (outputChanges ?? new List<T>()).Max(x => x.UpdatedOnServer) ?? DateTime.MinValue;
-        
-        return (changesFromServer: outputChanges ?? new List<T>(),lastUpdatedOnServer: outputLastUpdated);
-    }
-
-
-
-
-    public async Task<List<T>> GetFromServer(List<Guid>? ids)
-    {
-        string requestUri = ControllerPrefix() + $"/{string.Join(",",ids)}";
+        string requestUri;
+        if (latestOnly)
+        {
+            requestUri = ControllerPrefix() + $"/latest/{string.Join(",", ids)}";
+        }
+        else
+        {
+            requestUri = ControllerPrefix() + $"/history/{string.Join(",", ids)}";
+        }
 
         (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
 
         return output ?? new List<T>();
     }
 
-    public async Task SaveConflictIdsToServer(List<Conflict> conflicts) 
-    {
-        string requestUri = ControllerPrefix() +"/conflicts";
-        string jsonObjects = JsonSerializer.Serialize(conflicts);
 
-        await PostResult(requestUri, jsonObjects);
+    public async Task<List<T>> GetConflictedUpdatesFromServer(List<Guid>? ids)
+    {
+        string requestUri = ControllerPrefix() + $"/conflicts/{string.Join(",", ids)}";
+
+        (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
+
+        return output ?? new List<T>();
+    }
+
+
+    public async Task<List<T>> GetUnsyncedFromServer(Guid localCopyId)
+    {
+        DateTime outputLastUpdated;
+
+        string requestUri = ControllerPrefix() + $"/unsynced/{localCopyId.ToString()}";
+
+        (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
+
+        return output ?? new List<T>();
     }
 
 
 
-
-
-    public async Task<DateTime> SaveToServer(List<T> updates)
+    public async Task<List<ServerToLocalPostBack>> SaveUpdatesToServer(List<T> updates, Guid localCopyId)
     {
-        string requestUri = ControllerPrefix()+"/updates";
+        string requestUri = ControllerPrefix() + $"/updates/{localCopyId.ToString()}";
+
         string jsonContent = JsonSerializer.Serialize(updates);
 
-       var postTask = PostResult(requestUri, jsonContent);
+        (List<ServerToLocalPostBack>? postBack, HttpStatusCode statusCode) = await PostResult(requestUri, jsonContent).ConvertToAsync<List<ServerToLocalPostBack>>();
 
-        (DateTime updatedOnServer, HttpStatusCode statusCode) = await PostResult(requestUri,jsonContent).ConvertToAsync<DateTime>();
-
-        AddUpdatedOnServer(updates, updatedOnServer);
-
-        return updatedOnServer;
-
-
-        //if (DateTime.TryParse(responseBody, out DateTime updatedOnServer))
-        //{
-        //    AddUpdatedOnServer(updates, updatedOnServer);
-        //    return updatedOnServer;
-        //}
-        //else
-        //{
-        //    if (responseBody == "")
-        //    {
-        //        throw new Exception("No updatedOnServer date returned when running SaveToServer");
-        //    } else
-        //    {
-        //        throw new Exception($"Output from API({requestUri}) cannot be converted to DateTime. Output=\"{responseBody}\"");
-        //    }
-
-        //}
+        return postBack ?? new List<ServerToLocalPostBack>();
 
     }
+
+
+    public async Task LocalPostBackToServer(List<LocalToServerPostBack> postBacks, Guid localCopyId)
+    {
+        string requestUri = ControllerPrefix() + $"/updates/postbackfromlocal/{localCopyId}";
+
+        string jsonContent = JsonSerializer.Serialize(postBacks);
+
+        await PostResult(requestUri, jsonContent).ConvertToAsync<string>();
+
+    }
+
+
+    public async Task ClearConflictsFromServer(List<Guid> ids)
+    {
+        string requestUri = ControllerPrefix() + $"/conflicts/clear/{string.Join(",", ids)}";
+        string jsonContent = "";
+
+        await PostResult(requestUri, jsonContent);
+    }
+
+
+
+
+    public Task<bool> ResetSampleData(string folderPath)
+    {
+        throw new NotImplementedException();
+    }
+
+
+    public async Task DeleteFromServer(List<T> updates)
+    {
+        await Task.Run(() => throw new NotImplementedException());
+    }
+
+
+
+
+
+    //Helper Methods
 
     private async Task<HttpResponseMessage> GetResult(string requestUri)
     {
         var client = CreateHttpClient();
-        var getTask =  await  client.GetAsync(requestUri);
+        var getTask = await client.GetAsync(requestUri);
         return getTask;
     }
 
-    private async Task<HttpResponseMessage> PostResult(string requestUri,string jsonContent)
+    private async Task<HttpResponseMessage> PostResult(string requestUri, string jsonContent)
     {
-        var client = CreateHttpClient();   
+        var client = CreateHttpClient();
         var postTask = await client.PostAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
         return postTask;
     }
 
     private HttpClient CreateHttpClient()
     {
-      return _httpClientFactory.CreateClient("api");
+        return _httpClientFactory.CreateClient("api");
     }
 
-    private void AddUpdatedOnServer<T>(List<T> updates,DateTime updatedOnServer) where T : LocalServerModelUpdate
+    private void AddUpdatedOnServer<T>(List<T> updates, DateTime updatedOnServer) where T : LocalServerModelUpdate
     {
-        foreach (var update in updates) {
+        foreach (var update in updates)
+        {
             update.UpdatedOnServer = updatedOnServer;
         };
+    }
+
+    public Task<bool> ResetSampleData(List<T> sampleUpdates, List<ServerSyncLog> sampleServerSyncLogs)
+    {
+        throw new NotImplementedException();
     }
 }
