@@ -6,7 +6,7 @@ using Microsoft.Identity.Web.Resource;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
 
-//TODO - Copy back in to v1
+
 
 namespace TheWhaddonShowAPI.Controllers.v2
 {
