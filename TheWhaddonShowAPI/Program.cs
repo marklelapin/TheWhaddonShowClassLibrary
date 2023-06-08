@@ -6,15 +6,21 @@ using Microsoft.Identity.Web;
 using MyClassLibrary.Extensions;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
+using Newtonsoft.Json.Linq;
+using TheWhaddonShowTesting.Tests;
+using TheWhaddonShowClassLibrary.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 
 //TODO Tidy Up Program.cs and check Appsettings etc.
+//TODO Add PersonUpdate and SCriptItemUpdate Controllers.
 //TODO Add in HealthChecks and Logging
 //TODO Get Version 1 working
-//TODO ROCP Access to API for Integration Testing
+//TODO Setup Postman Testing
+//TODO Setup testing of SqlDataAccess Layer utilising this API either using ROCP access or preferably Test Web Host for authentication to http clients
+//Create monitoring dashboard.
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(options =>
@@ -90,22 +96,23 @@ builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton(typeof(IServerDataAccess<>),typeof(ServerSQLConnector<>));
 builder.Services.AddSingleton(typeof(IServerAPIControllerService<>),typeof(ServerAPIControllerService<>));
 
-
-
-
-
-
-
-
-
-
 var app = builder.Build();
+
+
+
+var helper = new Helper(
+            app.Services.GetRequiredService<IServerDataAccess<PartUpdate>>(),
+            app.Services.GetRequiredService<IServerDataAccess<PersonUpdate>>(),
+            app.Services.GetRequiredService<IServerDataAccess<ScriptItemUpdate>>()
+        );
+
+helper.ResetSampleData();
 
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
+app.UseSwagger();
     app.UseSwaggerUI(opts =>
     {
         opts.SwaggerEndpoint("/swagger/v2/swagger.json", "v2");
@@ -123,4 +130,6 @@ app.UseAuthorization();
 
 app.MapControllers(); ;
 app.MapHealthChecks("/health"); 
+
+
 app.Run();

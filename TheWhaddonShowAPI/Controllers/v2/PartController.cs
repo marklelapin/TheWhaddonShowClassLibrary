@@ -6,9 +6,7 @@ using Microsoft.Identity.Web.Resource;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
 
-
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+//TODO - Copy back in to v1
 
 namespace TheWhaddonShowAPI.Controllers.v2
 {
@@ -41,7 +39,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// 'api/v2/Part/latest/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
         /// 
-        /// 'api/v2/Part/latest/?ids=all   will return the latest update for each and every Part.
+        /// 'api/v2/Part/latest/?ids=all'   will return the latest update for each and every Part.
         /// 
         ///  
         /// 
@@ -73,7 +71,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// 'api/v2/Part/history/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
         /// 
-        /// 'api/v2/Part/history/?ids=all    will return all updatess for all Parts.
+        /// 'api/v2/Part/history/?ids=all'   will return all updates for all Parts.
         /// 
         /// 
         /// 
@@ -105,11 +103,11 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// 'api/v2/Part/conflicted/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
         /// 
-        /// 'api/v2/Part/conflicts/?ids=all    will return all currently conflicted updates for all Parts.
+        /// 'api/v2/Part/conflicts/?ids=all'    will return all currently conflicted updates for all Parts.
         /// 
         /// 
         /// 
-        /// The API will respond with a 404 Not Found error if none of the Parts have conflicting updaes.
+        /// The API will respond with a 404 Not Found error if none of the Parts have conflicting updates.
         /// 
         /// Otherwise it will return a json string of PartUpdates.
         /// 
@@ -239,7 +237,9 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// A list of guids needs to be passed in as a QUERY as shown below:
         /// 
         /// 'api/v2/Part/conflicts/clear/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
-        ///
+        /// 
+        /// All Updates relating to the Ids passed in will have IsConfliced set to false.
+        /// 
         /// </remarks>
         [HttpPut("conflicts/clear")]
         [Authorize]
@@ -263,7 +263,9 @@ namespace TheWhaddonShowAPI.Controllers.v2
         ///
         /// Authorisation is required to write to the central database. Use Contact above to obtain relevant ClientIds etc.
         /// 
-        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// LocalToServerPostBacks come from saves to Local Storage as part of the syncing process and confirm that the save to local has been successful.
+        /// 
+        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
         /// 
         /// Json Text containing LocalToServerPostBacks must be passed in the BODY of the text as shown below:
         /// 
