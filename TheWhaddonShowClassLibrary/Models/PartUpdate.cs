@@ -41,8 +41,8 @@ namespace TheWhaddonShowClassLibrary.Models
             Tags = tags;
         }
 
-        [JsonConstructor]
         
+        [JsonConstructor]
         public PartUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isConflicted, bool isActive, bool isSample, string name, Guid? personID,List<string>? tags) : base(id)
         {
             Id = id;
