@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
 using TheWhaddonShowClassLibrary.SampleData;
 
-namespace TheWhaddonShowTesting.Tests.Content
+namespace TheWhaddonShowTesting.DataAccessTests.Content
 {
     internal class SaveAndGetPersonUpdateTestContent : ISaveAndGetTestContent<PersonUpdate>
     {

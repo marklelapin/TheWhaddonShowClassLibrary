@@ -1,14 +1,9 @@
 ﻿using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
 using MyClassLibrary.Tests.LocalServerMethods.Tests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
 using TheWhaddonShowClassLibrary.SampleData;
 
-namespace TheWhaddonShowTesting.Tests.Content
+namespace TheWhaddonShowTesting.DataAccessTests.Content
 {
     internal class SaveAndGetPartUpdateTestContent : ISaveAndGetTestContent<PartUpdate>
     {

@@ -21,7 +21,7 @@ namespace TheWhaddonShowRazorApp.Pages.Persons
 
         public async Task<IActionResult> OnGet()
         {
-            Persons = await _personFactory.CreateModelsList();
+            Persons = await _personFactory.CreateModelList();
 
             return Page();
         }

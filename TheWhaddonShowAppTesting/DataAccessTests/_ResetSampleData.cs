@@ -1,7 +1,7 @@
 ﻿
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using TheWhaddonShowClassLibrary.Models;
-using TheWhaddonShowTesting.Tests.Content;
+using TheWhaddonShowClassLibrary.SampleData;
 
 namespace TheWhaddonShowTesting.Tests
 {

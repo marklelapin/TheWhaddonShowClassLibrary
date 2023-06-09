@@ -4,12 +4,11 @@ using Microsoft.Extensions.Hosting;
 using MyClassLibrary.DataAccessMethods;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
-using MyClassLibrary.Tests.LocalServerMethods;
+
 using MyClassLibrary.Tests.LocalServerMethods.Interfaces;
 using MyClassLibrary.Tests.LocalServerMethods.Services;
-using MyClassLibrary.Tests.LocalServerMethods.Tests;
 using TheWhaddonShowClassLibrary.Models;
-using TheWhaddonShowTesting.Tests.Content;
+using TheWhaddonShowTesting.DataAccessTests.Content;
 
 namespace TheWhaddonShowTesting.Tests
 {
@@ -34,10 +33,9 @@ namespace TheWhaddonShowTesting.Tests
             services.AddTransient(typeof(IServerDataAccess<>), typeof(ServerSQLConnector<>));
             services.AddTransient(typeof(ILocalServerEngine<>), typeof(LocalServerEngine<>));
             services.AddTransient(typeof(ISaveAndGetUpdateTypeTests<>), typeof(SaveAndGetUpdateTypeTestService<>));
-            services.AddTransient<ISaveAndGetTestContent<PersonUpdate>, SaveAndGetPersonUpdateTestContent>();
             services.AddTransient<ISaveAndGetTestContent<PartUpdate>, SaveAndGetPartUpdateTestContent>();
             services.AddTransient<ISaveAndGetTestContent<ScriptItemUpdate>, SaveAndGetScriptItemUpdateTestContent>();
-
+           services.AddTransient<ISaveAndGetTestContent<PersonUpdate>, SaveAndGetPersonUpdateTestContent>();
         }
 
 
