@@ -4,7 +4,7 @@ using MyClassLibrary.LocalServerMethods.Models;
 
 namespace TheWhaddonShowClassLibrary.Models
 {
-    public class ScriptItem : LocalServerModel<ScriptItemUpdate>, ILocalServerModel<ScriptItemUpdate>
+    public class ScriptItem : LocalServerModel<ScriptItemUpdate>
     {
         public ScriptItem() : base()
         {

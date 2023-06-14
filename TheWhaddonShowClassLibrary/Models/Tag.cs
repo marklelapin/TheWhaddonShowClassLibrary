@@ -1,5 +1,4 @@
-﻿using MyClassLibrary.LocalServerMethods;
-using MyClassLibrary.LocalServerMethods.Interfaces;
+﻿using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
 using System;
 using System.Collections.Generic;
@@ -9,13 +8,7 @@ using System.Threading.Tasks;
 
 namespace TheWhaddonShowClassLibrary.Models
 {
-    public class Person : LocalServerModel<PersonUpdate>
+    public class Tag : LocalServerModel<TagUpdate>
     {
-        
-        public Person() : base()
-        {
-
-        }
-     
     }
 }

@@ -1,0 +1,9 @@
+﻿@page
+@model TheWhaddonShowRazorApp.Pages.Script.EditorModel
+@{
+}
+
+
+@foreach (var scriptItem in Model.Script){
+    <input  asp-for="@scriptItem.Latest!.Text" />
+}

@@ -1,0 +1,124 @@
+﻿@page
+@*@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager*@
+@using Microsoft.AspNetCore.Components;
+@using TheWhaddonShowClassLibrary.Models;
+@model TheWhaddonShowRazorApp.Pages.Persons.EditListModel
+@{
+    string userName = "anonymous";
+    //string userName = "anonymous" User.Identity?.Name ?? "anonymous";
+}
+
+
+<h1>Persons:</h1>
+
+@if (Model.EditPersons is null)
+{
+    <h4>No people found</h4>
+}else
+{
+    <form method="post">
+    <table class="table table-striped">
+        <thead class ="thead-dark">
+            <tr>
+                
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>IsActive</th>
+                <th>IsActor</th>
+                <th>IsSinger</th>
+                <th>IsWriter</th>
+                <th>IsBand</th>
+                <th>IsTechnical</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @for (var i = 0;i <= Model.EditPersons.Count;i++)
+                {
+                    @if (i < Model.EditPersons.Count)
+                    {
+                        <tr>
+                            <input type="hidden" asp-for="EditPersons[i].HasChanged" value="false" />
+                            <input type="hidden" asp-for="EditPersons[i].Person.Latest!.Id" value="@Model.EditPersons[i].Person.Id" />
+                            <input type="hidden" asp-for="EditPersons[i].Person.Latest!.IsConflicted" value="@Model.EditPersons[i].Person.Latest!.IsConflicted" />
+                            <input type="hidden" asp-for="EditPersons[i].Person.Latest!.IsSample" value="@Model.EditPersons[i].Person.Latest!.IsSample" />
+                            <input type="hidden" asp-for="EditPersons[i].Person.Latest!.CreatedBy" value="@userName" />
+                            <td>
+                                <div class="form-group">
+                                    <input asp-for="EditPersons[i].Person.Latest!.FirstName" value="@Model.EditPersons[i].Person.Latest!.FirstName" placeholder ="Enter First Name..." class="form-control" onchange="AddUpdate(@i)" />
+                                    <span asp-validation-for="EditPersons[i].Person.Latest!.FirstName" class="text-danger"> </span>
+                                </div>
+                            </td>
+
+                            <td><input asp-for="EditPersons[i].Person.Latest!.LastName" value="@Model.EditPersons[i].Person.Latest!.LastName" class="form-control" onchange="AddUpdate(@i)" /></td>
+                            <td>
+                                <div class="form-group">
+                                    <input asp-for="EditPersons[i].Person.Latest!.Email" onchange="AddUpdate(@i)" /><br>
+                                    <span asp-validation-for="EditPersons[i].Person.Latest!.Email" value="@Model.EditPersons[i].Person.Latest!.Email" class="text-danger"></span>
+                                </div>
+
+                            <td><input asp-for="EditPersons[i].Person.Latest!.IsActive" value="true" onchange="AddUpdate(@i)" /></td>
+                            <td><input asp-for="EditPersons[i].Person.Latest!.IsActor" value="true" onchange="AddUpdate(@i)"></td>
+                            <td><input asp-for="EditPersons[i].Person.Latest!.IsSinger" value="true" onchange="AddUpdate(@i)" /></td>
+                            <td><input asp-for="EditPersons[i].Person.Latest!.IsWriter" value="true" onchange="AddUpdate(@i)" /></td>
+                            <td><input asp-for="EditPersons[i].Person.Latest!.IsBand" value="true" onchange="AddUpdate(@i)" /></td>
+                            <td><input asp-for="EditPersons[i].Person.Latest!.IsTechnical" value="true" onchange="AddUpdate(@i)" /></td>
+                            <td>
+
+                                    @{
+                                        var tagsList = new MultiSelectList(Model.TagList, @Model.EditPersons[i].Person.Latest!.Tags);
+
+                                    <select asp-for="EditPersons[i].Person.Latest!.Tags" asp-items=@tagsList class="form-control" value="@Model.EditPersons[i].Person.Latest!.Tags" onchange="AddUpdate(@i)">
+
+                                    </select>
+                                    }
+                            </td>
+
+
+                        </tr>
+                    } else
+                    {
+                        
+                    }
+                        
+                    
+                }
+
+                         
+
+            
+
+        </tbody>
+
+    </table>
+
+        <div classs="form-group">
+            <input type="submit" value="Save" class="btn btn-primary"  />
+        </div>
+    </form>
+
+}
+
+
+
+@section Scripts {
+
+    @{
+            await Html.RenderPartialAsync("_ValidationScriptsPartial");
+     }
+    }
+
+<script>
+    function AddUpdate(i){
+    
+      el =  document.getElementById("EditPersons_"+i+"__HasChanged")
+      el.value = true;
+
+    }
+
+
+</script>

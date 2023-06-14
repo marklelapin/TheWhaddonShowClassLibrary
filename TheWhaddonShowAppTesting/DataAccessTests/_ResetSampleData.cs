@@ -14,6 +14,8 @@ namespace TheWhaddonShowTesting.Tests
             private readonly IServerDataAccess<PersonUpdate> _serverPersonDataAccess;
             private readonly ILocalDataAccess<ScriptItemUpdate> _localScriptItemDataAccess;
             private readonly IServerDataAccess<ScriptItemUpdate> _serverScriptItemDataAccess;
+            private readonly ILocalDataAccess<TagUpdate> _localTagDataAccess;
+            private readonly IServerDataAccess<TagUpdate> _serverTagDataAccess;
 
             public _ResetSampleData(
                                     ILocalDataAccess<PartUpdate> localPartDataAccess
@@ -22,6 +24,8 @@ namespace TheWhaddonShowTesting.Tests
                                     ,   IServerDataAccess<PersonUpdate> serverPersonDataAccess
                                     ,ILocalDataAccess<ScriptItemUpdate> localScriptItemDataAccess
                                     ,   IServerDataAccess<ScriptItemUpdate> serverScriptItemDataAccess
+                                    ,ILocalDataAccess<TagUpdate> localTagDataAccess
+                                    ,   IServerDataAccess<TagUpdate> serverTagDataAccess
                                     )
             {
                 _localPartDataAccess = localPartDataAccess;
@@ -32,6 +36,9 @@ namespace TheWhaddonShowTesting.Tests
 
                 _localScriptItemDataAccess = localScriptItemDataAccess;
                 _serverScriptItemDataAccess = serverScriptItemDataAccess;
+
+                _localTagDataAccess = localTagDataAccess;
+                _serverTagDataAccess = serverTagDataAccess;
             }
 
             [Fact]
@@ -47,8 +54,10 @@ namespace TheWhaddonShowTesting.Tests
                 await _localScriptItemDataAccess.ResetSampleData(SampleScriptItemData.LocalStartingData);
                 await _serverScriptItemDataAccess.ResetSampleData(SampleScriptItemData.ServerStartingData, SampleScriptItemData.ServerSyncLogStartingData);
 
+                await _localTagDataAccess.ResetSampleData(SampleTagData.LocalStartingData);
+                await _serverTagDataAccess.ResetSampleData(SampleTagData.ServerStartingData, SampleTagData.ServerSyncLogStartingData);
 
-                Assert.True(true); //This isn't a test - it is designed to be run before testing all to reset the Sample Data in the database.
+            Assert.True(true); //This isn't a test - it is designed to be run before testing all to reset the Sample Data in the database.
             }
 
 

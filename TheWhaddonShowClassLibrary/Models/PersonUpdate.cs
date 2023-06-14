@@ -1,4 +1,5 @@
 ﻿
+using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -51,7 +52,7 @@ namespace TheWhaddonShowClassLibrary.Models
         /// </summary>
         public bool IsTechnical { get; set; } = false;
         /// <summary>
-        /// Identifies if the person is part of the technical team.
+        /// Tags relevant to the person which can be matched with other models or used for filtering.
         /// </summary>
         public List<string>? Tags { get; set; }
 
