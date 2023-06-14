@@ -13,12 +13,12 @@ namespace TheWhaddonShowAPI.Controllers.v2
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("2.0")]
-    public class PartController : ControllerBase
+    public class ScriptItemController : ControllerBase
     {
     
-        private readonly IServerAPIControllerService<PartUpdate> _controllerService;
+        private readonly IServerAPIControllerService<ScriptItemUpdate> _controllerService;
 
-        public PartController(IServerAPIControllerService<PartUpdate> controllerService)
+        public ScriptItemController(IServerAPIControllerService<ScriptItemUpdate> controllerService)
         {
            _controllerService = controllerService;
         }
@@ -29,23 +29,23 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/latest/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/ScriptItem/latest/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34
         /// <summary>
-        /// Gets the latest updates of the Part Id(s) passed in.
+        /// Gets the latest updates of the ScriptItem Id(s) passed in.
         /// </summary>
         /// <remarks>
         ///
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/latest/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/ScriptItem/latest/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34'
         /// 
-        /// 'api/v2/Part/latest/?ids=all'   will return the latest update for each and every Part.
+        /// 'api/v2/ScriptItem/latest/?ids=all'   will return the latest update for each and every ScriptItem.
         /// 
         ///  
         /// 
-        /// The API will respond with a 404 Not Found error if no parts relate to the Ids given.
+        /// The API will respond with a 404 Not Found error if no scriptItems relate to the Ids given.
         /// 
-        /// Otherwise it will return a json string of PartUpdates.
+        /// Otherwise it will return a json string of ScriptItemUpdates.
         /// 
         /// </remarks>
         [HttpGet("latest")]
@@ -60,24 +60,24 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/history/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/ScriptItem/history/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34
         /// <summary>
-        /// Gets all of the updates made to a Part(s) passed in.
+        /// Gets all of the updates made to a ScriptItem(s) passed in.
         /// </summary>
         /// <remarks>
-        /// This gives a history of all updates made to the Part(s).
+        /// This gives a history of all updates made to the ScriptItem(s).
         /// 
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/history/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/ScriptItem/history/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34'
         /// 
-        /// 'api/v2/Part/history/?ids=all'   will return all updates for all Parts.
+        /// 'api/v2/ScriptItem/history/?ids=all'   will return all updates for all ScriptItems.
         /// 
         /// 
         /// 
-        /// The API will respond with a 404 Not Found error if no parts relate to the Ids given.
+        /// The API will respond with a 404 Not Found error if no scriptItems relate to the Ids given.
         /// 
-        /// Otherwise it will return a json string of PartUpdates.
+        /// Otherwise it will return a json string of ScriptItemUpdates.
         /// 
         /// </remarks>
         [HttpGet("history")]
@@ -93,23 +93,23 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/conflicts/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/ScriptItem/conflicts/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34
         /// <summary>
-        /// Gets all of the updates conflicting with the latest update for the PartId(s) passed in.
+        /// Gets all of the updates conflicting with the latest update for the ScriptItemId(s) passed in.
         /// </summary>
         /// <remarks>
         /// 
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/conflicted/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/ScriptItem/conflicted/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34'
         /// 
-        /// 'api/v2/Part/conflicts/?ids=all'    will return all currently conflicted updates for all Parts.
+        /// 'api/v2/ScriptItem/conflicts/?ids=all'    will return all currently conflicted updates for all ScriptItems.
         /// 
         /// 
         /// 
-        /// The API will respond with a 404 Not Found error if none of the Parts have conflicting updates.
+        /// The API will respond with a 404 Not Found error if none of the ScriptItems have conflicting updates.
         /// 
-        /// Otherwise it will return a json string of PartUpdates.
+        /// Otherwise it will return a json string of ScriptItemUpdates.
         /// 
         /// </remarks>
         [HttpGet("conflicts")]
@@ -125,19 +125,19 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET api/Part/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        // GET api/ScriptItem/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// <summary>
-        /// Gets all Part updates from the server that haven't been saved to the local copy.
+        /// Gets all ScriptItem updates from the server that haven't been saved to the local copy.
         /// </summary>
         /// <remarks>
         /// A Guid (CopyId) identifying the unique local copy of the data needs to be passed in.
         /// 
-        /// 'api/v2/Part/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        /// 'api/v2/ScriptItem/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// 
         /// 
         /// The API will respond with a 404 Not Found error if no updates have been made since the local copy was last fully synced.
         /// 
-        /// Otherwise it will return a json string of PartUpdates.
+        /// Otherwise it will return a json string of ScriptItemUpdates.
         /// </remarks>
 
         [HttpGet("unsynced/{copyId}")]
@@ -152,69 +152,79 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // POST api/Part/updates
+        // POST api/ScriptItem/updates
         /// <summary>
-        /// Creates or Updates a Part(s) by posting a PartUpdate. (AUTHORISATON Through Azure AdB2C required)
+        /// Creates or Updates a ScriptItem(s) by posting a ScriptItemUpdate. (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
         /// <remarks>
         /// 
         /// Authorisation is required to write to the central database. Use Contact above to recieve relevant ClientIds etc.
         /// 
-        /// This method is how you create or update a Part since in both cases this is done by adding an adddtional PartUpdate that supercedes the current update in the system.
-        /// If a new Part is being created a new Guid needs to be created for Id.
+        /// This method is how you create or update a ScriptItem since in both cases this is done by adding an adddtional ScriptItemUpdate that supercedes the current update in the system.
+        /// If a new ScriptItem is being created a new Guid needs to be created for Id.
         /// 
-        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/ScriptItem/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
         /// 
         /// 
         /// Json Text containing all properties of the update to be made must be passed in the BODY of the text as shown below:
         /// 
         /// 
         /// [
-        ///
-        ///         {         
-        ///             "Id":"08a0b93a-ee8f-4d4a-a120-d9ee6a2817dc",
+        /// 
+        ///         {   "Id":"53017F40-0D56-45E4-99BF-2D551E31329E",
         ///             
-        ///             "Created":"2023-05-15T12:16:10",
+        ///             "Created":"2023-05-15T13:16:10",
         ///             
         ///             "CreatedBy":"mcarter",
-        ///             
+        ///                                          
         ///             "UpdatedOnServer":"",
         ///             
         ///             "IsConflicted":false,
         ///             
-        ///             "IsActive":false,
+        ///             "IsSample": true,
+        ///                          
+        ///             "IsActive":true,
         ///             
-        ///             "IsSample":true,
+        ///             "ParentId":"1A78F03A-6326-4D4A-BBD3-677CF75EC49C",
         ///             
-        ///             "Name": "Rodney",
+        ///             "OrderNo" : 1
         ///             
-        ///             "PersonId" : null,
+        ///             "Type" : "Dialogue"
+        /// 
+        ///             "Text" : "Good Morning Vietnam!"
+        /// 
+        ///             "PartIds" : ["E9089F6B-691E-4284-8A49-5DB9DE4C4B42"]
         ///             
-        ///              "Tags":["Male","Test"],
+        ///             "Tags":["Trotter","Side"]
         ///             
-        ///             },
+        ///             }
         ///             
-        ///          {   
+        ///          { "Id":"1A78F03A-6326-4D4A-BBD3-677CF75EC49C",
         ///             
-        ///             "Id":"0b64f14f-3725-41e1-b981-778acab1ad8c",
-        ///             
-        ///             "Created":"2023-05-15T12:16:11",
+        ///             "Created":"2023-05-15T14:16:10",
         ///             
         ///             "CreatedBy":"mcarter",
-        ///                          
-        ///             "UpdatedOnServer":""
+        ///                                          
+        ///             "UpdatedOnServer":"",
         ///             
         ///             "IsConflicted":false,
         ///             
-        ///             "IsActive":true
+        ///             "IsSample": true,
+        ///                          
+        ///             "IsActive":true,
+        ///              
+        ///             "ParentId":"33F622F6-DD0C-4437-9598-B462BBAE1B70",
         ///             
-        ///             "IsSample" : true
+        ///             "OrderNo" : 1
+        ///             
+        ///             "Type" : "Dialogue"
         /// 
-        ///             "Name":"Uncle Albert",
+        ///             "Text" : "Go back to bed!"
+        /// 
+        ///             "PartIds" : ["E9089F6B-691E-4284-8A49-5DB9DE4C4B42"]
         ///             
-        ///             "PersonId":"bb2f3007-9c4c-4f41-a360-d1ea59f26f04",
+        ///             "Tags":["Trotter","Side"]
         ///             
-        ///             "Tags":[],
         ///             } 
         ///             
         /// ]
@@ -224,7 +234,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [HttpPost("updates")]
         [Authorize]
         [RequiredScope("show.write")]
-        public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates, [FromQuery] Guid copyId)
+        public async Task<IActionResult> Post([FromBody] List<ScriptItemUpdate> updates, [FromQuery] Guid copyId)
         {
             (HttpStatusCode statusCode, string result) = await _controllerService.PostUpdates(updates,copyId) ;
 
@@ -232,7 +242,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
         }
 
-        // PUT api/Part/conflicts/clear
+        // PUT api/ScriptItem/conflicts/clear
         /// <summary>
         /// Changes all updates relating to the Id(s) passed in to IsConflicted = false.   (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -242,7 +252,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// A list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/conflicts/clear/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/ScriptItem/conflicts/clear/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432'
         /// 
         /// All Updates relating to the Ids passed in will have IsConfliced set to false.
         /// 
@@ -261,7 +271,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // PUT api/Part/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        // PUT api/ScriptItem/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// <summary>
         /// Updates server to confirm the ids and created data have been successfully copied to local.       (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -271,7 +281,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// LocalToServerPostBacks come from saves to Local Storage as part of the syncing process and confirm that the save to local has been successful.
         /// 
-        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/ScriptItem/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
         /// 
         /// Json Text containing LocalToServerPostBacks must be passed in the BODY of the text as shown below:
         /// 
@@ -293,14 +303,14 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        ////// DELETE api/Part/
+        ////// DELETE api/ScriptItem/
         ////[HttpDelete("{updates}")]
         ////public void Delete([FromBody] string updates)
         ////{
 
-        ////    List<PartUpdate> partUpdates = JsonSerializer.Deserialize<List<PartUpdate>>(updates) ?? new List<PartUpdate>();
+        ////    List<ScriptItemUpdate> scriptItemUpdates = JsonSerializer.Deserialize<List<ScriptItemUpdate>>(updates) ?? new List<ScriptItemUpdate>();
 
-        ////    _serverDataAccess.DeleteFromServer(partUpdates);
+        ////    _serverDataAccess.DeleteFromServer(scriptItemUpdates);
         ////}
     }
 }

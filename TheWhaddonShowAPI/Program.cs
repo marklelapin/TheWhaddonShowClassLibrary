@@ -22,19 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 //TODO Setup testing of SqlDataAccess Layer utilising this API either using ROCP access or preferably Test Web Host for authentication to http clients
 //Create monitoring dashboard.
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(options =>
-                                    {
-                                        builder.Configuration.Bind("AzureAdB2C", options);
-
-                                        options.TokenValidationParameters.NameClaimType = "name";
-                                    },
-                                   options =>
-                                   {
-                                       builder.Configuration.Bind("AzureAdB2C", options);
-                                   });
-
-
+builder.ConfigureWebAPIAuthentication_AzureAdB2C();
 
 builder.ByPassAuthenticationIfInDevelopment();
 

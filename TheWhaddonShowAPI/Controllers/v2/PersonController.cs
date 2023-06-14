@@ -13,12 +13,12 @@ namespace TheWhaddonShowAPI.Controllers.v2
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("2.0")]
-    public class PartController : ControllerBase
+    public class PersonController : ControllerBase
     {
     
-        private readonly IServerAPIControllerService<PartUpdate> _controllerService;
+        private readonly IServerAPIControllerService<PersonUpdate> _controllerService;
 
-        public PartController(IServerAPIControllerService<PartUpdate> controllerService)
+        public PersonController(IServerAPIControllerService<PersonUpdate> controllerService)
         {
            _controllerService = controllerService;
         }
@@ -29,23 +29,23 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/latest/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/Person/latest/?ids=545A9495-DB58-44EC-BA47-FD0B7E478D4A,2B3FA075-D0B5-49AB-B897-DAB1428CA500
         /// <summary>
-        /// Gets the latest updates of the Part Id(s) passed in.
+        /// Gets the latest updates of the Person Id(s) passed in.
         /// </summary>
         /// <remarks>
         ///
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/latest/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/Person/latest/?ids=545A9495-DB58-44EC-BA47-FD0B7E478D4A,2B3FA075-D0B5-49AB-B897-DAB1428CA500'
         /// 
-        /// 'api/v2/Part/latest/?ids=all'   will return the latest update for each and every Part.
+        /// 'api/v2/Person/latest/?ids=all'   will return the latest update for each and every Person.
         /// 
         ///  
         /// 
-        /// The API will respond with a 404 Not Found error if no parts relate to the Ids given.
+        /// The API will respond with a 404 Not Found error if no persons relate to the Ids given.
         /// 
-        /// Otherwise it will return a json string of PartUpdates.
+        /// Otherwise it will return a json string of PersonUpdates.
         /// 
         /// </remarks>
         [HttpGet("latest")]
@@ -60,24 +60,24 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/history/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/Person/history/?ids=545A9495-DB58-44EC-BA47-FD0B7E478D4A,2B3FA075-D0B5-49AB-B897-DAB1428CA500
         /// <summary>
-        /// Gets all of the updates made to a Part(s) passed in.
+        /// Gets all of the updates made to a Person(s) passed in.
         /// </summary>
         /// <remarks>
-        /// This gives a history of all updates made to the Part(s).
+        /// This gives a history of all updates made to the Person(s).
         /// 
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/history/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/Person/history/?ids=545A9495-DB58-44EC-BA47-FD0B7E478D4A,2B3FA075-D0B5-49AB-B897-DAB1428CA500'
         /// 
-        /// 'api/v2/Part/history/?ids=all'   will return all updates for all Parts.
+        /// 'api/v2/Person/history/?ids=all'   will return all updates for all Persons.
         /// 
         /// 
         /// 
-        /// The API will respond with a 404 Not Found error if no parts relate to the Ids given.
+        /// The API will respond with a 404 Not Found error if no persons relate to the Ids given.
         /// 
-        /// Otherwise it will return a json string of PartUpdates.
+        /// Otherwise it will return a json string of PersonUpdates.
         /// 
         /// </remarks>
         [HttpGet("history")]
@@ -93,23 +93,23 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/conflicts/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/Person/conflicts/?ids=545A9495-DB58-44EC-BA47-FD0B7E478D4A,2B3FA075-D0B5-49AB-B897-DAB1428CA500
         /// <summary>
-        /// Gets all of the updates conflicting with the latest update for the PartId(s) passed in.
+        /// Gets all of the updates conflicting with the latest update for the PersonId(s) passed in.
         /// </summary>
         /// <remarks>
         /// 
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/conflicted/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/Person/conflicted/?ids=545A9495-DB58-44EC-BA47-FD0B7E478D4A,2B3FA075-D0B5-49AB-B897-DAB1428CA500'
         /// 
-        /// 'api/v2/Part/conflicts/?ids=all'    will return all currently conflicted updates for all Parts.
+        /// 'api/v2/Person/conflicts/?ids=all'    will return all currently conflicted updates for all Persons.
         /// 
         /// 
         /// 
-        /// The API will respond with a 404 Not Found error if none of the Parts have conflicting updates.
+        /// The API will respond with a 404 Not Found error if none of the Persons have conflicting updates.
         /// 
-        /// Otherwise it will return a json string of PartUpdates.
+        /// Otherwise it will return a json string of PersonUpdates.
         /// 
         /// </remarks>
         [HttpGet("conflicts")]
@@ -125,19 +125,19 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET api/Part/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        // GET api/Person/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// <summary>
-        /// Gets all Part updates from the server that haven't been saved to the local copy.
+        /// Gets all Person updates from the server that haven't been saved to the local copy.
         /// </summary>
         /// <remarks>
         /// A Guid (CopyId) identifying the unique local copy of the data needs to be passed in.
         /// 
-        /// 'api/v2/Part/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        /// 'api/v2/Person/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// 
         /// 
         /// The API will respond with a 404 Not Found error if no updates have been made since the local copy was last fully synced.
         /// 
-        /// Otherwise it will return a json string of PartUpdates.
+        /// Otherwise it will return a json string of PersonUpdates.
         /// </remarks>
 
         [HttpGet("unsynced/{copyId}")]
@@ -152,70 +152,97 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // POST api/Part/updates
+        // POST api/Person/updates
         /// <summary>
-        /// Creates or Updates a Part(s) by posting a PartUpdate. (AUTHORISATON Through Azure AdB2C required)
+        /// Creates or Updates a Person(s) by posting a PersonUpdate. (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
         /// <remarks>
         /// 
         /// Authorisation is required to write to the central database. Use Contact above to recieve relevant ClientIds etc.
         /// 
-        /// This method is how you create or update a Part since in both cases this is done by adding an adddtional PartUpdate that supercedes the current update in the system.
-        /// If a new Part is being created a new Guid needs to be created for Id.
+        /// This method is how you create or update a Person since in both cases this is done by adding an adddtional PersonUpdate that supercedes the current update in the system.
+        /// If a new Person is being created a new Guid needs to be created for Id.
         /// 
-        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/Person/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
         /// 
         /// 
         /// Json Text containing all properties of the update to be made must be passed in the BODY of the text as shown below:
         /// 
         /// 
         /// [
-        ///
-        ///         {         
+        /// 
+        ///         {   
+        ///         
         ///             "Id":"08a0b93a-ee8f-4d4a-a120-d9ee6a2817dc",
         ///             
         ///             "Created":"2023-05-15T12:16:10",
         ///             
         ///             "CreatedBy":"mcarter",
-        ///             
+        ///                                          
         ///             "UpdatedOnServer":"",
         ///             
         ///             "IsConflicted":false,
         ///             
-        ///             "IsActive":false,
+        ///             "IsSample": true,
+        ///                          
+        ///             "IsActive":true,
         ///             
-        ///             "IsSample":true,
+        ///             "FirstName":"Jim",
         ///             
-        ///             "Name": "Rodney",
+        ///             "LastName":"Bowen",
         ///             
-        ///             "PersonId" : null,
+        ///             "Email":"notatrueemail@hotpost.com",
         ///             
-        ///              "Tags":["Male","Test"],
+        ///             "PictureRef":"/images/picture.png"             
+        ///                          
+        ///             "IsActor":true,
+        ///                                     
+        ///             "IsSinger":false,
+        ///                                        
+        ///             "IsWriter":false,
+        ///                                   
+        ///             "IsBand":false,
+        ///                                    
+        ///             "IsTechnical":false,
+        ///                                        
+        ///             "Tags":["Male","Serious"]
+        ///       },
+        ///       {   
+        ///         
+        ///             "Id":"08a0b93a-ee8f-4d4a-a120-d9ee6a2817dc",
         ///             
-        ///             },
-        ///             
-        ///          {   
-        ///             
-        ///             "Id":"0b64f14f-3725-41e1-b981-778acab1ad8c",
-        ///             
-        ///             "Created":"2023-05-15T12:16:11",
+        ///             "Created":"2023-05-15T13:16:10",
         ///             
         ///             "CreatedBy":"mcarter",
-        ///                          
-        ///             "UpdatedOnServer":""
+        ///                                          
+        ///             "UpdatedOnServer":"",
         ///             
         ///             "IsConflicted":false,
         ///             
-        ///             "IsActive":true
+        ///             "IsSample": true,
+        ///                          
+        ///             "IsActive":true,
         ///             
-        ///             "IsSample" : true
-        /// 
-        ///             "Name":"Uncle Albert",
+        ///             "FirstName":"Clarence",
         ///             
-        ///             "PersonId":"bb2f3007-9c4c-4f41-a360-d1ea59f26f04",
+        ///             "LastName":"Hathaway",
         ///             
-        ///             "Tags":[],
-        ///             } 
+        ///             "Email":"clarence@reallyhotpost.com",
+        ///             
+        ///             "PictureRef":"/images/picture.png"             
+        ///                          
+        ///             "IsActor":true,
+        ///                                     
+        ///             "IsSinger":false,
+        ///                                        
+        ///             "IsWriter":false,
+        ///                                   
+        ///             "IsBand":false,
+        ///                                    
+        ///             "IsTechnical":false,
+        ///                                        
+        ///             "Tags":["Female","Comedy"]
+        ///       }
         ///             
         /// ]
         /// The API will return ServerToLocalPostBack info in json that should be used to update local storage and confirm the save to server was successful.
@@ -224,7 +251,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         [HttpPost("updates")]
         [Authorize]
         [RequiredScope("show.write")]
-        public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates, [FromQuery] Guid copyId)
+        public async Task<IActionResult> Post([FromBody] List<PersonUpdate> updates, [FromQuery] Guid copyId)
         {
             (HttpStatusCode statusCode, string result) = await _controllerService.PostUpdates(updates,copyId) ;
 
@@ -232,7 +259,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
         }
 
-        // PUT api/Part/conflicts/clear
+        // PUT api/Person/conflicts/clear
         /// <summary>
         /// Changes all updates relating to the Id(s) passed in to IsConflicted = false.   (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -242,7 +269,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// A list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/conflicts/clear/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/Person/conflicts/clear/?ids=545A9495-DB58-44EC-BA47-FD0B7E478D4A'
         /// 
         /// All Updates relating to the Ids passed in will have IsConfliced set to false.
         /// 
@@ -261,7 +288,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // PUT api/Part/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        // PUT api/Person/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// <summary>
         /// Updates server to confirm the ids and created data have been successfully copied to local.       (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -271,7 +298,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// LocalToServerPostBacks come from saves to Local Storage as part of the syncing process and confirm that the save to local has been successful.
         /// 
-        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/Person/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
         /// 
         /// Json Text containing LocalToServerPostBacks must be passed in the BODY of the text as shown below:
         /// 
@@ -293,14 +320,14 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        ////// DELETE api/Part/
+        ////// DELETE api/Person/
         ////[HttpDelete("{updates}")]
         ////public void Delete([FromBody] string updates)
         ////{
 
-        ////    List<PartUpdate> partUpdates = JsonSerializer.Deserialize<List<PartUpdate>>(updates) ?? new List<PartUpdate>();
+        ////    List<PersonUpdate> personUpdates = JsonSerializer.Deserialize<List<PersonUpdate>>(updates) ?? new List<PersonUpdate>();
 
-        ////    _serverDataAccess.DeleteFromServer(partUpdates);
+        ////    _serverDataAccess.DeleteFromServer(personUpdates);
         ////}
     }
 }
