@@ -39,14 +39,17 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
 
     public async Task<List<T>> GetUpdatesFromServer(List<Guid>? ids, bool latestOnly)
     {
+
+        string idsString = ConvertIdsListGuidToString(ids);
+
         string requestUri;
         if (latestOnly)
         {
-            requestUri = ControllerPrefix() + $"/latest/{string.Join(",", ids)}";
+            requestUri = ControllerPrefix() + $"/latest/?ids={idsString}";
         }
         else
         {
-            requestUri = ControllerPrefix() + $"/history/{string.Join(",", ids)}";
+            requestUri = ControllerPrefix() + $"/history/?ids={idsString}";
         }
 
         (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
@@ -57,7 +60,9 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
 
     public async Task<List<T>> GetConflictedUpdatesFromServer(List<Guid>? ids)
     {
-        string requestUri = ControllerPrefix() + $"/conflicts/{string.Join(",", ids)}";
+        string idsString = ConvertIdsListGuidToString(ids);
+
+        string requestUri = ControllerPrefix() + $"/conflicts/?ids={idsString}";
 
         (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
 
@@ -102,28 +107,32 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
 
     public async Task ClearConflictsFromServer(List<Guid> ids)
     {
-        string requestUri = ControllerPrefix() + $"/conflicts/clear/{string.Join(",", ids)}";
+        string requestUri = ControllerPrefix() + $"/conflicts/clear/{ConvertIdsListGuidToString(ids)}";
         string jsonContent = "";
 
-        await PostResult(requestUri, jsonContent);
+        await PutResult(requestUri, jsonContent);
     }
 
 
-
-
-    public Task<bool> ResetSampleData(string folderPath)
+    public async Task<bool> ResetSampleData(List<T> updates,List<ServerSyncLog> serverSyncLogs)
     {
-        throw new NotImplementedException();
+        return await ResetSampleData(); //TODO ResetSampleData doesn't 100% fullfill interface here. Does this need changing?
     }
 
-
-    public async Task DeleteFromServer(List<T> updates)
+    public async Task<bool> ResetSampleData()
     {
-        await Task.Run(() => throw new NotImplementedException());
+        string requestUri = ControllerPrefix() + "/resetsampledata";
+
+        await DeleteResult(requestUri);
+
+        return true;
     }
 
 
-
+    public Task DeleteFromServer(List<T> updates)
+    {
+        throw new NotImplementedException(); //TODO add delete from server functionality
+    }
 
 
     //Helper Methods
@@ -142,21 +151,44 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
         return postTask;
     }
 
+    private async Task<HttpResponseMessage> PutResult(string requestUri, string jsonContent)
+    {
+        var client = CreateHttpClient();
+        var putTask = await client.PutAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
+        return putTask;
+    }
+
+    private async Task<HttpResponseMessage> DeleteResult(string requestUri)
+    {
+        var client = CreateHttpClient();
+        var deleteTask = await client.DeleteAsync(requestUri);
+        return deleteTask;
+    }
+
+
     private HttpClient CreateHttpClient()
     {
         return _httpClientFactory.CreateClient("api");
     }
 
-    private void AddUpdatedOnServer<T>(List<T> updates, DateTime updatedOnServer) where T : LocalServerModelUpdate
+
+
+ 
+
+    private string ConvertIdsListGuidToString(List<Guid>? ids)
     {
-        foreach (var update in updates)
+        string output;
+
+        if (ids == null)
         {
-            update.UpdatedOnServer = updatedOnServer;
-        };
+            output = "all";
+        } else
+        {
+            output = string.Join(",", ids);
+        }
+
+        return output;
     }
 
-    public Task<bool> ResetSampleData(List<T> sampleUpdates, List<ServerSyncLog> sampleServerSyncLogs)
-    {
-        throw new NotImplementedException();
-    }
+ 
 }
