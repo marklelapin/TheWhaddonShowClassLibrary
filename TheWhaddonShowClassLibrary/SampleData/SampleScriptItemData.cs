@@ -1,7 +1,9 @@
 ﻿using MyClassLibrary.LocalServerMethods.Models;
+using MyClassLibrary.Tests.LocalServerMethods.Tests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TheWhaddonShowClassLibrary.Models;
@@ -14,7 +16,30 @@ namespace TheWhaddonShowClassLibrary.SampleData
 
         public static List<ScriptItemUpdate> ServerStartingData { get { return StartingData(); } }
 
-        public static List<ServerSyncLog> ServerSyncLogStartingData = new List<ServerSyncLog> { };
+        public static List<ServerSyncLog> ServerSyncLogStartingData = new List<ServerSyncLog>
+        {
+        // Only these synced to CopyID2
+            new ServerSyncLog(
+               Guid.Parse("0DE2C9A4-41F7-4170-9BDF-04B7B8F64197")
+                , DateTime.Parse("2023-04-19 07:55:58.1345654")
+                , TestContent.CopyId2
+                ),
+            new ServerSyncLog(
+                Guid.Parse("FC97305D-8A92-42D5-94DB-6FC9F5FF1432")
+                , DateTime.Parse("2023-04-19 07:55:59.1345654")
+                , TestContent.CopyId2
+                ),
+            new ServerSyncLog(
+                Guid.Parse("744BD79A-1A2B-425F-874F-315A3B3BA9F2")
+                , DateTime.Parse("2023-04-19 07:56:00.1345654")
+                , TestContent.CopyId2
+                ),
+            new ServerSyncLog(
+                Guid.Parse("CD42AD02-CC02-4AA4-8AB6-8C4ACB2E9858"),
+                DateTime.Parse("2023-04-19 07:56:02.2355654")
+                , TestContent.CopyId2
+                )
+        };
 
         public static List<ScriptItemUpdate> StartingData()
         {
@@ -114,7 +139,7 @@ namespace TheWhaddonShowClassLibrary.SampleData
                 DateTime.Parse("2023-04-19 07:56:10.1345654"),
                 "Mark Carter",
                 DateTime.Parse("2023-04-19 07:56:11.4675483"),
-                false,
+                true,
                 true,
                 true,
                 Guid.Parse("0DE2C9A4-41F7-4170-9BDF-04B7B8F64197"),
@@ -127,9 +152,9 @@ namespace TheWhaddonShowClassLibrary.SampleData
             new ScriptItemUpdate(
                  Guid.Parse("ED789FA3-4B2B-41A0-A322-773ED7CE89FE"),
                  DateTime.Parse("2023-04-19 07:56:12.1345654"),
-                 "Mark Carter",
+                 "Guy Birch-Jones",
                  DateTime.Parse("2023-04-19 07:56:13.9436483"),
-                 false,
+                 true,
                  true,
                  true,
                  Guid.Parse("0DE2C9A4-41F7-4170-9BDF-04B7B8F64197"),

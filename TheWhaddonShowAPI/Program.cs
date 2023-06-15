@@ -9,6 +9,7 @@ using MyClassLibrary.LocalServerMethods.Models;
 using Newtonsoft.Json.Linq;
 using TheWhaddonShowTesting.Tests;
 using TheWhaddonShowClassLibrary.Models;
+using TheWhaddonShowClassLibrary.SampleData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -83,6 +84,7 @@ builder.Services.AddHealthChecks();
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton(typeof(IServerDataAccess<>),typeof(ServerSQLConnector<>));
 builder.Services.AddSingleton(typeof(IServerAPIControllerService<>),typeof(ServerAPIControllerService<>));
+builder.Services.AddSingleton(typeof(ISampleDataProvider<>), typeof(SampleDataProvider<>));
 
 var app = builder.Build();
 

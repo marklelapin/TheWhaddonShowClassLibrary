@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TheWhaddonShowClassLibrary.Models;
-using System.Net;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Web.Resource;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
+using System.Net;
+using TheWhaddonShowClassLibrary.Models;
 
 
 
@@ -29,7 +29,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/ScriptItem/latest/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34
+        // GET: api/v2/ScriptItem/latest/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34
         /// <summary>
         /// Gets the latest updates of the ScriptItem Id(s) passed in.
         /// </summary>
@@ -60,7 +60,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/ScriptItem/history/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34
+        // GET: api/v2/ScriptItem/history/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34
         /// <summary>
         /// Gets all of the updates made to a ScriptItem(s) passed in.
         /// </summary>
@@ -93,7 +93,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/ScriptItem/conflicts/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34
+        // GET: api/v2/ScriptItem/conflicts/?ids=ED789FA3-4B2B-41A0-A322-773ED7CE89FE
         /// <summary>
         /// Gets all of the updates conflicting with the latest update for the ScriptItemId(s) passed in.
         /// </summary>
@@ -101,7 +101,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/ScriptItem/conflicted/?ids=FC97305D-8A92-42D5-94DB-6FC9F5FF1432,744BD79A-1A2B-425F-874F-315A3B3BA9F2,79E604CF-7CC2-41F6-B37F-F30C76AB5F34'
+        /// 'api/v2/ScriptItem/conflicts/?ids=ED789FA3-4B2B-41A0-A322-773ED7CE89FE'
         /// 
         /// 'api/v2/ScriptItem/conflicts/?ids=all'    will return all currently conflicted updates for all ScriptItems.
         /// 
@@ -125,7 +125,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET api/ScriptItem/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        // GET api/v2/ScriptItem/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// <summary>
         /// Gets all ScriptItem updates from the server that haven't been saved to the local copy.
         /// </summary>
@@ -152,7 +152,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // POST api/ScriptItem/updates
+        // POST api/v2/ScriptItem/updates
         /// <summary>
         /// Creates or Updates a ScriptItem(s) by posting a ScriptItemUpdate. (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -163,7 +163,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// This method is how you create or update a ScriptItem since in both cases this is done by adding an adddtional ScriptItemUpdate that supercedes the current update in the system.
         /// If a new ScriptItem is being created a new Guid needs to be created for Id.
         /// 
-        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/ScriptItem/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/v2/ScriptItem/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
         /// 
         /// 
         /// Json Text containing all properties of the update to be made must be passed in the BODY of the text as shown below:
@@ -231,10 +231,10 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// The API will return ServerToLocalPostBack info in json that should be used to update local storage and confirm the save to server was successful.
         ///  
         /// </remarks>
-        [HttpPost("updates")]
+        [HttpPost("updates/{copyId}")]
         [Authorize]
         [RequiredScope("show.write")]
-        public async Task<IActionResult> Post([FromBody] List<ScriptItemUpdate> updates, [FromQuery] Guid copyId)
+        public async Task<IActionResult> Post([FromBody] List<ScriptItemUpdate> updates, [FromRoute] Guid copyId)
         {
             (HttpStatusCode statusCode, string result) = await _controllerService.PostUpdates(updates,copyId) ;
 
@@ -242,7 +242,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
         }
 
-        // PUT api/ScriptItem/conflicts/clear
+        // PUT api/v2/ScriptItem/conflicts/clear
         /// <summary>
         /// Changes all updates relating to the Id(s) passed in to IsConflicted = false.   (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -271,7 +271,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // PUT api/ScriptItem/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        // PUT api/v2/ScriptItem/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// <summary>
         /// Updates server to confirm the ids and created data have been successfully copied to local.       (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -281,16 +281,16 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// LocalToServerPostBacks come from saves to Local Storage as part of the syncing process and confirm that the save to local has been successful.
         /// 
-        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/ScriptItem/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/v2/ScriptItem/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
         /// 
         /// Json Text containing LocalToServerPostBacks must be passed in the BODY of the text as shown below:
         /// 
         /// 
         /// </remarks>
-        [HttpPut("updates/postbackfromlocal")]
+        [HttpPut("updates/postbackfromlocal/{copyId}")]
         [Authorize]
         [RequiredScope("show.write")]
-        public async Task<IActionResult> PutPostBackFromLocal([FromBody] List<LocalToServerPostBack> postBacks, [FromRoute] Guid copyId)
+        public async Task<IActionResult> PutPostBackFromLocal([FromRoute] Guid copyId, [FromBody] List<LocalToServerPostBack> postBacks)
         {
             (HttpStatusCode statusCode, string result) = await _controllerService.PutPostBackToServer(postBacks,copyId);
 
@@ -301,9 +301,24 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
+        /// <summary>
+        /// Resets Sample Data for ScriptItemUpdates. (Deleting all PartUpdate where IsSample = 1 and adding back in the default Sample Data)
+        /// </summary>
+        /// <returns></returns>
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpDelete("resetsampledata")]
+        [Authorize]
+        [RequiredScope("show.write")]
+        public async Task<IActionResult> ResetSampleData()
+        {
+            (HttpStatusCode statusCode, string result) = await _controllerService.ResetSampleData();
+
+            return new ObjectResult(result) { StatusCode = (int)statusCode };
+        }
 
 
-        ////// DELETE api/ScriptItem/
+
+        ////// DELETE api/v2/ScriptItem/
         ////[HttpDelete("{updates}")]
         ////public void Delete([FromBody] string updates)
         ////{

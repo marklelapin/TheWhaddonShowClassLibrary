@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
-
-
+using MyClassLibrary.Tests.LocalServerMethods.Tests.DataAccess;
 
 namespace TheWhaddonShowAPI.Controllers.v2
 {
@@ -29,7 +28,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/latest/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/v2/Part/latest/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
         /// <summary>
         /// Gets the latest updates of the Part Id(s) passed in.
         /// </summary>
@@ -60,7 +59,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/history/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/v2/Part/history/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
         /// <summary>
         /// Gets all of the updates made to a Part(s) passed in.
         /// </summary>
@@ -93,7 +92,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // GET: api/Part/conflicts/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
+        // GET: api/v2/Part/conflicts/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E
         /// <summary>
         /// Gets all of the updates conflicting with the latest update for the PartId(s) passed in.
         /// </summary>
@@ -101,7 +100,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// To get data a guid or a comma separated list of guids needs to be passed in as a QUERY as shown below:
         /// 
-        /// 'api/v2/Part/conflicted/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
+        /// 'api/v2/Part/conflicts/?ids=68417C12-80C3-48BC-8EBE-3F3F2A91B8E5,17822466-DD66-4F2D-B4A9-F7EAAD6EB08B,F380FD46-6E6E-450D-AD3E-23EEC0B6A75E'
         /// 
         /// 'api/v2/Part/conflicts/?ids=all'    will return all currently conflicted updates for all Parts.
         /// 
@@ -120,12 +119,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
-
-
-
-
-
-        // GET api/Part/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        // GET api/v2/Part/unsynced/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// <summary>
         /// Gets all Part updates from the server that haven't been saved to the local copy.
         /// </summary>
@@ -149,10 +143,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         }
 
 
-
-
-
-        // POST api/Part/updates
+        // POST api/v2/Part/updates
         /// <summary>
         /// Creates or Updates a Part(s) by posting a PartUpdate. (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -163,7 +154,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// This method is how you create or update a Part since in both cases this is done by adding an adddtional PartUpdate that supercedes the current update in the system.
         /// If a new Part is being created a new Guid needs to be created for Id.
         /// 
-        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// The CopyId of the local storage copy must be passed in the uri. e.g.   'api/v2/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
         /// 
         /// 
         /// Json Text containing all properties of the update to be made must be passed in the BODY of the text as shown below:
@@ -221,10 +212,10 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// The API will return ServerToLocalPostBack info in json that should be used to update local storage and confirm the save to server was successful.
         ///  
         /// </remarks>
-        [HttpPost("updates")]
+        [HttpPost("updates/{copyId}")]
         [Authorize]
         [RequiredScope("show.write")]
-        public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates, [FromQuery] Guid copyId)
+        public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates, [FromRoute] Guid copyId)
         {
             (HttpStatusCode statusCode, string result) = await _controllerService.PostUpdates(updates,copyId) ;
 
@@ -232,7 +223,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
         }
 
-        // PUT api/Part/conflicts/clear
+        // PUT api/v2/Part/conflicts/clear
         /// <summary>
         /// Changes all updates relating to the Id(s) passed in to IsConflicted = false.   (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -261,7 +252,7 @@ namespace TheWhaddonShowAPI.Controllers.v2
 
 
 
-        // PUT api/Part/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
+        // PUT api/v2/Part/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3
         /// <summary>
         /// Updates server to confirm the ids and created data have been successfully copied to local.       (AUTHORISATON Through Azure AdB2C required)
         /// </summary>
@@ -271,29 +262,50 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// 
         /// LocalToServerPostBacks come from saves to Local Storage as part of the syncing process and confirm that the save to local has been successful.
         /// 
-        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/Part/updates/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// The CopyId of the local storage copy must be passed in the URL. e.g.   'api/v2/Part/updates/postbackfromlocal/27fc9657-3c92-6758-16a6-b9f82ca696b3'
+        /// 
+        /// 
+        /// [
+        ///  {
+        ///    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        ///    "created": "2023-06-15T09:34:32.939Z",
+        ///    "isConflicted": true
+        ///  }
+        /// ]
         /// 
         /// Json Text containing LocalToServerPostBacks must be passed in the BODY of the text as shown below:
         /// 
         /// 
         /// </remarks>
-        [HttpPut("updates/postbackfromlocal")]
+        [HttpPut("updates/postbackfromlocal/{copyId}")]
         [Authorize]
         [RequiredScope("show.write")]
-        public async Task<IActionResult> PutPostBackFromLocal([FromBody] List<LocalToServerPostBack> postBacks, [FromRoute] Guid copyId)
+        public async Task<IActionResult> PutPostBackFromLocal([FromRoute] Guid copyId,[FromBody] List<LocalToServerPostBack> postBacks)
         {
             (HttpStatusCode statusCode, string result) = await _controllerService.PutPostBackToServer(postBacks,copyId);
 
             return new ObjectResult(result) { StatusCode = (int)statusCode };
         }
 
-        //TODO - Add in LocalToServerPostBacks to comments above.
+        //TODO - Check what happens if putpostbackfromlocal happens twice - errored out in api.
 
 
+        /// <summary>
+        /// Resets Sample Data for PartUpdates. (Deleting all PartUpdate where IsSample = 1 and adding back in the default Sample Data)
+        /// </summary>
+        /// <returns></returns>
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpDelete("resetsampledata")]
+        //[Authorize]
+        //[RequiredScope("show.write")]
+        public async Task<IActionResult> ResetSampleData()
+        {
+            (HttpStatusCode statusCode, string result) = await _controllerService.ResetSampleData();
 
+            return new ObjectResult(result) {  StatusCode = (int)statusCode };  
+        }
 
-
-        ////// DELETE api/Part/
+        ////// DELETE api/v2/Part/
         ////[HttpDelete("{updates}")]
         ////public void Delete([FromBody] string updates)
         ////{

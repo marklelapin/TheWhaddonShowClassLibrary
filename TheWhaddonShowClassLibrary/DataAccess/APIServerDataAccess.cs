@@ -67,9 +67,7 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
 
     public async Task<List<T>> GetUnsyncedFromServer(Guid localCopyId)
     {
-        DateTime outputLastUpdated;
-
-        string requestUri = ControllerPrefix() + $"/unsynced/{localCopyId.ToString()}";
+         string requestUri = ControllerPrefix() + $"/unsynced/{localCopyId.ToString()}";
 
         (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
 
