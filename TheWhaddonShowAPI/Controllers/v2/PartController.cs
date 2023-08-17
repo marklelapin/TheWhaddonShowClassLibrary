@@ -214,7 +214,8 @@ namespace TheWhaddonShowAPI.Controllers.v2
         /// </remarks>
         [HttpPost("updates/{copyId}")]
         [Authorize]
-        [RequiredScope("show.write")]
+        //[Authorize(Roles = "access_as_application")]
+        //[RequiredScope("show.write")]
         public async Task<IActionResult> Post([FromBody] List<PartUpdate> updates, [FromRoute] Guid copyId)
         {
             (HttpStatusCode statusCode, string result) = await _controllerService.PostUpdates(updates,copyId) ;
