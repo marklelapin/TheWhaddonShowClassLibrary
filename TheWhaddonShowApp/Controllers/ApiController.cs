@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace TheWhaddonShowApp.Controllers;
+namespace AspStudio.Controllers;
 
 public class ApiController : Controller
 {

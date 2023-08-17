@@ -1,4 +1,6 @@
-namespace TheWhaddonShowApp.Models
+using System;
+
+namespace AspStudio.Models
 {
     public class ErrorViewModel
     {

@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using TheWhaddonShowApp.Models;
+using AspStudio.Models;
 
-namespace TheWhaddonShowApp.Controllers;
+namespace AspStudio.Controllers;
 
 public class WidgetsController : Controller
 {

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TheWhaddonShowApp.Data;
+using AspStudio.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

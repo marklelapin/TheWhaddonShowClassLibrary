@@ -1,5 +1,5 @@
 /*
-Template Name: AspStudio - Responsive Bootstrap 5 Admin Template
+Template Name: ASPSTUDIO - Responsive Bootstrap 5 Admin Template
 Version: 4.1.0
 Author: Sean Ngu
 Website: http://www.seantheme.com/studio/

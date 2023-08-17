@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AspStudio.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TheWhaddonShowApp.Models;
 
-namespace TheWhaddonShowApp.Controllers;
+namespace AspStudio.Controllers;
 
 public class DashboardController : Controller
 {

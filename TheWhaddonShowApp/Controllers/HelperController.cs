@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using AspStudio.Models;
 
-namespace TheWhaddonShowApp.Controllers;
+namespace AspStudio.Controllers;
 
 public class HelperController : Controller
 {
-    public IActionResult Index()
-    {
-        return View();
-    }
+		public IActionResult Index()
+		{
+				return View();
+		}
 }
