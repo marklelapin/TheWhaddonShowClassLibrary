@@ -1,0 +1,172 @@
+﻿@using TheWhaddonShowApp.Models
+
+@{
+	var menuController = (ViewContext.RouteData.Values["controller"] != null) ? ViewContext.RouteData.Values["controller"].ToString() : null;
+  var menuAction = (ViewContext.RouteData.Values["action"] != null) ? ViewContext.RouteData.Values["action"].ToString() : null;
+  
+}
+
+<!-- BEGIN #sidebar -->
+<div id="sidebar" class="app-sidebar">
+	<!-- BEGIN scrollbar -->
+	<div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
+		<!-- BEGIN menu -->
+		<div class="menu">
+			
+			@Html.Partial("Sidebar/_Header","Management")
+				@Html.Partial("Sidebar/_MenuItem",new MenuItem("Home","Home","Index","fa fa-home"))
+				@Html.Partial("Sidebar/_MenuItem",new MenuItem("Script","Script",null,"fa fa-file-alt"
+														,new List<MenuItem>(){
+															new MenuItem("View","Script","Read")
+															,new MenuItem("Edit","Script","Edit")
+															,new MenuItem("Import","Script","Import")
+														}
+												))
+				@Html.Partial("Sidebar/_MenuItem",new MenuItem("Planning","Planning",null,"fa fa-chart-gantt"
+														,new List<MenuItem>(){
+															new MenuItem("Cast","Script","Cast")
+															,new MenuItem("Props","Script","Props")
+															,new MenuItem("Costumes","Script","Costumes")
+														}
+												))
+				@Html.Partial("Sidebar/_MenuItem",new MenuItem("Finance","Finance",null,"fa fa-coins" 
+														,new List<MenuItem>(){
+															new MenuItem("Dashboard","Finance","Dashboard")
+															,new MenuItem("Accounts","Finance","Accounts")
+														} 
+												))
+			@Html.Partial("Sidebar/_Divider")
+			
+			
+				@Html.Partial("Sidebar/_MenuItem",new MenuItem("Gallery","Gallery","Index","fa fa-photo-film"))
+			
+			@Html.Partial("Sidebar/_Divider")
+
+			@Html.Partial("Sidebar/_Header","Administration")
+			
+				@Html.Partial("Sidebar/_MenuItem",new MenuItem("Users","Users","Index","fa fa-envelope"))
+				@Html.Partial("Sidebar/_MenuItem",new MenuItem("Settings","Settings","Index","fa fa-gear")) 
+				@Html.Partial("Sidebar/_MenuItem",new MenuItem("API","Api",null,"fa fa-database"
+														,new List<MenuItem>(){
+															new MenuItem("Documentation","Api","Documentation")
+															,new MenuItem("Monitoring","Api","Monitoring")
+															,new MenuItem("Testing","Api","Testing") 
+														} 
+													))
+			@Html.Partial("Sidebar/_Divider",4)
+
+			@Html.Partial("Sidebar/_Header","Navigation")
+			
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Dashboard","Dashboard","Index","fa fa-laptop"))
+			
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Analytics","Analytics","Index","fa fa-chart-pie"))
+			
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Email","Email",null,"fa fa-envelope"
+													,new List<MenuItem>(){
+														new MenuItem("Inbox","Email","Inbox")
+														,new MenuItem("Compose","Email","Compose")
+														,new MenuItem("Detail","Email","Detail")
+													} 
+												))
+			@Html.Partial("Sidebar/_Divider")
+
+			@Html.Partial("Sidebar/_Header","Components")
+			
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Widgets","Widgets","Index","fa fa-qrcode"))
+			
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("POS System","Pos",null,"fa fa-wallet" 
+															,new List<MenuItem>(){
+																new MenuItem("Customer Order","Pos","CustomerOrder")
+																,new MenuItem("Kitchen Order","Pos","KitchenOrder")
+																,new MenuItem("Counter Checkout","Pos","CounterCheckout")
+																,new MenuItem("Table Booking","Pos","TableBooking")
+																,new MenuItem("Menu Stock","Pos","MenuStock")
+															} ))
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("UI Kits","UiKits",null,"fa fa-heart" 
+															,new List<MenuItem>(){ 
+																new MenuItem("Bootstrap","UiKits","Bootstrap")
+																,new MenuItem("Buttons","UiKits","Buttons") 
+																,new MenuItem("Card","UiKits","Card") 
+																,new MenuItem("Icons","UiKits","Icons") 
+																,new MenuItem("Modal & Notifications","UiKits","ModalNotifications") 
+																,new MenuItem("Typography","UiKits","Typography") 
+																,new MenuItem("Tabs & Accordions","UiKits","TabsAccordions") 
+															} ))
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Forms","Forms",null,"fa fa-file-alt" 
+															,new List<MenuItem>(){ 
+																new MenuItem("Form Elements","Forms","FormElements")
+																,new MenuItem("Form Plugins","Forms","FormPlugins")
+																,new MenuItem("Wizards","Forms","Wizards")
+															} )) 
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Tables","Tables",null,"fa fa-table" 
+															,new List<MenuItem>(){ 
+																new MenuItem("Table Elements","Tables","TableElements") 
+																,new MenuItem("Table Plugins","Tables","TablePlugins") 
+															} )) 
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Charts","Charts",null,"fa fa-chart-bar" 
+															,new List<MenuItem>(){
+																new MenuItem("ChartJS","Charts","ChartJS") 
+																,new MenuItem("FlotChart","Charts","FlotChart") 
+																,new MenuItem("MorrisChart","Charts","MorrisChart")
+															} ))
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Map","Map","Index","fa fa-map-marker-alt"))
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Layout","Layout",null,"fa fa-code-branch"
+															,new List<MenuItem>(){ 
+																new MenuItem("Starter Page","Layout","StarterPage") 
+																,new MenuItem("Fixed Footer","Layout","FixedFooter") 
+																,new MenuItem("Full Height","Layout","FullHeight") 
+																,new MenuItem("Full Width","Layout","FullWidth") 
+																,new MenuItem("Boxed Layout","Layout","BoxedLayout") 
+																,new MenuItem("Minified Sidebar","Layout","MinifiedSidebar") 
+																,new MenuItem("Top Nav","Layout","TopNav")
+																,new MenuItem("Mixed Nav","Layout","MixedNav")
+																,new MenuItem("Mixed Nav Boxed Layout","Layout","MixedNavBoxedLayout") 
+															} ))
+
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Pages","Pages",null,"fa fa-globe"
+															,new List<MenuItem>(){ 
+																new MenuItem("Scrum Board","Pages","ScrumBoard")
+																,new MenuItem("Products","Pages","Products")
+																,new MenuItem("Product Details","Pages","ProductDetails")
+																,new MenuItem("Orders","Pages","Orders")
+																,new MenuItem("Order Details","Pages","OrderDetails")
+																,new MenuItem("Gallery","Pages","Gallery")
+																,new MenuItem("Search Results","Pages","SearchResults") 
+																,new MenuItem("Coming Soon Page","Pages","ComingSoonPage")
+																,new MenuItem("Error Page","Pages","ErrorPage")
+																,new MenuItem("Login","Pages","Login")
+																,new MenuItem("Register","Pages","Register")
+																,new MenuItem("Messenger","Pages","Messenger") 
+																,new MenuItem("Data Management","Pages","DataManagement") 
+															} ))
+		@Html.Partial("Sidebar/_Divider")
+			
+		@Html.Partial("Sidebar/_Header","Users")
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Profile","Profile","Index","fa fa-user-circle")) 
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Calendar","Calendar","Index","fa fa-calendar")) 
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Settings","Settings","Index","fa fa-cog"))
+			@Html.Partial("Sidebar/_MenuItem",new MenuItem("Helper","Helper","Index","fa fa-question-circle"))
+
+
+			<div class="menu-item">
+				<a href="/Identity/Account/Manage" class="menu-link">
+					<span class="menu-icon">
+						<i class="fa fa-fingerprint"></i>
+					</span>
+					<span class="menu-text">ASP Identity</span>
+				</a>
+			</div>
+			<div class="p-3 px-4 mt-auto hide-on-minified">
+				<a href="https://seantheme.com/asp-studio/documentation/index.html" target="blank" class="btn d-block w-100 btn-secondary font-weight-600 rounded-pill">
+					<i class="fa fa-code-branch me-1 ms-n1 opacity-5"></i> Documentation
+				</a>
+			</div>
+		</div>
+		<!-- END menu -->
+	</div>
+	<!-- END scrollbar -->
+	<!-- BEGIN mobile-sidebar-backdrop -->
+	<button class="app-sidebar-mobile-backdrop" data-dismiss="sidebar-mobile"></button>
+	<!-- END mobile-sidebar-backdrop -->
+</div>
+<!-- END #sidebar -->

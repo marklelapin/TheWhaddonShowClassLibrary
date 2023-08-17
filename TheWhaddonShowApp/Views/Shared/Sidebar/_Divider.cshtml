@@ -1,0 +1,10 @@
+﻿@model int?
+
+@{
+    int noDividers = (Model != null) ? (int)Model : 1;
+}
+
+@for(int i = 1; i <= noDividers; i++)
+{
+    <div class="menu-divider"></div>
+}
