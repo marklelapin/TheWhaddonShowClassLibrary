@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MyClassLibrarySolution\MyClassLibrary.Tests.LocalServerMethods\MyClassLibrary.Tests.LocalServerMethods.csproj" />
     <ProjectReference Include="..\..\MyClassLibrarySolution\MyClassLibrary\MyClassLibrary.csproj" />
     <ProjectReference Include="..\TheWhaddonShowClassLibrary\TheWhaddonShowClassLibrary.csproj" />
   </ItemGroup>
