@@ -1,13 +1,11 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using AspStudio.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AspStudio.Controllers;
+namespace TheWhaddonShowApp.Controllers;
 
 public class MapController : Controller
 {
-		public IActionResult Index()
-		{
-				return View();
-		}
+    public IActionResult Index()
+    {
+        return View();
+    }
 }

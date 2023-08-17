@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using AspStudio.Models;
+using TheWhaddonShowApp.Models;
 
-namespace AspStudio.Controllers;
+namespace TheWhaddonShowApp.Controllers;
 
 public class PosController : Controller
 {

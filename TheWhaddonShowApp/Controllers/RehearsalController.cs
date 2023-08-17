@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AspStudio.Controllers;
+namespace TheWhaddonShowApp.Controllers;
 
 public class RehearsalController : Controller
 {

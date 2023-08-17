@@ -1,23 +1,21 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using AspStudio.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AspStudio.Controllers;
+namespace TheWhaddonShowApp.Controllers;
 
 public class EmailController : Controller
 {
-		public IActionResult Inbox()
-		{
-				return View();
-		}
+    public IActionResult Inbox()
+    {
+        return View();
+    }
 
-		public IActionResult Compose()
-		{
-				return View();
-		}
+    public IActionResult Compose()
+    {
+        return View();
+    }
 
-		public IActionResult Detail()
-		{
-				return View();
-		}
+    public IActionResult Detail()
+    {
+        return View();
+    }
 }

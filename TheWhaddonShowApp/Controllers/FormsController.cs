@@ -1,23 +1,21 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using AspStudio.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AspStudio.Controllers;
+namespace TheWhaddonShowApp.Controllers;
 
 public class FormsController : Controller
 {
-		public IActionResult FormElements()
-		{
-				return View();
-		}
+    public IActionResult FormElements()
+    {
+        return View();
+    }
 
-		public IActionResult FormPlugins()
-		{
-				return View();
-		}
+    public IActionResult FormPlugins()
+    {
+        return View();
+    }
 
-		public IActionResult Wizards()
-		{
-				return View();
-		}
+    public IActionResult Wizards()
+    {
+        return View();
+    }
 }

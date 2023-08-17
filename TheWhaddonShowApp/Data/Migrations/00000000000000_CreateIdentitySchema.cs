@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AspStudio.Data.Migrations
+namespace TheWhaddonShowApp.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

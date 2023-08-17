@@ -1,18 +1,16 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using AspStudio.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace AspStudio.Controllers;
+namespace TheWhaddonShowApp.Controllers;
 
 public class ChartsController : Controller
 {
-		public IActionResult ChartJs()
-		{
-				return View();
-		}
+    public IActionResult ChartJs()
+    {
+        return View();
+    }
 
-		public IActionResult ApexchartsJs()
-		{
-				return View();
-		}
+    public IActionResult ApexchartsJs()
+    {
+        return View();
+    }
 }
