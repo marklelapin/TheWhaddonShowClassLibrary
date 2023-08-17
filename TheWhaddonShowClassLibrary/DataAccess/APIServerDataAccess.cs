@@ -9,18 +9,30 @@ using MyClassLibrary.Extensions;
 using System.Runtime.CompilerServices;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
+using Microsoft.Identity.Abstractions;
+using Microsoft.Extensions.Options;
+using System.Security.Authentication.ExtendedProtection;
 
 namespace TheWhaddonShowClassLibrary.DataAccess;
 
+/// <summary>
+/// 
+/// </summary>
+/// <remarks>
+/// Requires a downstreamApi with a serviceName of "TheWhaddonShowApi" to have been configure in program.cs 
+/// </remarks>
+/// <typeparam name="T"></typeparam>
 public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServerModelUpdate
 {
     //TODO Test APIServerDataAccess with Authentication
 
-    private IHttpClientFactory _httpClientFactory;
+    private IDownstreamApi _downstreamApi;
 
-    public APIServerDataAccess(IHttpClientFactory httpClientFactory)
+    private string ServiceName { get; set; } = "TheWhaddonShowApi";
+
+    public APIServerDataAccess(IDownstreamApi downstreamApi)
     {
-        _httpClientFactory = httpClientFactory;
+        _downstreamApi = downstreamApi;
     }
 
     private string ControllerPrefix()
@@ -139,41 +151,58 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
 
     private async Task<HttpResponseMessage> GetResult(string requestUri)
     {
-        var client = CreateHttpClient();
-        var getTask = await client.GetAsync(requestUri);
+
+        var getTask = await _downstreamApi.CallApiForAppAsync(ServiceName, options =>
+        {
+            options.HttpMethod = HttpMethod.Get;
+            options.RelativePath = requestUri;
+        });
+
         return getTask;
     }
 
     private async Task<HttpResponseMessage> PostResult(string requestUri, string jsonContent)
     {
-        var client = CreateHttpClient();
-        var postTask = await client.PostAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
+        var postTask = await _downstreamApi.CallApiForAppAsync(ServiceName
+                                                               , options =>
+                                                                {
+                                                                    options.HttpMethod = HttpMethod.Post;
+                                                                    options.RelativePath = requestUri;
+                                                                }
+                                                                , new StringContent(jsonContent, Encoding.UTF8, "application/json")
+                                                                );
         return postTask;
     }
 
     private async Task<HttpResponseMessage> PutResult(string requestUri, string jsonContent)
     {
-        var client = CreateHttpClient();
-        var putTask = await client.PutAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
+        var putTask = await _downstreamApi.CallApiForAppAsync(ServiceName
+            , options =>
+            {
+                options.HttpMethod = HttpMethod.Put;
+                options.RelativePath = requestUri;
+            }
+            , new StringContent(jsonContent, Encoding.UTF8, "application/json")
+            );
+            
         return putTask;
     }
 
+
     private async Task<HttpResponseMessage> DeleteResult(string requestUri)
     {
-        var client = CreateHttpClient();
-        var deleteTask = await client.DeleteAsync(requestUri);
+        var deleteTask = await _downstreamApi.CallApiForUserAsync(ServiceName
+            , options =>
+            {
+                options.HttpMethod = HttpMethod.Delete;
+                options.RelativePath = requestUri;
+            }
+            );
+
         return deleteTask;
     }
 
-
-    private HttpClient CreateHttpClient()
-    {
-        return _httpClientFactory.CreateClient("api");
-    }
-
-
-
- 
+     
 
     private string ConvertIdsListGuidToString(List<Guid>? ids)
     {

@@ -1,20 +1,25 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Identity.Abstractions;
+using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using MyClassLibrary.DataAccessMethods;
 using MyClassLibrary.Extensions;
 using MyClassLibrary.LocalServerMethods;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
-
-
-
+using TheWhaddonShowClassLibrary.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.ConfigureWebAuthentication_AzureAdB2C();
+
+builder.ConfigureMicrosoftIdentityWebAuthenticationAndUI("AzureAdB2C");
 
 builder.RequireAuthorizationThroughoutAsFallbackPolicy();
-
 //builder.ByPassAuthenticationIfInDevelopment();   
+
+
+builder.Services.AddDownstreamApi("TheWhaddonShowApi", builder.Configuration.GetSection("TheWhaddonShowApi"));
+
 
 // Add Razor Pages and authorize access
 builder.Services.AddRazorPages(options =>
@@ -32,7 +37,7 @@ builder.Services.AddTransient<ILocalServerModelUpdate, LocalServerModelUpdate>()
 builder.Services.AddTransient(typeof(ILocalServerModel<>),typeof(LocalServerModel<>));
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddScoped(typeof(ILocalDataAccess<>),typeof(LocalSQLConnector<>));
-builder.Services.AddSingleton(typeof(IServerDataAccess<>),typeof(ServerSQLConnector<>));
+builder.Services.AddScoped(typeof(IServerDataAccess<>),typeof(APIServerDataAccess<>));
 builder.Services.AddScoped(typeof(ILocalServerEngine<>), typeof(LocalServerEngine<>));
 builder.Services.AddScoped(typeof(ILocalServerModelFactory<,>), typeof(LocalServerModelFactory<,>));
 
