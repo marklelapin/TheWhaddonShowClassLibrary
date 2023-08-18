@@ -7,14 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MyClassLibrarySolution\MyClassLibrary\MyClassLibrary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MarkCarter.MyClassLibrary" Version="1.0.0" />
+    <PackageReference Include="MarkCarter.MyClassLibrary.Tests.LocalServerMethods" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
   </ItemGroup>
 

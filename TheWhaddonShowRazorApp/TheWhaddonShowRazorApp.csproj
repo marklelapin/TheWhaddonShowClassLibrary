@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\MyClassLibrarySolution\MyClassLibrary\MyClassLibrary.csproj" />
     <ProjectReference Include="..\TheWhaddonShowClassLibrary\TheWhaddonShowClassLibrary.csproj" />
   </ItemGroup>
 
