@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MarkCarter.MyApiMonitorClassLibrary" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.8" />
@@ -33,7 +34,20 @@
 
   <ItemGroup>
     <Folder Include="Areas\Api\Data\" />
-    <Folder Include="Areas\Api\Models\" />
+    <Folder Include="Areas\Finance\Data\" />
+    <Folder Include="Areas\Finance\Models\" />
+    <Folder Include="Areas\Gallery\Data\" />
+    <Folder Include="Areas\Gallery\Models\" />
+    <Folder Include="Areas\Planning\Data\" />
+    <Folder Include="Areas\Planning\Models\" />
+    <Folder Include="Areas\Rehearsal\Data\" />
+    <Folder Include="Areas\Rehearsal\Models\" />
+    <Folder Include="Areas\Script\Data\" />
+    <Folder Include="Areas\Script\Models\" />
+    <Folder Include="Areas\Settings\Data\" />
+    <Folder Include="Areas\Settings\Models\" />
+    <Folder Include="Areas\Show\Data\" />
+    <Folder Include="Areas\Show\Models\" />
     <Folder Include="Areas\Users\Data\" />
     <Folder Include="Areas\Users\Models\" />
   </ItemGroup>

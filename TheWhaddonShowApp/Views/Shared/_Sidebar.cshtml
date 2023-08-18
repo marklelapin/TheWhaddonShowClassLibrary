@@ -1,7 +1,8 @@
 ﻿@using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
 @{
-	var menuController = (ViewContext.RouteData.Values["controller"] != null) ? ViewContext.RouteData.Values["controller"].ToString() : null;
+	var menuArea = (ViewContext.RouteData.Values["area"] != null) ? ViewContext.RouteData.Values["area"].ToString() : null;
+	var menuController = (ViewContext.RouteData.Values["controller"] != null) ? ViewContext.RouteData.Values["controller"].ToString() : null; //TODO remove if statement think can just be done with ? after controller
   var menuAction = (ViewContext.RouteData.Values["action"] != null) ? ViewContext.RouteData.Values["action"].ToString() : null;
   var sidebarMenu = Configuration.GetSection("sidebarMenu").GetChildren().ToArray();
 }
@@ -28,7 +29,7 @@
 				}
 				else
 				{
-					<div class="menu-item @(menuController == @menu["controller"] ? "active" : "") @(menuChildren.Length > 0 ? "has-sub" : "")">
+					<div class="menu-item @(menuArea == @menu["area"] ? "active" : "") @(menuChildren.Length > 0 ? "has-sub" : "")">
 						@if (menu["action"] != null && menu["controller"] != null)
 						{
 							<a asp-controller="@menu["controller"]" asp-action="@menu["action"]" asp-area="@menu["area"]" class="menu-link">
@@ -71,6 +72,9 @@
 								@foreach (var submenu in menuChildren)
 								{
 									<div class="menu-item @(menuAction == @submenu["action"] ? "active" : "")">
+										@{
+											//TODO: all submenu items area active instead of just the current one
+										 }
 										<a asp-controller="@submenu["controller"]" asp-action="@submenu["action"]" asp-area="@submenu["area"]" class="menu-link">
 											<span class="menu-text">@submenu["text"]</span>
 										</a>
@@ -81,8 +85,12 @@
 					</div>
 				}
 			}
+			@{
+				//TODO Remove Asp Identity and Documentation below
+			}
+
 			<div class="menu-item">
-				<a href="/Identity/Account/Manage" class="menu-link">
+				<a href="/Identity/Account/Manage" class="menu-link">   
 					<span class="menu-icon">
 						<i class="fa fa-fingerprint"></i>
 					</span>

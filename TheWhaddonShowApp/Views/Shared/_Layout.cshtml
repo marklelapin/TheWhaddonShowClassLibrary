@@ -11,7 +11,7 @@
 <html lang="en" data-bs-theme="@appMode" @ViewData["HtmlAttribute"]>
 <head>
 	<meta charset="utf-8">
-	<title>AspStudio | @ViewData["Title"]</title>
+	<title>WhaddonShow | @ViewData["Title"]</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="@ViewData["MetaDescription"]">
 	<meta name="author" content="@ViewData["MetaAuthor"]">
@@ -47,6 +47,7 @@
 			@if (ViewData["AppWithoutContainer"] == null)
 			{
 				<div id="content" class="app-content @ViewData["AppContentClass"]">
+				<h1>@ViewData["Title"]</h1>
 					@RenderBody()
 
 					<!-- BEGIN btn-scroll-top -->
@@ -54,6 +55,8 @@
 					<!-- END btn-scroll-top -->
 				</div>
 			} else {
+
+				<h1>@ViewData["Title"]</h1>
 				@RenderBody()
 
 				<!-- BEGIN btn-scroll-top -->

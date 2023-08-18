@@ -5,108 +5,127 @@
       "is_header": true
     },
     {
+      "area": "Home",
       "controller": "Home",
       "action": "Index",
       "icon": "fa fa-home",
       "text": "Home"
     },
     {
-      "controller": "Script",
+      "area": "Script",
+      "controller": "",
       "icon": "fa fa-file-alt",
       "text": "Script",
       "children": [
         {
-          "controller": "Script",
-          "action": "Read",
+          "area": "Script",
+          "controller": "Viewer",
+          "action": "Index",
           "text": "View"
         },
         {
-          "controller": "Script",
-          "action": "Edit",
+          "area": "Script",
+          "controller": "Editor",
+          "action": "Index",
           "text": "Edit"
         },
         {
-          "controller": "Script",
-          "action": "Import",
+          "area": "Script",
+          "controller": "Import",
+          "action": "Index",
           "text": "Import"
         }
       ]
     },
     {
-      "controller": "Planning",
+      "area": "Planning",
+      "controller": "",
       "icon": "fa fa-chart-gantt",
       "text": "Planning",
       "children": [
         {
-          "controller": "Planning",
-          "action": "Cast",
+          "area": "Planning",
+          "controller": "Cast",
+          "action": "Index",
           "text": "Cast"
         },
         {
-          "controller": "Planning",
-          "action": "Props",
+          "area": "Planning",
+          "controller": "Props",
+          "action": "Index",
           "text": "Props"
         },
         {
-          "controller": "Planning",
-          "action": "Costumes",
+          "area": "Planning",
+          "controller": "Costumes",
+          "action": "Index",
           "text": "Costumes"
         }
       ]
     },
 
     {
-      "controller": "Rehearsal",
+      "area": "Rehearsal",
+      "controller": "",
       "icon": "fa fa-people-robbery",
       "text": "Rehearsal",
       "children": [
         {
-          "controller": "Rehearsal",
-          "action": "Planner",
+          "area": "Rehearsal",
+          "controller": "Planner",
+          "action": "Index",
           "text": "Planner"
         },
         {
-          "controller": "Rehearsal",
-          "action": "Calendar",
+          "area": "Rehearsal",
+          "controller": "Calendar",
+          "action": "Index",
           "text": "Calendar"
         }
       ]
     },
     {
-      "controller": "Show",
+      "area": "Show",
+      "controller": "",
       "icon": "fa fa-masks-theater",
       "text": "Show",
       "children": [
         {
-          "controller": "Show",
-          "action": "Website",
+          "area": "Show",
+          "controller": "Website",
+          "action": "Index",
           "text": "Website"
         },
         {
-          "controller": "Show",
-          "action": "Tickets",
+          "area": "Show",
+          "controller": "Tickets",
+          "action": "Index",
           "text": "Tickets"
         },
         {
-          "controller": "Show",
-          "action": "Programme",
+          "area": "Show",
+          "controller": "Programme",
+          "action": "Index",
           "text": "Programme"
         }
       ]
     },
     {
-      "controller": "Finance",
+      "area": "Finance",
+      "controller": "",
       "icon": "fa fa-coins",
       "text": "Finance",
       "children": [
         {
-          "controller": "Finance",
-          "action": "Dashboard",
+          "area": "Finance",
+          "controller": "Dashboard",
+          "action": "Index",
           "text": "Dashboard"
         },
         {
-          "controller": "Finance",
-          "action": "Accounts",
+          "area": "Finance",
+          "controller": "Accounts",
+          "action": "Index",
           "text": "Accounts"
         }
       ]
@@ -119,6 +138,7 @@
       "is_header": true
     },
     {
+      "area": "Gallery",
       "controller": "Gallery",
       "action": "Index",
       "icon": "fa fa-photo-film",
@@ -132,397 +152,43 @@
       "is_header": true
     },
     {
-      "area":  "Users",
+      "area": "Users",
       "controller": "Users",
       "action": "Index",
       "icon": "fa fa-envelope",
       "text": "Users"
     },
     {
+      "area": "Settings",
       "controller": "Settings",
       "action": "Index",
       "icon": "fa fa-gear",
       "text": "Settings"
     },
     {
-      "area":  "Api",
-      "icon": "fa fa-database",
       "text": "API",
-      "children": [
-        {
-          "area":  "Api",
-          "controller": "Documentation",
-          "action": "Index",
-          "text": "Documentation"
-        },
-        {
-          "area":  "Api",
-          "controller": "Monitor",
-          "action": "Index",
-          "text": "Monitor"
-        },
-        {
-          "area":  "Api",
-          "controller": "TestResults",
-          "action": "Index",
-          "text": "Test Results"
-        }
-      ]
-    },
-    {
-      "is_divider": true
-    },
-    {
-      "is_divider": true
-    },
-    {
-      "is_divider": true
-    },
-    {
-      "is_divider": true
-    },
-    {
-      "text": "Navigation",
       "is_header": true
     },
     {
-      "controller": "Dashboard",
+      "area": "Api",
+      "controller": "Documentation",
       "action": "Index",
-      "icon": "fa fa-laptop",
-      "text": "Dashboard"
+      "icon": "fa fa-book",
+      "text": "Documentation"
     },
     {
-      "controller": "Analytics",
+      "area": "Api",
+      "controller": "Monitor",
       "action": "Index",
-      "icon": "fa fa-chart-pie",
-      "text": "Analytics"
+      "icon": "fa fa-chart-line",
+      "text": "Monitor"
     },
     {
-      "controller": "Email",
-      "icon": "fa fa-envelope",
-      "text": "Email",
-      "label": "6",
-      "children": [
-        {
-          "controller": "Email",
-          "action": "Inbox",
-          "text": "Inbox"
-        },
-        {
-          "controller": "Email",
-          "action": "Compose",
-          "text": "Compose"
-        },
-        {
-          "controller": "Email",
-          "action": "Detail",
-          "text": "Detail"
-        }
-      ]
-    },
-    {
-      "is_divider": true
-    },
-    {
-      "text": "Components",
-      "is_header": true
-    },
-    {
-      "controller": "Widgets",
+      "area": "Api",
+      "controller": "TestResults",
       "action": "Index",
-      "icon": "fa fa-qrcode",
-      "text": "Widgets"
-    },
-    {
-      "controller": "Pos",
-      "icon": "fa fa-wallet",
-      "text": "POS System",
-      "children": [
-        {
-          "controller": "Pos",
-          "action": "CustomerOrder",
-          "text": "Customer Order"
-        },
-        {
-          "controller": "Pos",
-          "action": "KitchenOrder",
-          "text": "Kitchen Order"
-        },
-        {
-          "controller": "Pos",
-          "action": "CounterCheckout",
-          "text": "Counter Checkout"
-        },
-        {
-          "controller": "Pos",
-          "action": "TableBooking",
-          "text": "Table Booking"
-        },
-        {
-          "controller": "Pos",
-          "action": "MenuStock",
-          "text": "Menu Stock"
-        }
-      ]
-    },
-    {
-      "controller": "UiKits",
-      "icon": "fa fa-heart",
-      "text": "UI Kits",
-      "children": [
-        {
-          "controller": "UiKits",
-          "action": "Bootstrap",
-          "text": "Bootstrap"
-        },
-        {
-          "controller": "UiKits",
-          "action": "Buttons",
-          "text": "Buttons"
-        },
-        {
-          "controller": "UiKits",
-          "action": "Card",
-          "text": "Card"
-        },
-        {
-          "controller": "UiKits",
-          "action": "Icons",
-          "text": "Icons"
-        },
-        {
-          "controller": "UiKits",
-          "action": "ModalNotifications",
-          "text": "Modal & Notifications"
-        },
-        {
-          "controller": "UiKits",
-          "action": "Typography",
-          "text": "Typography"
-        },
-        {
-          "controller": "UiKits",
-          "action": "TabsAccordions",
-          "text": "Tabs & Accordions"
-        }
-      ]
-    },
-    {
-      "controller": "Forms",
-      "icon": "fa fa-file-alt",
-      "text": "Forms",
-      "children": [
-        {
-          "controller": "Forms",
-          "action": "FormElements",
-          "text": "Form Elements"
-        },
-        {
-          "controller": "Forms",
-          "action": "FormPlugins",
-          "text": "Form Plugins"
-        },
-        {
-          "controller": "Forms",
-          "action": "Wizards",
-          "text": "Wizards"
-        }
-      ]
-    },
-    {
-      "controller": "Tables",
-      "icon": "fa fa-table",
-      "text": "Tables",
-      "children": [
-        {
-          "controller": "Tables",
-          "action": "TableElements",
-          "text": "Table Elements"
-        },
-        {
-          "controller": "Tables",
-          "action": "TablePlugins",
-          "text": "Table Plugins"
-        }
-      ]
-    },
-    {
-      "controller": "Charts",
-      "icon": "fa fa-chart-bar",
-      "text": "Charts",
-      "children": [
-        {
-          "controller": "Charts",
-          "action": "ChartJs",
-          "text": "Chart.js"
-        },
-        {
-          "controller": "Charts",
-          "action": "ApexchartsJs",
-          "text": "Apexcharts.js"
-        }
-      ]
-    },
-    {
-      "controller": "Map",
-      "action": "Index",
-      "icon": "fa fa-map-marker-alt",
-      "text": "Map"
-    },
-    {
-      "controller": "Layout",
-      "icon": "fa fa-code-branch",
-      "text": "Layout",
-      "children": [
-        {
-          "controller": "Layout",
-          "action": "StarterPage",
-          "text": "Starter Page"
-        },
-        {
-          "controller": "Layout",
-          "action": "FixedFooter",
-          "text": "Fixed Footer"
-        },
-        {
-          "controller": "Layout",
-          "action": "FullHeight",
-          "text": "Full Height"
-        },
-        {
-          "controller": "Layout",
-          "action": "FullWidth",
-          "text": "Full Width"
-        },
-        {
-          "controller": "Layout",
-          "action": "BoxedLayout",
-          "text": "Boxed Layout"
-        },
-        {
-          "controller": "Layout",
-          "action": "MinifiedSidebar",
-          "text": "Minified Sidebar"
-        },
-        {
-          "controller": "Layout",
-          "action": "TopNav",
-          "text": "Top Nav"
-        },
-        {
-          "controller": "Layout",
-          "action": "MixedNav",
-          "text": "Mixed Nav"
-        },
-        {
-          "controller": "Layout",
-          "action": "MixedNavBoxedLayout",
-          "text": "Mixed Nav Boxed Layout"
-        }
-      ]
-    },
-    {
-      "controller": "Pages",
-      "icon": "fa fa-globe",
-      "text": "Pages",
-      "children": [
-        {
-          "controller": "Pages",
-          "action": "ScrumBoard",
-          "text": "Scrum Board"
-        },
-        {
-          "controller": "Pages",
-          "action": "Products",
-          "text": "Products"
-        },
-        {
-          "controller": "Pages",
-          "action": "ProductDetails",
-          "text": "Product Details"
-        },
-        {
-          "controller": "Pages",
-          "action": "Orders",
-          "text": "Orders"
-        },
-        {
-          "controller": "Pages",
-          "action": "OrderDetails",
-          "text": "Order Details"
-        },
-        {
-          "controller": "Pages",
-          "action": "Gallery",
-          "text": "Gallery"
-        },
-        {
-          "controller": "Pages",
-          "action": "SearchResults",
-          "text": "Search Results"
-        },
-        {
-          "controller": "Pages",
-          "action": "ComingSoonPage",
-          "text": "Coming Soon Page"
-        },
-        {
-          "controller": "Pages",
-          "action": "ErrorPage",
-          "text": "Error Page"
-        },
-        {
-          "controller": "Pages",
-          "action": "Login",
-          "text": "Login"
-        },
-        {
-          "controller": "Pages",
-          "action": "Register",
-          "text": "Register"
-        },
-        {
-          "controller": "Pages",
-          "action": "Messenger",
-          "text": "Messenger"
-        },
-        {
-          "controller": "Pages",
-          "action": "DataManagement",
-          "text": "Data Management"
-        }
-      ]
-    },
-    {
-      "is_divider": true
-    },
-    {
-      "text": "Users",
-      "is_header": true
-    },
-    {
-      "controller": "Profile",
-      "action": "Index",
-      "icon": "fa fa-user-circle",
-      "text": "Profile"
-    },
-    {
-      "controller": "Calendar",
-      "action": "Index",
-      "icon": "fa fa-calendar",
-      "text": "Calendar"
-    },
-    {
-      "controller": "Settings",
-      "action": "Index",
-      "icon": "fa fa-cog",
-      "text": "Settings"
-    },
-    {
-      "controller": "Helper",
-      "action": "Index",
-      "icon": "fa fa-question-circle",
-      "text": "Helper"
+      "icon": "fa fa-flask-vial",
+      "text": "Test Results"
     }
   ]
 }
