@@ -1,6 +1,8 @@
 using AspStudio.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MyApiMonitorClassLibrary.Interfaces;
+using MyApiMonitorClassLibrary.Models;
 using MyClassLibrary.DataAccessMethods;
 using MyClassLibrary.LocalServerMethods.Interfaces;
 using MyClassLibrary.LocalServerMethods.Models;
@@ -11,11 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-	options.UseSqlite(connectionString));
+    options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-	.AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 // Add Sidebar menu json file
@@ -31,6 +33,13 @@ builder.Services.AddScoped(typeof(IServerDataAccess<>), typeof(APIServerDataAcce
 builder.Services.AddScoped(typeof(ILocalServerEngine<>), typeof(LocalServerEngine<>));
 builder.Services.AddScoped(typeof(ILocalServerModelFactory<,>), typeof(LocalServerModelFactory<,>));
 
+//Add services for api monitor
+builder.Services.AddTransient<IMongoDBDataAccess>(sp => new MongoDBDataAccess(builder.Configuration.GetValue<string>("MongoDatabase:DatabaseName")!
+                                                                                  , builder.Configuration.GetValue<string>("MongoDatabase:ConnectionString")!));
+builder.Services.AddTransient<IApiTestDataAccess, ApiTestMongoDataAccess>();
+builder.Services.AddTransient<IChartDataProcessor, ChartDataProcessor>();
+
+
 
 var app = builder.Build();
 
@@ -39,13 +48,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-	app.UseMigrationsEndPoint();
+    app.UseMigrationsEndPoint();
 }
 else
 {
-	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -57,25 +66,25 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 
 #pragma warning disable ASP0014
 app.UseEndpoints(endpoints =>
 {
-	//endpoints.MapAreaControllerRoute(
-	//		name: "Identity",
-	//		areaName: "Identity",
-	//		pattern: "Identity/{controller=Home}/{action=Index}"); //TODO think I can get rid of this line of code from original template as dealt with below. 
+    //endpoints.MapAreaControllerRoute(
+    //		name: "Identity",
+    //		areaName: "Identity",
+    //		pattern: "Identity/{controller=Home}/{action=Index}"); //TODO think I can get rid of this line of code from original template as dealt with below. 
 
-	endpoints.MapControllerRoute(
-		  name: "areas",
-		  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-		);
+    endpoints.MapControllerRoute(
+          name: "areas",
+          pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+        );
 
-	//endpoints.MapControllers();
-	endpoints.MapDefaultControllerRoute();
+    //endpoints.MapControllers();
+    endpoints.MapDefaultControllerRoute();
 });
 #pragma warning restore ASP0014
 
