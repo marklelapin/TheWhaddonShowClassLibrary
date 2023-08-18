@@ -59,14 +59,26 @@ app.UseAuthorization();
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+#pragma warning disable ASP0014
 app.UseEndpoints(endpoints =>
 {
-	endpoints.MapAreaControllerRoute(
-			name: "Identity",
-			areaName: "Identity",
-			pattern: "Identity/{controller=Home}/{action=Index}");
-	endpoints.MapControllers();
+	//endpoints.MapAreaControllerRoute(
+	//		name: "Identity",
+	//		areaName: "Identity",
+	//		pattern: "Identity/{controller=Home}/{action=Index}"); //TODO think I can get rid of this line of code from original template as dealt with below. 
+
+	endpoints.MapControllerRoute(
+		  name: "areas",
+		  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+		);
+
+	//endpoints.MapControllers();
+	endpoints.MapDefaultControllerRoute();
 });
+#pragma warning restore ASP0014
+
 app.MapRazorPages();
 
 app.Run();

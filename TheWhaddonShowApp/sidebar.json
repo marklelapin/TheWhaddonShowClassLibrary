@@ -132,6 +132,7 @@
       "is_header": true
     },
     {
+      "area":  "Users",
       "controller": "Users",
       "action": "Index",
       "icon": "fa fa-envelope",
@@ -144,24 +145,27 @@
       "text": "Settings"
     },
     {
-      "controller": "Api",
+      "area":  "Api",
       "icon": "fa fa-database",
       "text": "API",
       "children": [
         {
-          "controller": "Api",
-          "action": "Documentation",
+          "area":  "Api",
+          "controller": "Documentation",
+          "action": "Index",
           "text": "Documentation"
         },
         {
-          "controller": "Api",
-          "action": "Monitoring",
-          "text": "Monitoring"
+          "area":  "Api",
+          "controller": "Monitor",
+          "action": "Index",
+          "text": "Monitor"
         },
         {
-          "controller": "Api",
-          "action": "Testing",
-          "text": "Testing"
+          "area":  "Api",
+          "controller": "TestResults",
+          "action": "Index",
+          "text": "Test Results"
         }
       ]
     },
