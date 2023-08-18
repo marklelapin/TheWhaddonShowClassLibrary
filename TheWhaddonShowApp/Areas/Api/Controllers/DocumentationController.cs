@@ -2,14 +2,14 @@
 
 namespace TheWhaddonShowApp.Areas.Api.Controllers
 {
-    [Area("Api")]
-    [Route("Api/[controller]/[action]")]
-    public class DocumentationController : Controller
-    {
+	[Area("Api")]
+	[Route("Api/[controller]/[action]")]
+	public class DocumentationController : Controller
+	{
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-    }
+		public IActionResult Index()
+		{
+			return View();
+		}
+	}
 }
