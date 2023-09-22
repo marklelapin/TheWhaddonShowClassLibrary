@@ -107,7 +107,7 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
 
 			string jsonContent = JsonSerializer.Serialize(postBacks);
 
-			await PostResult(requestUri, jsonContent).ConvertToAsync<string>();
+			await PutResult(requestUri, jsonContent);
 		}
 
 
