@@ -30,10 +30,16 @@ namespace TheWhaddonShowClassLibrary.Models
 
 		}
 
+		public PartUpdate(string name)
+		{
+			new PartUpdate(Guid.NewGuid(), name, null, null);
+		}
+
+
 		/// <summary>
 		/// 
 		/// </summary>
-		public PartUpdate(Guid id, string name, List<string>? tags, Guid personID) : base(id)
+		public PartUpdate(Guid id, string name, List<string>? tags, Guid? personID) : base(id)
 		{
 			Name = name;
 			PersonId = personID;
