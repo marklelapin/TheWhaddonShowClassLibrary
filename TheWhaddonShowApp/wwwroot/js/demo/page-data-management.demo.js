@@ -11,7 +11,7 @@ var handleRenderTableData = function() {
 		dom: "<'row'<'col-7 col-md-6 d-flex justify-content-start'f><'col-5 col-md-6 text-end'B>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5 fs-12px'i><'col-sm-12 col-md-7 fs-12px'p>>",
 		scrollY:        height,
 		scrollX:        true,
-		paging:         false,
+		paging:         true,
 		fixedColumns:   {
 			left: 3
 		},
