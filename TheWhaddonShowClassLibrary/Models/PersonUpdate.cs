@@ -50,10 +50,9 @@ namespace TheWhaddonShowClassLibrary.Models
 		/// </summary>
 		public bool IsTechnical { get; set; } = false;
 		/// <summary>
-		/// Identifies if the person is an admin. (able to access all ares of the Whaddon Show App)
+		/// Identifies if the person is an admin. (able to access everything in Whaddon Show App)
 		/// </summary>
 		public bool IsAdmin { get; set; } = false;
-
 		/// <summary>
 		/// Tags relevant to the person which can be matched with other models or used for filtering.
 		/// </summary>
