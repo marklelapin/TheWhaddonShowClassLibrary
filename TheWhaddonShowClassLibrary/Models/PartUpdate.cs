@@ -29,9 +29,9 @@ namespace TheWhaddonShowClassLibrary.Models
 		{
 
 		}
-		public PartUpdate(string name)
+		public PartUpdate(string name) : base(Guid.NewGuid())
 		{
-			new PartUpdate(Guid.NewGuid(), name, null, null);
+			Name = name;
 		}
 
 

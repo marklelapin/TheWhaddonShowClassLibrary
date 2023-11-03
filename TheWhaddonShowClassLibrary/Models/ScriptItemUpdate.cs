@@ -19,9 +19,9 @@ namespace TheWhaddonShowClassLibrary.Models
 		/// The type of script item this is i.e Show, Act, Scene, Line, Paragraph or Span 
 		/// </summary>
 		/// [Required]
-		[RegularExpression("Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging"
+		[RegularExpression("Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging|InitialStaging|Curtain|InitialCurtain|Comment"
 						   , ErrorMessage = "An invalid scriptItemType was given.\n" +
-							"Valid Types:  - Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging")]
+							"Valid Types:  - Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging|InitialStaging|Curtain|InitialCurtain|Comment")]
 		public string Type { get; set; } = string.Empty;
 
 
@@ -66,9 +66,9 @@ namespace TheWhaddonShowClassLibrary.Models
 
 		}
 
-		public ScriptItemUpdate(string type)
+		public ScriptItemUpdate(string type) : base(Guid.NewGuid())
 		{
-			new ScriptItemUpdate(Guid.NewGuid(), null, type);
+			Type = type;
 		}
 
 		public ScriptItemUpdate(Guid id, Guid? parentId, string type, List<PartUpdate>? partUpdates = null, List<string>? tags = null) : base(id)
