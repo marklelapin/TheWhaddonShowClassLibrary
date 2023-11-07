@@ -11,12 +11,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MarkCarter.MyClassLibrary" Version="1.0.0" />
+    <PackageReference Include="MarkCarter.MyClassLibrary" Version="1.0.2" />
     <PackageReference Include="MarkCarter.MyClassLibrary.Tests.LocalServerMethods" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
 	<PropertyGroup>
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<PackageId>TheWhaddonShow.ClassLibrary</PackageId>
+		<Title>The Whaddon Show Class Library</Title>
+		<Version>1.0.1</Version>
+		<Authors>Mark Carter</Authors>
+		<Description>The Whaddon Show Class Library</Description>
+		<Copyright></Copyright>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageReleaseNotes>dependency changed from MyClassLibrary 1.0.0 to 1.0.2</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 </Project>

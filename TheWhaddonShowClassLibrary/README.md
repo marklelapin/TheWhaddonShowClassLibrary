@@ -1,0 +1,1 @@
+﻿This is a nuget package containing shared code for The Whaddon Show projects.
