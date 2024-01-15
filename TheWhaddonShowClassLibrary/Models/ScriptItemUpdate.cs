@@ -1,6 +1,5 @@
 ﻿
 using MyClassLibrary.LocalServerMethods.Models;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace TheWhaddonShowClassLibrary.Models
@@ -19,9 +18,9 @@ namespace TheWhaddonShowClassLibrary.Models
 		/// The type of script item this is i.e Show, Act, Scene, Line, Paragraph or Span 
 		/// </summary>
 		/// [Required]
-		[RegularExpression("Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging|InitialStaging|Curtain|InitialCurtain|Comment"
-						   , ErrorMessage = "An invalid scriptItemType was given.\n" +
-							"Valid Types:  - Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging|InitialStaging|Curtain|InitialCurtain|Comment")]
+		//[RegularExpression("Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging|InitialStaging|Curtain|InitialCurtain|Comment"
+		//				   , ErrorMessage = "An invalid scriptItemType was given.\n" +
+		//					"Valid Types:  - Show|Act|Scene|Synopsis|Dialogue|Action|Lighting|Sound|Staging|InitialStaging|Curtain|InitialCurtain|Comment")]
 		public string Type { get; set; } = string.Empty;
 
 

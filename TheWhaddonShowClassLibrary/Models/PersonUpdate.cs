@@ -20,7 +20,7 @@ namespace TheWhaddonShowClassLibrary.Models
 		/// </summary>
 		public string? LastName { get; set; }
 
-		[EmailAddress]
+
 		/// <summary>
 		/// The email of the Person
 		/// </summary>
