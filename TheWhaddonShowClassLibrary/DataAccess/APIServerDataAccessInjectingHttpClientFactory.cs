@@ -16,18 +16,18 @@ namespace TheWhaddonShowClassLibrary.DataAccess;
 /// 
 /// </summary>
 /// <remarks>
-/// Requires AddHttpClient("downstreamApi", opts => {opts.BaseAddress= new Uri("add in url of base address")}) to have been setup in StartUp. 
+/// Requires AddHttpClient("TheWhaddonShowApi", opts => {opts.BaseAddress= new Uri("add in url of base address")}) to have been setup in StartUp. 
 /// </remarks>
 /// <typeparam name="T"></typeparam>
 public class APIServerDataAccessInjectingHttpClientFactory<T> : IServerDataAccess<T> where T : LocalServerModelUpdate
 {
-    //TODO Test APIServerDataAccess with Authentication
-
-    private IHttpClientFactory _httpClientFactory;
+    //TODO Test APIServerDataAccess with Authenticati
+   private readonly string ApiVersionUri = "/api/v2/"; //this is entered here. When part of base url configuation the v2/ element gets removed (and tried trailing slashes etc.)
+    private readonly HttpClient _client;
 
     public APIServerDataAccessInjectingHttpClientFactory(IHttpClientFactory httpClientFactory)
     {
-        _httpClientFactory = httpClientFactory;
+        _client = httpClientFactory.CreateClient("TheWhaddonShowApi");
     }
 
     private string ControllerPrefix()
@@ -40,7 +40,7 @@ public class APIServerDataAccessInjectingHttpClientFactory<T> : IServerDataAcces
         {
             throw new ArgumentException("The given LocalServerIdentityUpdate must follow the convention of class name in the form {type}Update.");
         }
-        return output.Replace("Update", "");
+        return ApiVersionUri + output.Replace("Update", "");
     }
 
 
@@ -79,7 +79,7 @@ public class APIServerDataAccessInjectingHttpClientFactory<T> : IServerDataAcces
 
     public async Task<List<T>> GetUnsyncedFromServer(Guid localCopyId)
     {
-         string requestUri = ControllerPrefix() + $"/unsynced/{localCopyId.ToString()}";
+         string requestUri =  ControllerPrefix() + $"/unsynced/{localCopyId.ToString()}";
 
         (List<T>? output, HttpStatusCode statusCode) = await GetResult(requestUri).ConvertToAsync<List<T>>();
 
@@ -107,7 +107,7 @@ public class APIServerDataAccessInjectingHttpClientFactory<T> : IServerDataAcces
 
         string jsonContent = JsonSerializer.Serialize(postBacks);
 
-        await PostResult(requestUri, jsonContent).ConvertToAsync<string>();
+        await PutResult(requestUri, jsonContent);
 
     }
 
@@ -146,37 +146,29 @@ public class APIServerDataAccessInjectingHttpClientFactory<T> : IServerDataAcces
 
     private async Task<HttpResponseMessage> GetResult(string requestUri)
     {
-        var client = CreateHttpClient();
-        var getTask = await client.GetAsync(requestUri);
+        var getTask = await _client.GetAsync(requestUri);
         return getTask;
     }
 
     private async Task<HttpResponseMessage> PostResult(string requestUri, string jsonContent)
     {
-        var client = CreateHttpClient();
-        var postTask = await client.PostAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
+        var postTask = await _client.PostAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
         return postTask;
     }
 
     private async Task<HttpResponseMessage> PutResult(string requestUri, string jsonContent)
     {
-        var client = CreateHttpClient();
-        var putTask = await client.PutAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
+        var putTask = await _client.PutAsync(requestUri, new StringContent(jsonContent, Encoding.UTF8, "application/json"));
         return putTask;
     }
 
     private async Task<HttpResponseMessage> DeleteResult(string requestUri)
     {
-        var client = CreateHttpClient();
-        var deleteTask = await client.DeleteAsync(requestUri);
+        var deleteTask = await _client.DeleteAsync(requestUri);
         return deleteTask;
     }
 
 
-    private HttpClient CreateHttpClient()
-    {
-        return _httpClientFactory.CreateClient("downstreamApi");
-    }
 
 
 
