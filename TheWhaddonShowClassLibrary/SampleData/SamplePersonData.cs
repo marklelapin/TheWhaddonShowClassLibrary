@@ -60,7 +60,6 @@ namespace TheWhaddonShowClassLibrary.SampleData
 							, false
 							,false
 							, new List<string>(){"Test","Male"}
-							, null
 							),
 						new PersonUpdate(
 							Guid.Parse("2B3FA075-D0B5-49AB-B897-DAB1428CA500")
@@ -81,7 +80,6 @@ namespace TheWhaddonShowClassLibrary.SampleData
 							, false
 							,false
 							, new List<string>(){"Test","Female"}
-							, null
 							),
 						new PersonUpdate(
 							Guid.Parse("2B3FA075-D0B5-49AB-B897-DAB1428CA500")
@@ -102,7 +100,6 @@ namespace TheWhaddonShowClassLibrary.SampleData
 							, true
 							,false
 							, new List<string>(){"Test","Female"}
-							, "gggggg"
 							),
 						new PersonUpdate(
 							Guid.Parse("2B3FA075-D0B5-49AB-B897-DAB1428CA500")
@@ -123,7 +120,6 @@ namespace TheWhaddonShowClassLibrary.SampleData
 							, false
 							,false
 							, new List<string>(){"Test","Female"}
-							, "gggggg"
 							)
 					};
 
