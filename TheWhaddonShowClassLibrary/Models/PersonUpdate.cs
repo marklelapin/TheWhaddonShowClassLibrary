@@ -57,10 +57,7 @@ namespace TheWhaddonShowClassLibrary.Models
 		/// Tags relevant to the person which can be matched with other models or used for filtering.
 		/// </summary>
 		public List<string>? Tags { get; set; }
-		/// <summary>
-		/// Link to the person's MSAL account.
-		/// </summary>
-		public string? MSALLink { get; set; } = null;
+
 
 		public PersonUpdate()
 		{
@@ -68,7 +65,7 @@ namespace TheWhaddonShowClassLibrary.Models
 		}
 
 		public PersonUpdate(Guid id, string firstName, string? lastName = null, string? email = null, string? pictureRef = null, bool? isActor = null,
-		   bool? isSinger = null, bool? isWriter = null, bool? isBand = null, bool? isTechnical = null, bool? isAdmin = null, List<string>? tags = null, string msalLink = null) : base(id)
+		   bool? isSinger = null, bool? isWriter = null, bool? isBand = null, bool? isTechnical = null, bool? isAdmin = null, List<string>? tags = null) : base(id)
 		{
 			FirstName = firstName;
 			LastName = lastName;
@@ -81,14 +78,13 @@ namespace TheWhaddonShowClassLibrary.Models
 			IsTechnical = isTechnical ?? false;
 			IsAdmin = isAdmin ?? false;
 			Tags = tags ?? new List<string>();
-			MSALLink = msalLink;
 		}
 
 		[JsonConstructor]
 		public PersonUpdate(Guid id, DateTime created, string createdBy, DateTime? updatedOnServer, bool isConflicted, bool isSample, bool isActive
 							, string firstName, string? lastName, string? email, string? pictureRef
 							, bool isActor, bool isSinger, bool isWriter, bool isBand, bool isTechnical, bool isAdmin
-							, List<string>? tags, string? msalLink) : base(id)
+							, List<string>? tags) : base(id)
 		{
 			Id = id;
 			Created = created;
@@ -108,7 +104,6 @@ namespace TheWhaddonShowClassLibrary.Models
 			IsTechnical = isTechnical;
 			IsAdmin = isAdmin;
 			Tags = tags ?? new List<string>();
-			MSALLink = msalLink;
 		}
 	}
 }

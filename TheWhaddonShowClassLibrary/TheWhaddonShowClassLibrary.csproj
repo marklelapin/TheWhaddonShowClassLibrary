@@ -27,12 +27,12 @@
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 		<PackageId>TheWhaddonShow.ClassLibrary</PackageId>
 		<Title>The Whaddon Show Class Library</Title>
-		<Version>1.0.6</Version>
+		<Version>1.0.5</Version>
 		<Authors>Mark Carter</Authors>
 		<Description>The Whaddon Show Class Library</Description>
 		<Copyright></Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageReleaseNotes>string? MSALlink added to PersonUpdate</PackageReleaseNotes>
+		<PackageReleaseNotes>Validation of email removed from PersonUpdate</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
