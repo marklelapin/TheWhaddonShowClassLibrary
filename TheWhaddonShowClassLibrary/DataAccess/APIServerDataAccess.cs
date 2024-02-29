@@ -19,13 +19,13 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
 {
 	//TODO Test APIServerDataAccess with Authentication
 
-	private IDownstreamApi _downstreamApi;
+	private readonly HttpClient _client;
 
 	private string ServiceName { get; set; } = "TheWhaddonShowApi";
 
-	public APIServerDataAccess(IDownstreamApi downstreamApi)
+	public APIServerDataAccess(IHttpClientFactory factory )
 	{
-		_downstreamApi = downstreamApi;
+		_client = factory.CreateClient(ServiceName);
 	}
 
 	private string ControllerPrefix()
@@ -149,54 +149,41 @@ public class APIServerDataAccess<T> : IServerDataAccess<T> where T : LocalServer
 	private async Task<HttpResponseMessage> GetResult(string requestUri)
 	{
 
-		var getTask = await _downstreamApi.CallApiForAppAsync(ServiceName, options =>
-		{
-			options.HttpMethod = HttpMethod.Get;
-			options.RelativePath = requestUri;
-		});
+		HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri);
+		var response = await _client.SendAsync(request);
 
-		return getTask;
+		return response;
 	}
 
 	private async Task<HttpResponseMessage> PostResult(string requestUri, string jsonContent)
 	{
-		var postTask = await _downstreamApi.CallApiForAppAsync(ServiceName
-															   , options =>
-																{
-																	options.HttpMethod = HttpMethod.Post;
-																	options.RelativePath = requestUri;
-																}
-																, new StringContent(jsonContent, Encoding.UTF8, "application/json")
-																);
-		return postTask;
+		HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+		request.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+		var response = await _client.SendAsync(request);
+
+		return response;
 	}
 
 	private async Task<HttpResponseMessage> PutResult(string requestUri, string jsonContent)
 	{
-		var putTask = await _downstreamApi.CallApiForAppAsync(ServiceName
-			, options =>
-			{
-				options.HttpMethod = HttpMethod.Put;
-				options.RelativePath = requestUri;
-			}
-			, new StringContent(jsonContent, Encoding.UTF8, "application/json")
-			);
+        HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Put, requestUri);
+        request.Content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-		return putTask;
+        var response = await _client.SendAsync(request);
+
+        return response;
+        
 	}
 
 
 	private async Task<HttpResponseMessage> DeleteResult(string requestUri)
 	{
-		var deleteTask = await _downstreamApi.CallApiForUserAsync(ServiceName
-			, options =>
-			{
-				options.HttpMethod = HttpMethod.Delete;
-				options.RelativePath = requestUri;
-			}
-			);
+		HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Delete, requestUri);
+		
+		var response = await _client.SendAsync(request);
 
-		return deleteTask;
+		return response;
 	}
 
 
