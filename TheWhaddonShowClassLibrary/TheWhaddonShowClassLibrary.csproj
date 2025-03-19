@@ -27,7 +27,7 @@
 		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 		<PackageId>TheWhaddonShow.ClassLibrary</PackageId>
 		<Title>The Whaddon Show Class Library</Title>
-		<Version>1.0.9</Version>
+		<Version>2.0.2</Version>
 		<Authors>Mark Carter</Authors>
 		<Description>The Whaddon Show Class Library</Description>
 		<Copyright></Copyright>
